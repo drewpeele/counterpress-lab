@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counterpress Lab — U11 Drill Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pitch:#0C1310;
+  --surface:#131E18;
+  --surface-2:#182720;
+  --line:#22362B;
+  --chalk:#E9EFE9;
+  --muted:#8CA396;
+  --red:#D8283C;
+  --red-dim:#7C1826;
+  --bib:#E9C46A;
+  --cyan:#5FBFA6;
+  --r:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--pitch);
+  color:var(--chalk);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:15px;line-height:1.55;
+  min-height:100vh;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 60px,transparent 60px 120px);
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px 90px}
+
+/* ---------- header ---------- */
+header{padding:38px 0 22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:var(--muted)}
+h1{font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.035em;line-height:.95;
+   font-size:clamp(34px,7vw,64px);margin:10px 0 14px;text-transform:uppercase}
+h1 .em{color:var(--red)}
+.thesis{max-width:620px;color:var(--muted);font-size:15px}
+.thesis b{color:var(--chalk);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.meta span{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:11px;color:var(--muted);border:1px solid var(--line);padding:3px 9px;border-radius:var(--r)}
+
+/* ---------- tabs ---------- */
+nav{display:flex;gap:2px;margin:26px 0 22px;border-bottom:1px solid var(--line);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{background:none;border:0;color:var(--muted);cursor:pointer;flex-shrink:0;white-space:nowrap;
+  font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+  padding:11px 16px;border-bottom:2px solid transparent;margin-bottom:-1px}
+nav button:hover{color:var(--chalk)}
+nav button[aria-selected="true"]{color:var(--chalk);border-bottom-color:var(--red)}
+nav button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* ---------- principles strip ---------- */
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-bottom:26px}
+.pr{background:var(--surface);padding:13px 14px;cursor:pointer;transition:background .15s}
+.pr:hover{background:var(--surface-2)}
+.pr[data-on="1"]{background:var(--red-dim)}
+.pr .n{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--red)}
+.pr[data-on="1"] .n{color:var(--chalk)}
+.pr .t{font-family:'Archivo',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;margin-top:3px}
+.pr .d{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4}
+.pr[data-on="1"] .d{color:#E3CDD1}
+
+/* ---------- filters ---------- */
+.filters{border:1px solid var(--line);background:var(--surface);padding:14px;margin-bottom:20px}
+.frow{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:9px}
+.frow:last-child{margin-bottom:0}
+.flabel{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-size:11px;color:var(--muted);width:74px;flex-shrink:0}
+.chip{background:transparent;border:1px solid var(--line);color:var(--muted);cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  font-size:12.5px;padding:4px 10px;border-radius:var(--r);transition:all .12s}
+.chip:hover{border-color:var(--muted);color:var(--chalk)}
+.chip[aria-pressed="true"]{background:var(--chalk);border-color:var(--chalk);color:var(--pitch)}
+.chip:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+input[type=search]{background:var(--pitch);border:1px solid var(--line);color:var(--chalk);padding:6px 10px;
+  font-family:'Inter',sans-serif;font-size:13.5px;border-radius:var(--r);min-width:180px;flex:1}
+input[type=search]:focus{outline:none;border-color:var(--cyan)}
+.count{font-family:'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;font-size:12px;
+  color:var(--muted);margin-left:auto}
+.clear{background:none;border:0;color:var(--red);cursor:pointer;font-size:12px;text-decoration:underline;font-family:'Inter',sans-serif}
+
+/* ---------- cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.card{border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column}
+.card:hover{border-color:#31503F}
+.dia{background:#0A100D;border-bottom:1px solid var(--line);padding:8px}
+.dia svg{display:block;width:100%;height:auto}
+.cbody{padding:14px 15px 15px;display:flex;flex-direction:column;flex:1}
+.ctop{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.cname{font-family:'Archivo',sans-serif;font-weight:900;font-size:17px;letter-spacing:-.02em;line-height:1.15;text-transform:uppercase}
+.ctime{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:var(--bib);white-space:nowrap;letter-spacing:.04em}
+.ctags{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0 11px}
+.tag{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px;
+  padding:2px 7px;border:1px solid var(--line);color:var(--muted);border-radius:var(--r)}
+.tag.p{border-color:var(--red-dim);color:#E58C97}
+.tag.ph{border-color:#3A4A2E;color:var(--bib)}
+.constraint{border-left:2px solid var(--red);padding:2px 0 2px 11px;margin-bottom:11px}
+.constraint .k{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  font-size:10.5px;color:var(--red)}
+.constraint p{font-size:13.5px;line-height:1.5;margin-top:2px}
+.det{border-top:1px solid var(--line);margin-top:auto}
+.det summary{cursor:pointer;list-style:none;padding-top:11px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+.det summary::-webkit-details-marker{display:none}
+.det summary:hover{color:var(--chalk)}
+.det summary:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.det[open] summary{color:var(--chalk)}
+.dwrap{padding-top:9px;font-size:13px}
+.dwrap h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-size:10.5px;color:var(--muted);margin:10px 0 3px}
+.dwrap h4:first-child{margin-top:0}
+.dwrap ul{padding-left:16px}
+.dwrap li{margin-bottom:2px}
+.cue{color:var(--cyan)}
+.addbtn{margin-top:11px;width:100%;background:transparent;border:1px solid var(--line);color:var(--muted);
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:11.5px;
+  padding:7px;cursor:pointer;border-radius:var(--r)}
+.addbtn:hover{border-color:var(--chalk);color:var(--chalk)}
+.addbtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* ---------- session ---------- */
+.sesstop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.btn{background:var(--red);border:0;color:#fff;font-family:'Archivo',sans-serif;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;font-size:12.5px;padding:9px 15px;cursor:pointer;border-radius:var(--r)}
+.btn:hover{filter:brightness(1.12)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--chalk)}
+.btn.ghost:hover{border-color:var(--chalk);filter:none}
+.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+select{background:var(--surface);border:1px solid var(--line);color:var(--chalk);padding:8px 10px;
+  font-family:'Inter',sans-serif;font-size:13.5px;border-radius:var(--r)}
+.totals{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  font-size:13px;color:var(--muted);margin-left:auto}
+.totals b{color:var(--chalk);font-size:17px}
+.totals.over b{color:var(--red)}
+.block{border:1px solid var(--line);margin-bottom:12px;background:var(--surface)}
+.bhead{display:flex;align-items:baseline;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.bnum{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;color:var(--red)}
+.bname{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:14px;letter-spacing:-.01em}
+.bwhy{font-size:12px;color:var(--muted);flex:1;min-width:120px}
+.btime{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--bib);letter-spacing:.05em}
+.bitems{padding:6px 14px 12px}
+.item{display:flex;gap:11px;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:0}
+.item .in{font-family:'Archivo',sans-serif;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:-.01em}
+.item .ic{font-size:12.5px;color:var(--muted);flex:1;min-width:140px}
+.item .it{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--bib);font-size:14px}
+.item .rm{background:none;border:0;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:0 3px}
+.item .rm:hover{color:var(--red)}
+.empty{color:var(--muted);font-size:12.5px;padding:8px 0;font-style:italic}
+.picker{margin-top:6px}
+.picker select{width:100%}
+
+/* ---------- modal-free toast ---------- */
+/* ---------- teach it ---------- */
+.teach{border:1px solid var(--line);background:#101A15;padding:12px 13px;margin-bottom:12px;border-radius:var(--r)}
+.tpoint{font-size:13.5px;line-height:1.5;margin-bottom:11px}
+.tpoint b{color:var(--bib);font-weight:600}
+.tk{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  font-size:10px;color:var(--muted);margin-bottom:5px;display:block}
+.tscript{border-left:2px solid var(--cyan);padding:3px 0 3px 11px;margin-bottom:11px;font-size:13.5px;line-height:1.55;color:#CFEAE0}
+.tsplit{display:grid;grid-template-columns:1fr;gap:10px}
+.tsplit>div{border-top:1px solid var(--line);padding-top:9px}
+.tsplit p{font-size:12.5px;color:var(--muted);line-height:1.45}
+.tsplit .ask{color:#CFEAE0}
+@media(min-width:520px){.tsplit{grid-template-columns:1fr 1fr;gap:14px}}
+.stage-teach{margin-bottom:16px}
+
+/* ---------- field mode ---------- */
+.fmintro{color:var(--muted);font-size:14px;margin-bottom:18px;max-width:620px}
+.frow2{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-bottom:22px}
+.fbtn{border:1px solid var(--line);background:var(--surface);padding:14px;text-align:left;cursor:pointer;color:var(--chalk);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:64px;border-radius:var(--r)}
+.fbtn:hover{border-color:#31503F}
+.fbtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.fbtn .fn{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:-.02em;line-height:1.2}
+.fbtn .fs{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--bib);font-size:14px;letter-spacing:.05em;white-space:nowrap}
+#stage{position:fixed;inset:0;background:var(--pitch);z-index:60;display:none;flex-direction:column;padding:16px;overflow-y:auto}
+#stage.on{display:flex}
+.stop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.stop h2{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:22px;letter-spacing:-.03em;line-height:1.05}
+.xbtn{background:none;border:1px solid var(--line);color:var(--muted);font-size:22px;line-height:1;padding:6px 12px;cursor:pointer;border-radius:var(--r)}
+.clock{text-align:center;padding:14px 0 6px}
+.phase{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.3em;text-transform:uppercase;font-size:14px;color:var(--muted)}
+.big{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(92px,30vw,190px);line-height:.85;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums}
+.big.work{color:var(--red)}.big.rest{color:var(--cyan)}.big.done{color:var(--bib)}
+.setline{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.2em;text-transform:uppercase;font-size:15px;color:var(--muted)}
+.sctrl{display:flex;gap:8px;justify-content:center;margin:16px 0 20px;flex-wrap:wrap}
+.sctrl button{flex:1;min-width:110px;max-width:180px;padding:16px 10px;font-size:14px}
+.scon{border-left:3px solid var(--red);padding:4px 0 4px 13px;margin-bottom:16px}
+.scon .k{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:11px;color:var(--red)}
+.scon p{font-size:16px;line-height:1.45;margin-top:3px}
+.scue{list-style:none}
+.scue li{border-left:2px solid var(--cyan);padding:3px 0 3px 11px;margin-bottom:7px;font-size:15px;color:#CFEAE0}
+.ssetup{font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:14px}
+
+/* ---------- method ---------- */
+.msec{margin-bottom:34px}
+.mhead{display:flex;align-items:baseline;gap:11px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:15px}
+.mnum{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.16em;color:var(--red)}
+.mhead h3{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:17px;letter-spacing:-.025em}
+.mbody{max-width:760px;font-size:14.5px}
+.mbody p{margin-bottom:11px}
+.mbody strong{color:var(--chalk);font-weight:600}
+.days{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:14px 0}
+.day{background:var(--surface);padding:14px}
+.day .dk{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:10.5px;color:var(--bib)}
+.day .dn{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:15px;margin:3px 0 6px}
+.day .dd{font-size:12.5px;color:var(--muted);line-height:1.45}
+.qs{counter-reset:q;list-style:none;margin:12px 0}
+.qs li{padding-left:36px;position:relative;margin-bottom:11px;font-size:14.5px}
+.qs li::before{counter-increment:q;content:counter(q);position:absolute;left:0;top:0;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:var(--red);line-height:1.1}
+.dials{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0}
+.dials th{text-align:left;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-size:10.5px;color:var(--muted);padding:0 12px 8px 0;border-bottom:1px solid var(--line)}
+.dials td{padding:10px 12px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.dials .dl{font-family:'Archivo',sans-serif;font-weight:700;font-size:13.5px;white-space:nowrap}
+.ladder{list-style:none;margin:12px 0}
+.ladder li{border-left:2px solid var(--line);padding:0 0 14px 16px;position:relative;font-size:14px}
+.ladder li:last-child{padding-bottom:0}
+.ladder li::before{content:"";position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--red);border-radius:50%}
+.ladder b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-size:10.5px;color:var(--bib);margin-bottom:2px}
+
+/* ---------- language ---------- */
+.lintro{max-width:640px;color:var(--muted);font-size:14px;margin-bottom:26px}
+.lintro b{color:var(--chalk);font-weight:600}
+.lgroup{margin-bottom:30px}
+.lghead{display:flex;align-items:baseline;gap:11px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.lghead h3{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:16px;letter-spacing:-.02em}
+.lghead span{font-size:12.5px;color:var(--muted)}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.lcard{border:1px solid var(--line);background:var(--surface);padding:14px 15px}
+.lsit{font-family:'Archivo',sans-serif;font-weight:700;font-size:14px;line-height:1.3;margin-bottom:10px}
+.lsay{list-style:none;margin-bottom:10px}
+.lsay li{border-left:2px solid var(--cyan);padding:1px 0 1px 10px;margin-bottom:6px;font-size:13.5px;color:#CFEAE0}
+.lavoid{list-style:none}
+.lavoid li{border-left:2px solid var(--red-dim);padding:1px 0 1px 10px;margin-bottom:5px;font-size:13px;color:#B08A8F;text-decoration:line-through;text-decoration-color:var(--red-dim)}
+.lkey{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:10.5px;color:var(--muted);margin-bottom:5px}
+.lwhy{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:9px;margin-top:11px;line-height:1.45}
+.swaps{width:100%;border-collapse:collapse;font-size:13.5px}
+.swaps th{text-align:left;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-size:10.5px;color:var(--muted);padding:0 12px 8px 0;border-bottom:1px solid var(--line)}
+.swaps td{padding:10px 12px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.swaps .out{color:#B08A8F;text-decoration:line-through;text-decoration-color:var(--red-dim);white-space:nowrap}
+.swaps .in2{color:var(--cyan);font-weight:500}
+.swaps .rz{color:var(--muted);font-size:12.5px}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.vc{background:var(--surface);padding:13px 14px}
+.vw{font-family:'Archivo',sans-serif;font-weight:900;font-size:22px;letter-spacing:.04em;color:var(--bib)}
+.vd{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;
+  background:var(--chalk);color:var(--pitch);font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;font-size:12.5px;padding:9px 16px;border-radius:var(--r);
+  transition:.25s;pointer-events:none;z-index:50}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+.hide{display:none!important}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  body{background:#fff;color:#000}
+  nav,.filters,.principles,header .thesis,.addbtn,.picker,.btn,#toast{display:none!important}
+  .block,.bhead{border-color:#999;background:#fff!important}
+  .item .it,.btime{color:#000}
+  .bnum{color:#000}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">U11 · 14+ players · 90 minutes</div>
+  <h1>Counterpress<br><span class="em">Lab</span></h1>
+  <p class="thesis"><b>Every drill in here is built so that hesitating loses.</b> Not a collection of activities — a curriculum. Filter by principle, moment, or physical load, then drop what you pick straight into a 90-minute session plan.</p>
+  <div class="meta"><span id="drillcount">— drills</span><span>8 principles</span><span>Klopp / Lijnders model</span></div>
+</header>
+
+<nav role="tablist">
+  <button role="tab" id="tab-lib" aria-selected="true" aria-controls="view-lib">Drill library</button>
+  <button role="tab" id="tab-ses" aria-selected="false" aria-controls="view-ses">Session builder</button>
+  <button role="tab" id="tab-field" aria-selected="false" aria-controls="view-field">Field mode</button>
+  <button role="tab" id="tab-method" aria-selected="false" aria-controls="view-method">Method</button>
+  <button role="tab" id="tab-lang" aria-selected="false" aria-controls="view-lang">Sideline language</button>
+</nav>
+
+<!-- ============ LIBRARY ============ -->
+<section id="view-lib" role="tabpanel" aria-labelledby="tab-lib">
+  <div class="principles" id="principles"></div>
+
+  <div class="filters">
+    <div class="frow">
+      <span class="flabel">Moment</span><span id="f-moment"></span>
+    </div>
+    <div class="frow">
+      <span class="flabel">Theme</span><span id="f-cat"></span>
+    </div>
+    <div class="frow">
+      <span class="flabel">Load</span><span id="f-phys"></span>
+    </div>
+    <div class="frow">
+      <span class="flabel">Search</span>
+      <input type="search" id="q" placeholder="name, cue, constraint…" aria-label="Search drills">
+      <button class="clear" id="clearall">Reset all</button>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- ============ SESSION ============ -->
+<section id="view-ses" role="tabpanel" aria-labelledby="tab-ses" class="hide">
+  <div class="sesstop">
+    <select id="theme" aria-label="Session theme">
+      <option value="aggression">Theme: Aggression &amp; duels</option>
+      <option value="counterpress">Theme: Counter-press</option>
+      <option value="transition">Theme: Attacking transition</option>
+      <option value="buildout">Theme: Building out of the back</option>
+      <option value="finishing">Theme: Finishing</option>
+      <option value="setpiece">Theme: Set pieces &amp; restarts</option>
+    </select>
+    <button class="btn" id="autobuild">Build session</button>
+    <button class="btn ghost" id="save">Save</button>
+    <button class="btn ghost" id="load">Load saved</button>
+    <button class="btn ghost" id="print">Print</button>
+    <button class="btn ghost" id="wipe">Clear</button>
+    <span class="totals" id="totals"></span>
+  </div>
+  <div id="blocks"></div>
+</section>
+
+<!-- ============ FIELD ============ -->
+<section id="view-field" role="tabpanel" aria-labelledby="tab-field" class="hide">
+  <p class="fmintro"><b>Phone in your pocket, one thumb.</b> Tap a drill to get the interval timer, the constraint, and your cues on one screen. It beeps the changeovers and keeps your screen awake. Build a session first and it shows up here in order.</p>
+  <div class="sesstop">
+    <button class="btn ghost" id="ffull">Show all drills</button>
+    <button class="btn ghost" id="fsess">Show my session</button>
+  </div>
+  <div class="frow2" id="fieldlist"></div>
+</section>
+
+<!-- ============ METHOD ============ -->
+<section id="view-method" role="tabpanel" aria-labelledby="tab-method" class="hide">
+  <div id="methodout"></div>
+</section>
+
+<!-- ============ LANGUAGE ============ -->
+<section id="view-lang" role="tabpanel" aria-labelledby="tab-lang" class="hide">
+  <p class="lintro"><b>The drills only work if your reaction matches them.</b> Every constraint in the library asks a kid to take a risk. If your voice punishes the risk when it fails, the rule stops mattering by week three. These are the words, ready before you need them.</p>
+  <div id="langout"></div>
+</section>
+
+<footer>
+  Principles adapted from Jürgen Klopp and Pep Lijnders. Physical work is age-scaled for U11: short doses at full intensity, everything with a ball, acceleration and braking over endurance running. No laps in here on purpose.
+</footer>
+</div>
+<div id="stage" role="dialog" aria-modal="true" aria-label="Drill timer"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   PRINCIPLES
+   ============================================================ */
+const PRINCIPLES = [
+ {id:1,t:"Counter-press is a law",d:"Win it back immediately. The best playmaker is the counter-press."},
+ {id:2,t:"Earn the right to attack",d:"The better you defend, the more you get to attack. Built into the rules."},
+ {id:3,t:"Intensity is identity",d:"Short doses, full intensity, real rest. Never a slow rep."},
+ {id:4,t:"Attack without the ball",d:"A chasing attitude. Off-ball players run first, not last."},
+ {id:5,t:"Know when to stop hunting",d:"Five seconds. Then get organised. Aggression with a brain."},
+ {id:6,t:"Mistakes are the price",d:"We attempt more, so we fail more. Coach the attempt, not the outcome."},
+ {id:7,t:"Rondos are pressing",d:"The middle is the prize job. Defenders score, not the ring."},
+ {id:8,t:"Street football",d:"Competition, noise, and joy. Fun is the method, not the reward."}
+];
+
+/* ============================================================
+   DIAGRAM PRIMITIVES  (a=attacker/red  d=defender/chalk  n=neutral/amber
+   g=goal  c=cone  b=ball  r=arrow  z=zone line)
+   ============================================================ */
+function svg(spec){
+  const W=200,H=130;
+  let out=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Setup diagram">`;
+  out+=`<rect x="4" y="4" width="${W-8}" height="${H-8}" fill="none" stroke="#22362B" stroke-width="1.5"/>`;
+  (spec||[]).forEach(e=>{
+    const x=e.x*2, y=e.y*1.3;
+    if(e.k==='a') out+=`<circle cx="${x}" cy="${y}" r="6" fill="#D8283C"/>`;
+    if(e.k==='d') out+=`<circle cx="${x}" cy="${y}" r="6" fill="none" stroke="#E9EFE9" stroke-width="1.8"/>`;
+    if(e.k==='n') out+=`<circle cx="${x}" cy="${y}" r="6" fill="#E9C46A"/>`;
+    if(e.k==='b') out+=`<circle cx="${x}" cy="${y}" r="3" fill="#5FBFA6"/>`;
+    if(e.k==='c') out+=`<path d="M${x} ${y-5} L${x+4.5} ${y+4} L${x-4.5} ${y+4} Z" fill="#E9C46A" opacity=".8"/>`;
+    if(e.k==='g') out+=`<rect x="${x-2}" y="${y-11}" width="4" height="22" fill="none" stroke="#E9EFE9" stroke-width="2.4"/>`;
+    if(e.k==='z') out+=`<line x1="${x}" y1="6" x2="${x}" y2="${H-6}" stroke="#22362B" stroke-width="1.4" stroke-dasharray="4 4"/>`;
+    if(e.k==='r') out+=`<line x1="${x}" y1="${y}" x2="${e.x2*2}" y2="${e.y2*1.3}" stroke="#5FBFA6" stroke-width="1.6" marker-end="url(#ar)"/>`;
+  });
+  out+=`<defs><marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#5FBFA6"/></marker></defs></svg>`;
+  return out;
+}
+
+/* ============================================================
+   DRILL LIBRARY
+   ============================================================ */
+const D = [
+/* ---------- ACTIVATION ---------- */
+{id:"brake",name:"Brake & Go",cat:"activation",moment:"warmup",pr:[3],phys:"Braking / COD",
+ mins:8,work:"6 × 20s, 40s walk back",space:"20 × 20",players:[6,24],
+ constraint:"You must come to a total stop inside the box before you're allowed to explode out. Anyone who drifts through it repeats the rep.",
+ cues:["Small steps into the stop","Chest over the ball","Push, don't pitter-patter"],
+ prog:"Coach points a direction late — they can't pre-plan the exit.",
+ reg:"Slow it down and just coach the stopping mechanics.",
+ note:"This is the single most protective thing you can do at U11. Deceleration is what actually keeps ankles and knees safe, and it's what makes a tackle possible.",
+ dia:[{k:'c',x:20,y:20},{k:'c',x:80,y:20},{k:'c',x:20,y:80},{k:'c',x:80,y:80},{k:'a',x:35,y:50},{k:'r',x:42,y:50,x2:70,y2:50}]},
+
+{id:"react",name:"Reaction Starts",cat:"activation",moment:"warmup",pr:[3,4],phys:"Speed / reaction",
+ mins:7,work:"8 reps, full recovery",space:"15 yd lanes",players:[6,24],
+ constraint:"Nobody starts on a whistle. Start is a visual cue — a dropped ball, a raised arm, a rolled ball. Eyes up or you lose.",
+ cues:["Read it, don't wait for it","First three steps decide it"],
+ prog:"Two balls rolled at once, coach calls a colour mid-flight.",
+ reg:"Partner drops a ball, you get to it before the second bounce.",
+ note:"Trains the exact habit you're missing: acting on what you see rather than waiting for permission.",
+ dia:[{k:'d',x:15,y:35},{k:'d',x:15,y:65},{k:'b',x:55,y:50},{k:'r',x:24,y:35,x2:48,y2:48},{k:'r',x:24,y:65,x2:48,y2:53}]},
+
+/* ---------- RONDO / PRESSING ---------- */
+{id:"milly",name:"Milly's Rondo",cat:"counterpress",moment:"outposs",pr:[1,7],phys:"Repeated accel",
+ mins:12,work:"4 × 2min, 60s rest",space:"12 × 12",players:[7,8],
+ constraint:"Defenders score a point for winning it inside the first three passes. The ring needs eight passes to score one. The middle is the prize job, not the punishment.",
+ cues:["First two passes are yours","Press the pass, not the player","Show them one side"],
+ prog:"Whoever loses it goes in immediately — no reset, no walking.",
+ reg:"6v2 in a slightly bigger square.",
+ note:"Named for James Milner, who kept intercepting inside the first few passes. Run two grids so 14+ players are all working.",
+ dia:[{k:'d',x:15,y:20},{k:'d',x:50,y:12},{k:'d',x:85,y:20},{k:'d',x:85,y:80},{k:'d',x:15,y:80},{k:'a',x:42,y:48},{k:'a',x:62,y:60},{k:'b',x:22,y:26}]},
+
+{id:"cprondo",name:"Counter-Press Rondo",cat:"counterpress",moment:"trans-def",pr:[1,2,7],phys:"Repeated sprint",
+ mins:14,work:"5 × 2min, 90s rest",space:"22 × 22",players:[10,16],
+ constraint:"Three teams. Whoever loses possession has six seconds to win it back. Win it — you stay out. Fail — you go in the middle.",
+ cues:["Nearest man goes, everyone else squeezes","Six seconds starts now","Don't sulk, sprint"],
+ prog:"Drop it to four seconds.",
+ reg:"Give them eight seconds and a smaller area.",
+ note:"This is the drill that teaches instant transition instead of dwelling on losing it. The disappointment window is the problem you're solving.",
+ dia:[{k:'d',x:22,y:22},{k:'d',x:78,y:22},{k:'d',x:78,y:78},{k:'d',x:22,y:78},{k:'a',x:45,y:40},{k:'a',x:58,y:62},{k:'n',x:50,y:50},{k:'b',x:52,y:44}]},
+
+{id:"hunt",name:"Hunt or Set",cat:"counterpress",moment:"trans-def",pr:[1,5],phys:"Repeated sprint",
+ mins:12,work:"4 × 2.5min",space:"Half pitch",players:[12,20],
+ constraint:"Six seconds to win it back. At six the coach shouts SET — every player must be goal-side and compact within three more seconds or the other team gets a free goal.",
+ cues:["Go together or don't go","SET means shape, not stop","Chase with a brain"],
+ prog:"Coach calls SET at random earlier times.",
+ reg:"Walk the SET shape once before playing it live.",
+ note:"The safety valve. Without this, aggressive pressing turns into ten kids chasing one ball. Klopp is explicit that they have to know when to stop hunting.",
+ dia:[{k:'z',x:60,y:50},{k:'a',x:25,y:30},{k:'a',x:35,y:55},{k:'a',x:25,y:75},{k:'d',x:70,y:30},{k:'d',x:78,y:55},{k:'d',x:70,y:75},{k:'b',x:38,y:52}]},
+
+/* ---------- DUELS / 1v1 DEFENDING ---------- */
+{id:"bounce",name:"Two-Bounce Death",cat:"duels",moment:"outposs",pr:[4,6],phys:"Braking / COD",
+ mins:10,work:"Continuous, rotate every 2 reps",space:"8 yd gap",players:[6,24],
+ constraint:"Coach serves it high between two players. If it bounces twice, the ball is dead and both players lose the rep. You have to take it out of the air or off the first bounce.",
+ cues:["Attack the drop","Get there early, decide late","Body first, then foot"],
+ prog:"Winner plays 1v1 to a small goal immediately.",
+ reg:"Serve it lower and flatter first.",
+ note:"Aimed straight at your bouncing-ball problem. Waiting for it to settle is literally against the rules here.",
+ dia:[{k:'a',x:30,y:60},{k:'d',x:70,y:60},{k:'b',x:50,y:25},{k:'r',x:50,y:30,x2:50,y2:52}]},
+
+{id:"step",name:"Step or Lose It",cat:"duels",moment:"outposs",pr:[4,6],phys:"Braking / COD",
+ mins:12,work:"6 reps each, 45s rest",space:"25 × 12",players:[6,24],
+ constraint:"There's a line five yards behind the defender. If the attacker crosses it with the ball, the defender loses the rep — even if they were never actually beaten. Backing up is not a draw.",
+ cues:["Close the first five yards fast","Then short steps","Pick your moment and go"],
+ prog:"Two attackers, one defender. Still can't retreat.",
+ reg:"Move the line to eight yards back.",
+ note:"Kills passive containing. Praise every failed tackle out loud here or you'll undo the whole drill.",
+ dia:[{k:'z',x:78,y:50},{k:'a',x:18,y:50},{k:'d',x:55,y:50},{k:'b',x:24,y:52},{k:'r',x:24,y:50,x2:48,y2:50}]},
+
+{id:"war",name:"Loose Ball War",cat:"duels",moment:"trans-def",pr:[4,6,8],phys:"Repeated sprint",
+ mins:12,work:"12 reps, 45s rest",space:"30 × 25",players:[8,20],
+ constraint:"Coach rolls a ball into space and calls a number. That many from each team sprint in and play it out. Every fourth rep, call uneven numbers — 2 v 1 — so being outnumbered stops being an excuse.",
+ cues:["Nobody jogs to a loose ball","Get there first, think second","Outnumbered still means go"],
+ prog:"Add small goals so the winner attacks immediately.",
+ reg:"Even numbers only, roll it slower.",
+ note:"Genuinely one of the most fun things on this list. Kids ask for it.",
+ dia:[{k:'a',x:12,y:30},{k:'a',x:12,y:70},{k:'d',x:88,y:30},{k:'d',x:88,y:70},{k:'b',x:50,y:50},{k:'r',x:20,y:32,x2:44,y2:48},{k:'r',x:80,y:32,x2:56,y2:48}]},
+
+/* ---------- ATTACKING TRANSITION ---------- */
+{id:"six",name:"Six-Second Counter",cat:"transition",moment:"trans-att",pr:[1,3,4],phys:"Repeated sprint",
+ mins:18,work:"4 × 4min, 2min rest",space:"40 × 30, big goals",players:[10,18],
+ constraint:"Win the ball, six seconds to get a shot away. Count it out loud. No shot in six, turn it over.",
+ cues:["Look forward before you've even got it","First pass forward","Nobody stands still"],
+ prog:"Five seconds. Or a goal in the first six is worth double.",
+ reg:"Eight seconds and a shorter pitch.",
+ note:"Ugly for two sessions, then they start scanning forward before the ball arrives. That's the whole point.",
+ dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:30,y:35},{k:'a',x:40,y:65},{k:'d',x:60,y:35},{k:'d',x:70,y:60},{k:'b',x:34,y:38},{k:'r',x:38,y:38,x2:82,y2:48}]},
+
+{id:"wide",name:"The Wide Player Rule",cat:"transition",moment:"trans-att",pr:[2,4],phys:"Repeated sprint",
+ mins:18,work:"3 × 5min, 2min rest",space:"45 × 35",players:[12,20],
+ constraint:"A goal only counts if both wide players have crossed halfway. Late in the session, flip it: if you concede while anyone is still ahead of the ball, it's worth two.",
+ cues:["The winger's sprint IS the attack","Support the counter, don't watch it","Both ways, every time"],
+ prog:"Add a 6-second timer on top of it.",
+ reg:"One wide player instead of two.",
+ note:"Directly fixes the off-ball passivity. Off-ball players stop spectating because the goal literally depends on them running.",
+ dia:[{k:'z',x:50,y:50},{k:'g',x:94,y:50},{k:'a',x:35,y:15},{k:'a',x:40,y:50},{k:'a',x:35,y:85},{k:'d',x:70,y:40},{k:'d',x:72,y:62},
+      {k:'r',x:38,y:15,x2:66,y2:18},{k:'r',x:38,y:85,x2:66,y2:82}]},
+
+{id:"cont32",name:"Continuous 3v2",cat:"transition",moment:"trans-att",pr:[1,3,4],phys:"Repeated sprint",
+ mins:16,work:"4 × 3min, 90s rest",space:"Half pitch, 2 goals",players:[12,20],
+ constraint:"Three attack two. Ball goes dead or the defenders win it, they break out the other way immediately with a fresh attacker joining. No stoppages, no lines, no resets.",
+ cues:["The ball never stops","Defenders attack the second they touch it","Recover on the run"],
+ prog:"4v3 across a full pitch.",
+ reg:"3v1, and reset between reps.",
+ note:"Highest conditioning value per minute of anything here — and none of it feels like fitness work.",
+ dia:[{k:'g',x:8,y:50},{k:'g',x:92,y:50},{k:'a',x:40,y:25},{k:'a',x:50,y:50},{k:'a',x:40,y:75},{k:'d',x:72,y:38},{k:'d',x:72,y:62},{k:'b',x:52,y:54}]},
+
+/* ---------- IDENTITY GAME ---------- */
+{id:"identity",name:"Earn the Right",cat:"counterpress",moment:"trans-def",pr:[1,2,3,8],phys:"Repeated sprint",
+ mins:20,work:"6 × 3min, 90s rest",space:"50 × 35",players:[12,21],
+ constraint:"Three teams. Winners stay on. Concede and you're straight off. The better you defend, the more football you actually get to play — that's the lesson, and the rule teaches it without you saying a word.",
+ cues:["Earn your minutes","Defend top, attack more","Waiting team is loud"],
+ prog:"Play it over a full pitch with a short window to finish the counter.",
+ reg:"Two teams, fixed intervals.",
+ note:"Lijnders' identity game. This is the session closer — highest emotional stakes, best carry-over to Saturday.",
+ dia:[{k:'g',x:8,y:50},{k:'g',x:92,y:50},{k:'a',x:30,y:35},{k:'a',x:38,y:65},{k:'d',x:62,y:35},{k:'d',x:68,y:62},{k:'n',x:50,y:15},{k:'n',x:50,y:85}]},
+
+{id:"street",name:"Street Pitch",cat:"activation",moment:"trans-att",pr:[6,8],phys:"Low / free",
+ mins:8,work:"Free play to the whistle",space:"Boarded or walled area",players:[8,24],
+ constraint:"No coaching. No stopping. No positions. Rebound off the boards and play. You referee nothing.",
+ cues:[],
+ prog:"Two-touch to raise the tempo.",
+ reg:"None needed. Let it be.",
+ note:"Liverpool built a street pitch on purpose to train offensive aggression. End every session with this and they'll leave wanting the next one.",
+ dia:[{k:'a',x:30,y:35},{k:'a',x:45,y:70},{k:'d',x:62,y:30},{k:'d',x:72,y:66},{k:'b',x:50,y:48}]},
+
+/* ---------- BUILD OUT ---------- */
+{id:"line",name:"Break the Line",cat:"buildout",moment:"inposs",pr:[2,9],phys:"Moderate",
+ mins:16,work:"4 × 3min, 90s rest",space:"40 × 30, 3 zones",players:[10,18],
+ constraint:"One point for a pass that beats a line of pressure. Three points for a goal. Sideways passing scores nothing — you can keep it all day and still lose.",
+ cues:["First touch decides everything","Can you go forward? Then go","Open your body before it arrives"],
+ prog:"Defenders counter-press for six seconds after every turnover.",
+ reg:"Add two neutrals to the attacking team.",
+ note:"Cruyff's line — the quality of the first touch dictates the rhythm of the game. That's the coaching point here, not the passing itself.",
+ dia:[{k:'z',x:36,y:50},{k:'z',x:68,y:50},{k:'a',x:18,y:35},{k:'a',x:20,y:65},{k:'a',x:52,y:50},{k:'a',x:84,y:45},{k:'d',x:34,y:50},{k:'d',x:66,y:45},{k:'r',x:24,y:40,x2:46,y2:48}]},
+
+{id:"ignite",name:"Keeper Ignition",cat:"buildout",moment:"inposs",pr:[2,9],phys:"Moderate",
+ mins:14,work:"10 reps, 60s rest",space:"Two-thirds pitch",players:[10,18],
+ constraint:"Keeper starts every rep. Ball must reach the far zone within four passes. Lose it in your own third and the opposition gets a free shot.",
+ cues:["Split, don't spread","Keeper is a player","Receive facing forward"],
+ prog:"Add a presser who starts five yards from the keeper.",
+ reg:"Six passes allowed, one passive defender.",
+ note:"Building out and pressing are the same lesson from two sides. Run this the session after Counter-Press Rondo so they recognise what they're beating.",
+ dia:[{k:'g',x:6,y:50},{k:'z',x:75,y:50},{k:'d',x:14,y:50},{k:'a',x:30,y:25},{k:'a',x:30,y:75},{k:'a',x:55,y:50},{k:'a',x:86,y:50},{k:'d',x:42,y:40}]},
+
+/* ---------- FINISHING ---------- */
+{id:"chase",name:"Chased Finish",cat:"finishing",moment:"trans-att",pr:[3,6],phys:"Speed",
+ mins:14,work:"8 reps, 60s rest",space:"Attacking third",players:[8,20],
+ constraint:"Attacker gets a two-yard head start; a defender chases from behind the moment the ball is played. Miss the target and it's the chaser's turn to attack.",
+ cues:["Shoot early","Don't take the extra touch","Head up once, then commit"],
+ prog:"Head start drops to zero.",
+ reg:"Four-yard head start, no contact.",
+ note:"Kids finish beautifully in an empty net and freeze in games. This closes that gap.",
+ dia:[{k:'g',x:92,y:50},{k:'a',x:40,y:50},{k:'d',x:28,y:50},{k:'b',x:46,y:52},{k:'r',x:50,y:50,x2:84,y2:50}]},
+
+{id:"c42",name:"Counter to Finish",cat:"finishing",moment:"trans-att",pr:[1,4],phys:"Repeated sprint",
+ mins:16,work:"5 × 2.5min",space:"Half pitch",players:[10,18],
+ constraint:"4v2 in the middle third. Win it back within six seconds and you break 2v1 the other way. Fail the counter-press and you defend a 3v2.",
+ cues:["Win it high, finish fast","Third man runs beyond","Two touches max in the box"],
+ prog:"Shrink the finishing window to eight seconds.",
+ reg:"Remove the timer, keep the break.",
+ note:"Ties the counter-press directly to a goal, so they feel why it's worth the sprint.",
+ dia:[{k:'g',x:92,y:50},{k:'a',x:30,y:30},{k:'a',x:35,y:70},{k:'a',x:52,y:50},{k:'d',x:45,y:38},{k:'d',x:66,y:55},{k:'r',x:56,y:50,x2:84,y2:50}]},
+
+{id:"firstshot",name:"First Shot Wins",cat:"finishing",moment:"trans-att",pr:[3,6],phys:"Moderate",
+ mins:12,work:"4 × 2.5min",space:"Attacking third, 2 teams",players:[10,20],
+ constraint:"Three touches maximum once you enter the final third. No shot inside three touches and possession goes over.",
+ cues:["First touch towards goal","If you can see the net, hit it","Rebounds are goals — follow it in"],
+ prog:"Two touches.",
+ reg:"Four touches and a bigger goal.",
+ note:"Also fixes the habit of taking one touch too many when a defender is closing.",
+ dia:[{k:'g',x:92,y:50},{k:'a',x:45,y:30},{k:'a',x:55,y:70},{k:'d',x:70,y:35},{k:'d',x:74,y:65},{k:'b',x:48,y:34}]},
+
+/* ---------- SET PIECES ---------- */
+{id:"corner",name:"Corner + Rest Defence",cat:"setpiece",moment:"trans-def",pr:[1,5],phys:"Moderate",
+ mins:12,work:"12 reps",space:"Attacking third",players:[12,20],
+ constraint:"Attack the corner as normal — but the instant it's cleared, the two nominated rest-defenders have six seconds to win it back before the counter starts.",
+ cues:["Two stay high and awake","First contact on the clearance","Nobody watches the ball fly away"],
+ prog:"Defending team gets a real counter-attack goal to aim at.",
+ reg:"Walk the rest-defence positions first.",
+ note:"Most U11 teams lose goals from their own corners. This is the cheapest fix on the list.",
+ dia:[{k:'g',x:50,y:8},{k:'b',x:8,y:14},{k:'a',x:40,y:32},{k:'a',x:55,y:30},{k:'a',x:62,y:42},{k:'d',x:46,y:26},{k:'d',x:58,y:24},{k:'a',x:30,y:78},{k:'a',x:65,y:80}]},
+
+{id:"kickoff",name:"Kickoff Press",cat:"setpiece",moment:"outposs",pr:[1,4],phys:"Speed",
+ mins:8,work:"10 reps",space:"Centre circle out",players:[12,20],
+ constraint:"Rehearsed press straight off the restart. Ball goes long and backwards, front three sprint the trigger. Win it in their half inside eight seconds or reset and go again.",
+ cues:["The whistle is the trigger","Front three go together","First thirty seconds sets the tone"],
+ prog:"Live into a full small-sided game.",
+ reg:"Walk the shape, then jog it, then go.",
+ note:"Free intensity. Also a great way to start a match on the front foot, which shifts the whole game's mentality.",
+ dia:[{k:'z',x:50,y:50},{k:'b',x:50,y:50},{k:'a',x:42,y:50},{k:'a',x:36,y:30},{k:'a',x:36,y:70},{k:'d',x:64,y:38},{k:'d',x:66,y:62},
+      {k:'r',x:40,y:32,x2:60,y2:36},{k:'r',x:40,y:68,x2:60,y2:60}]},
+
+{id:"throw",name:"Four-Second Throw",cat:"setpiece",moment:"trans-att",pr:[3,4],phys:"Low / free",
+ mins:8,work:"Inside any game",space:"Any",players:[8,24],
+ constraint:"Every throw-in must be taken within four seconds. Late throw, ball goes to the other team. Nearest player takes it — never the one who's furthest away.",
+ cues:["Nearest man, always","Down the line or in behind","Two players moving before the throw"],
+ prog:"Add it to every restart including goal kicks.",
+ reg:"Six seconds while they learn it.",
+ note:"Layer this on top of any small-sided game rather than running it on its own. Restarts are where U11 games leak all their tempo.",
+ dia:[{k:'a',x:12,y:12},{k:'a',x:30,y:35},{k:'a',x:45,y:20},{k:'d',x:38,y:55},{k:'r',x:16,y:14,x2:40,y2:22}]}
+];
+
+const CAT = {activation:"Activation",counterpress:"Counter-press",duels:"Duels / 1v1",transition:"Attacking transition",buildout:"Building out",finishing:"Finishing",setpiece:"Set pieces"};
+const MOM = {warmup:"Warm-up",outposs:"Out of possession",inposs:"In possession","trans-att":"Attacking transition","trans-def":"Defensive transition"};
+
+/* ============================================================
+   STATE + RENDER
+   ============================================================ */
+const S = {pr:new Set(),mom:new Set(),cat:new Set(),phys:new Set(),q:""};
+const $ = s=>document.querySelector(s);
+const byId = id=>D.find(d=>d.id===id);
+const PHYS = [...new Set(D.map(d=>d.phys))];
+
+function chip(label,val,group){
+  return `<button class="chip" data-g="${group}" data-v="${val}" aria-pressed="false">${label}</button>`;
+}
+function initFilters(){
+  $("#principles").innerHTML = PRINCIPLES.map(p=>
+    `<div class="pr" data-p="${p.id}" data-on="0" role="button" tabindex="0" aria-pressed="false">
+      <div class="n">PRINCIPLE ${p.id}</div><div class="t">${p.t}</div><div class="d">${p.d}</div></div>`).join("");
+  $("#f-moment").innerHTML = Object.entries(MOM).map(([k,v])=>chip(v,k,"mom")).join("");
+  $("#f-cat").innerHTML = Object.entries(CAT).map(([k,v])=>chip(v,k,"cat")).join("");
+  $("#f-phys").innerHTML = PHYS.map(p=>chip(p,p,"phys")).join("");
+  $("#drillcount").textContent = D.length + " drills";
+}
+
+function matches(d){
+  if(S.mom.size && !S.mom.has(d.moment)) return false;
+  if(S.cat.size && !S.cat.has(d.cat)) return false;
+  if(S.phys.size && !S.phys.has(d.phys)) return false;
+  if(S.pr.size && !d.pr.some(p=>S.pr.has(p))) return false;
+  if(S.q){
+    const hay = (d.name+" "+d.constraint+" "+d.cues.join(" ")+" "+d.note+" "+CAT[d.cat]).toLowerCase();
+    if(!hay.includes(S.q)) return false;
+  }
+  return true;
+}
+
+function card(d){
+  return `<article class="card">
+    <div class="dia">${svg(d.dia)}</div>
+    <div class="cbody">
+      <div class="ctop"><h3 class="cname">${d.name}</h3><span class="ctime">${d.mins}′</span></div>
+      <div class="ctags">
+        <span class="tag">${CAT[d.cat]}</span>
+        <span class="tag">${d.players[0]}–${d.players[1]} players</span>
+        <span class="tag ph">${d.phys}</span>
+        ${d.pr.map(p=>`<span class="tag p">P${p}</span>`).join("")}
+      </div>
+      <div class="constraint"><div class="k">The constraint</div><p>${d.constraint}</p></div>
+      <details class="det">
+        <summary>How to explain it, setup &amp; progressions</summary>
+        <div class="dwrap">
+          ${teachBlock(d.id)}
+          <h4>Space &amp; timing</h4><p>${d.space} · ${d.work}</p>
+          ${d.cues.length?`<h4>What you shout</h4><ul>${d.cues.map(c=>`<li class="cue">“${c}”</li>`).join("")}</ul>`:""}
+          <h4>Progression</h4><p>${d.prog}</p>
+          <h4>Regression</h4><p>${d.reg}</p>
+          <h4>Why it's in here</h4><p>${d.note}</p>
+        </div>
+      </details>
+      <button class="addbtn" data-add="${d.id}">Add to session</button>
+    </div>
+  </article>`;
+}
+
+function render(){
+  const list = D.filter(matches);
+  $("#grid").innerHTML = list.length ? list.map(card).join("")
+    : `<p class="empty" style="grid-column:1/-1">No drills match that combination. Loosen a filter — or reset and start again.</p>`;
+  $("#count").textContent = list.length + " of " + D.length;
+}
+
+/* ---------- filter events ---------- */
+document.addEventListener("click",e=>{
+  const c = e.target.closest(".chip");
+  if(c){
+    const g=c.dataset.g, v=c.dataset.v, on=c.getAttribute("aria-pressed")==="true";
+    const set = g==="mom"?S.mom:g==="cat"?S.cat:S.phys;
+    on?set.delete(v):set.add(v);
+    c.setAttribute("aria-pressed",String(!on));
+    render(); return;
+  }
+  const p = e.target.closest(".pr");
+  if(p){ togglePr(p); return; }
+  const a = e.target.closest("[data-add]");
+  if(a){ addToSession(a.dataset.add); return; }
+  const rm = e.target.closest("[data-rm]");
+  if(rm){ const [b,i]=rm.dataset.rm.split(":"); SESSION[b].splice(+i,1); renderSession(); return; }
+});
+document.addEventListener("keydown",e=>{
+  if(e.key===" "||e.key==="Enter"){
+    const p=e.target.closest(".pr");
+    if(p){ e.preventDefault(); togglePr(p); }
+  }
+});
+function togglePr(el){
+  const id=+el.dataset.p, on=el.dataset.on==="1";
+  on?S.pr.delete(id):S.pr.add(id);
+  el.dataset.on = on?"0":"1";
+  el.setAttribute("aria-pressed",String(!on));
+  render();
+}
+$("#q").addEventListener("input",e=>{S.q=e.target.value.trim().toLowerCase();render();});
+$("#clearall").addEventListener("click",()=>{
+  S.pr.clear();S.mom.clear();S.cat.clear();S.phys.clear();S.q="";
+  $("#q").value="";
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","false"));
+  document.querySelectorAll(".pr").forEach(p=>{p.dataset.on="0";p.setAttribute("aria-pressed","false")});
+  render();
+});
+
+/* ---------- tabs ---------- */
+const TABS=["lib","ses","field","method","lang"];
+TABS.forEach(v=>$("#tab-"+v).addEventListener("click",()=>swap(v)));
+function swap(v){
+  TABS.forEach(k=>{
+    $("#tab-"+k).setAttribute("aria-selected",String(k===v));
+    $("#view-"+k).classList.toggle("hide",k!==v);
+  });
+  if(v==="field") renderField();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ============================================================
+   SESSION BUILDER — 90 min, 14+ players
+   ============================================================ */
+const BLOCKS = [
+ {k:"activate",n:"Arrival & activation",t:15,why:"Ball rolling from minute one. Braking mechanics and reaction, never laps."},
+ {k:"rondo",n:"Rondo / pressing block",t:15,why:"Short doses at full intensity. Two grids so nobody queues."},
+ {k:"core1",n:"Core block 1",t:20,why:"The session theme, isolated. Constraint doing the coaching."},
+ {k:"core2",n:"Core block 2",t:18,why:"Same theme, bigger picture, more players involved."},
+ {k:"game",n:"Identity game",t:17,why:"Earn the right to attack. Highest stakes of the night."},
+ {k:"street",n:"Street pitch",t:5,why:"No whistle, no coaching. They leave wanting the next one."}
+];
+let SESSION = {};
+BLOCKS.forEach(b=>SESSION[b.k]=[]);
+
+const RECIPES = {
+  aggression:{activate:["brake","react"],rondo:["milly"],core1:["bounce","step"],core2:["war"],game:["identity"],street:["street"]},
+  counterpress:{activate:["react"],rondo:["cprondo"],core1:["hunt"],core2:["six"],game:["identity"],street:["street"]},
+  transition:{activate:["brake"],rondo:["cprondo"],core1:["cont32"],core2:["wide"],game:["identity"],street:["street"]},
+  buildout:{activate:["brake"],rondo:["milly"],core1:["line"],core2:["ignite"],game:["identity"],street:["street"]},
+  finishing:{activate:["react"],rondo:["milly"],core1:["chase","firstshot"],core2:["c42"],game:["identity"],street:["street"]},
+  setpiece:{activate:["brake"],rondo:["cprondo"],core1:["kickoff"],core2:["corner"],game:["identity"],street:["street","throw"]}
+};
+
+function renderSession(){
+  let total=0;
+  $("#blocks").innerHTML = BLOCKS.map((b,bi)=>{
+    const items = SESSION[b.k];
+    const mins = items.reduce((s,id)=>s+byId(id).mins,0);
+    total += mins;
+    const opts = D.filter(d=>!items.includes(d.id))
+      .map(d=>`<option value="${b.k}|${d.id}">+ ${d.name} · ${d.mins}′ · ${CAT[d.cat]}</option>`).join("");
+    return `<div class="block">
+      <div class="bhead">
+        <span class="bnum">0${bi+1}</span>
+        <span class="bname">${b.n}</span>
+        <span class="bwhy">${b.why}</span>
+        <span class="btime">${mins}′ / ${b.t}′</span>
+      </div>
+      <div class="bitems">
+        ${items.length ? items.map((id,i)=>{const d=byId(id);return `
+          <div class="item">
+            <span class="in">${d.name}</span>
+            <span class="ic">${d.space} · ${d.work}</span>
+            <span class="it">${d.mins}′</span>
+            <button class="rm" data-rm="${b.k}:${i}" aria-label="Remove ${d.name}">×</button>
+          </div>`}).join("") : `<p class="empty">Nothing here yet. Pick a drill below, or hit Build session.</p>`}
+        <div class="picker"><select data-pick aria-label="Add drill to ${b.n}"><option value="">Add a drill…</option>${opts}</select></div>
+      </div>
+    </div>`;
+  }).join("");
+  const over = total>90;
+  $("#totals").className = "totals"+(over?" over":"");
+  $("#totals").innerHTML = `Total <b>${total}′</b> / 90′`;
+  document.querySelectorAll("[data-pick]").forEach(s=>s.addEventListener("change",e=>{
+    if(!e.target.value) return;
+    const [b,id]=e.target.value.split("|");
+    SESSION[b].push(id); renderSession();
+  }));
+}
+function addToSession(id){
+  const d=byId(id);
+  const guess = d.cat==="activation" ? (d.id==="street"?"street":"activate")
+    : d.cat==="counterpress" ? (d.id==="identity"?"game":"rondo")
+    : "core1";
+  SESSION[guess].push(id);
+  toast(`${d.name} added`);
+}
+function toast(msg){
+  const t=$("#toast"); t.textContent=msg; t.classList.add("on");
+  clearTimeout(t._x); t._x=setTimeout(()=>t.classList.remove("on"),1700);
+}
+
+$("#autobuild").addEventListener("click",()=>{
+  const r = RECIPES[$("#theme").value];
+  BLOCKS.forEach(b=>SESSION[b.k]=[...(r[b.k]||[])]);
+  renderSession(); toast("Session built");
+});
+$("#wipe").addEventListener("click",()=>{BLOCKS.forEach(b=>SESSION[b.k]=[]);renderSession();toast("Cleared");});
+$("#print").addEventListener("click",()=>window.print());
+
+$("#save").addEventListener("click",async()=>{
+  try{
+    await window.storage.set("session:current",JSON.stringify({theme:$("#theme").value,s:SESSION}));
+    toast("Saved");
+  }catch(err){ toast("Couldn't save"); }
+});
+$("#load").addEventListener("click",async()=>{
+  try{
+    const r = await window.storage.get("session:current");
+    const v = JSON.parse(r.value);
+    SESSION = v.s; $("#theme").value = v.theme || "aggression";
+    renderSession(); toast("Loaded");
+  }catch(err){ toast("Nothing saved yet"); }
+});
+
+/* ============================================================
+   SIDELINE LANGUAGE
+   ============================================================ */
+const VOCAB = [
+ {w:"GO",d:"Nearest player presses right now. Everyone behind squeezes up. This is the only word that starts a counter-press."},
+ {w:"SET",d:"Six seconds are up, we didn't win it. Get goal-side and compact. Stop hunting."},
+ {w:"SIX",d:"We just won it. Shot inside six seconds. Everyone forward."},
+ {w:"SECOND",d:"Called by the player arriving behind the ball — I'm the second wave, keep going."},
+ {w:"AWAY",d:"No press is on, no out available. Clear it and reset. Used sparingly, or it becomes the default."}
+];
+
+const LANG = [
+{g:"The standard", sub:"Say these in week one so you can lean on them all season.",
+ cards:[
+ {sit:"Setting the deal on day one",
+  say:["I will never get on you for going. I'll get on you for watching.",
+       "There are two kinds of mistakes in this team — brave ones and lazy ones. Only one of them I care about.",
+       "If you're not making mistakes, you're not trying anything."],
+  avoid:[],
+  why:"Klopp's own framing: a high-intensity team makes more mistakes because it attempts more. Say it out loud before the first one happens, and the first one costs you nothing."},
+ {sit:"Explaining why we press",
+  say:["The best moment to win the ball is the second after we lose it. They're not organised yet either.",
+       "The counter-press is our best pass forward.",
+       "The better we defend, the more we get to attack. That's the whole deal."],
+  avoid:[],
+  why:"Ten-year-olds will chase harder for a reason than for a rule. Give them the reason once and the rules stop feeling like punishment."}
+]},
+
+{g:"In the moment", sub:"Training. The reps where the habit actually forms or dies.",
+ cards:[
+ {sit:"A player steps in, commits, and gets beaten",
+  say:["That's the one. Do it again.",
+       "I'd rather see that ten times than watch you wait once.",
+       "Right decision, half a second early — go again."],
+  avoid:["You dove in.","What were you doing?","Be patient."],
+  why:"This is the single highest-leverage moment you have. Correct the attempt here and every other kid watching learns that hesitating is the safe option. Give them the next rep immediately — don't leave them standing in it."},
+ {sit:"Someone waits for a bouncing ball to settle",
+  say:["Go get it, don't meet it.","First one there owns it.","Attack the drop."],
+  avoid:["Control it first.","Take your time."],
+  why:"Serve them the same ball again within thirty seconds. The correction has to be a rep, not a sentence."},
+ {sit:"A player loses the ball and stops running",
+  say:["Losing it isn't the mistake. The next three seconds is.",
+       "I don't care that you got beat. I care that you stopped.",
+       "Six seconds. Go win it back."],
+  avoid:["Come on!","Unlucky."],
+  why:"This is the one thing worth genuinely getting on them about. Be as consistent here as you are forgiving about the failed tackle — the contrast is what teaches the standard."},
+ {sit:"A wide player stands and watches the counter go past",
+  say:["You're the second wave.","Your run is the pass.","Jaden — GO. Name them, every time."],
+  avoid:["Get involved.","Wake up."],
+  why:"Off-ball passivity is invisible unless you name the individual. Generic shouts land on nobody. Use the name and the specific action."},
+ {sit:"A kid is physically hesitant in a duel",
+  say:["Shoulder to shoulder, not hands.","Body in front — the ball comes to you.","Get there first and it's not even a collision."],
+  avoid:["Be aggressive.","Don't be scared."],
+  why:"Give them 50/50s they can win before you give them ones they can't. Confidence in contact is built from evidence, not instruction — and telling a kid not to be scared has never once worked."},
+ {sit:"The whole group is flat",
+  say:["Next goal's worth three.","Losers go in the middle.","Two minutes. Everything you've got, then you rest."],
+  avoid:["Come on, more effort!","Pick it up, guys."],
+  why:"Don't ask for intensity — change the scoring and let the game demand it. If a drill is flat, the constraint is wrong, not the kids."}
+]},
+
+{g:"Matchday", sub:"Fewer words than you think. Pick one message and hold it.",
+ cards:[
+ {sit:"Pre-game, sixty seconds",
+  say:["First five minutes: we press their kickoff and we make them uncomfortable.",
+       "One thing today — nobody watches the ball. Everybody goes.",
+       "Have fun, be first to everything."],
+  avoid:["Any tactical lecture longer than a minute."],
+  why:"One message. They can hold one. A second one erases the first."},
+ {sit:"Halftime, losing",
+  say:["Score isn't the problem. [One specific thing] is. Fix that and the rest follows.",
+       "Who's been first to a loose ball today? Not enough of us."],
+  avoid:["Long problem lists.","Anything about the referee."],
+  why:"Two points maximum, one of them positive. Halftime is for calm and clarity, not for feelings."},
+ {sit:"Halftime, winning",
+  say:["The only way we lose this is if we start waiting.","Same intensity, or they'll come back into it."],
+  avoid:["Just hold on.","Sit back and see it out."],
+  why:"Telling a U11 team to protect a lead turns them passive in about ninety seconds — the exact thing you're coaching out of them."},
+ {sit:"Full time, after a loss",
+  say:["Who went for it today? — then name three, specifically.",
+       "That was the right football. The result will catch up.",
+       "We'll look at it Tuesday. Go get food."],
+  avoid:["Post-mortems in the parking lot."],
+  why:"Reward the behaviour you're building, not the scoreline, or the scoreline quietly becomes the thing they play for. Coach the game Tuesday when nobody's upset."}
+]},
+
+{g:"Hard conversations", sub:"The ones that decide whether the culture survives contact with parents.",
+ cards:[
+ {sit:"A parent asks why their kid isn't scoring more",
+  say:["Here's what I'm asking him to do this season, and here's how he's doing at it.",
+       "Goals will come. What we're building right now is a player who goes and takes the ball."],
+  avoid:["Defensive explanations of playing time."],
+  why:"Redirect to the standard you've defined. If you named the standard publicly in week one, this conversation is short."},
+ {sit:"A kid who's terrified of making a mistake",
+  say:["Your job today is to try three things that might not work. That's it.",
+       "I'm counting attempts, not outcomes."],
+  avoid:["Just relax.","Don't worry about it."],
+  why:"Give them a target they can definitely hit. Fear of failure disappears when success is redefined as attempting."},
+ {sit:"A kid whose aggression is going the wrong way",
+  say:["Your fight is a weapon. Right now you're using it on the referee.",
+       "Aggressive at the ball, calm at everything else.",
+       "That energy in the first six seconds after we lose it — that's where I want it."],
+  avoid:["Calm down.","You need to control yourself."],
+  why:"Never ask them to turn it down. Give it a direction. You want that kid — he just needs an address for it."}
+]}
+];
+
+const SWAPS = [
+ ["Don't dive in","Pick your moment and go","One teaches waiting, the other teaches timing."],
+ ["Unlucky","Right idea","Unlucky says it was random. Right idea says the decision was correct."],
+ ["Man on!","Turn! / Time!","Tell them what to do, not what exists."],
+ ["Get rid of it","Play forward","Panic versus intention. They'll hear the difference."],
+ ["Calm down","Head up, one touch","Calm down is a feeling. The other is an action they can perform."],
+ ["Get back!","Goal side!","Direction plus destination beats direction alone."],
+ ["Great effort!","Name the specific action","Generic praise stops carrying information after about two weeks."],
+ ["Pass it!","(say nothing)","If you make the decision, they never learn to."],
+ ["Be more aggressive","Be first to the ball","Aggression is abstract. First is measurable."]
+];
+
+function renderLang(){
+  let h = LANG.map(g=>`
+    <div class="lgroup">
+      <div class="lghead"><h3>${g.g}</h3><span>${g.sub}</span></div>
+      <div class="lgrid">
+        ${g.cards.map(c=>`<div class="lcard">
+          <div class="lsit">${c.sit}</div>
+          <div class="lkey">Say</div>
+          <ul class="lsay">${c.say.map(s=>`<li>${s}</li>`).join("")}</ul>
+          ${c.avoid.length?`<div class="lkey">Don't</div><ul class="lavoid">${c.avoid.map(s=>`<li>${s}</li>`).join("")}</ul>`:""}
+          <p class="lwhy">${c.why}</p>
+        </div>`).join("")}
+      </div>
+    </div>`).join("");
+
+  h += `<div class="lgroup">
+    <div class="lghead"><h3>Straight swaps</h3><span>Same instinct, better wiring. These are the nine worth breaking first.</span></div>
+    <table class="swaps"><thead><tr><th>Instead of</th><th>Say</th><th>Because</th></tr></thead><tbody>
+    ${SWAPS.map(s=>`<tr><td class="out">“${s[0]}”</td><td class="in2">“${s[1]}”</td><td class="rz">${s[2]}</td></tr>`).join("")}
+    </tbody></table></div>`;
+
+  h += `<div class="lgroup">
+    <div class="lghead"><h3>Team vocabulary</h3><span>Five words. Teach them in week one and they replace whole sentences.</span></div>
+    <div class="vgrid">${VOCAB.map(v=>`<div class="vc"><div class="vw">${v.w}</div><div class="vd">${v.d}</div></div>`).join("")}</div>
+  </div>`;
+
+  $("#langout").innerHTML = h;
+}
+
+/* ============================================================
+   TEACH IT — what you're actually teaching, and how to say it
+   ============================================================ */
+const EX = {
+brake:{p:"You can't win a ball you can't stop for. Braking is the skill that makes a tackle possible — and it's what protects their knees and ankles.",
+ s:"Sprint to the box. Inside the box you stop completely — feet still, like a statue. Then explode out the other side. If you glide through it, you go again.",
+ c:"What happens if you don't stop all the way?", l:"Short choppy steps into the stop instead of one long skid."},
+react:{p:"Start when you see something, not when someone tells you to. That's the whole passivity problem in one habit.",
+ s:"No whistle today. Watch my hands. When the ball drops, go. First one there wins it. If you're looking at your feet you lose every time.",
+ c:"What are you watching?", l:"Heads up before the cue, not after it."},
+milly:{p:"The two in the middle are the stars. Winning the ball back fast is the skill we're training, not keeping it.",
+ s:"Five around the outside, two in the middle. Middle two — you get a point if you win it in the first three passes. Outside — you need eight passes for one point. So the middle is the good job today.",
+ c:"How many passes do the middle two get to win a point?", l:"Both defenders sprinting together at the first pass instead of standing."},
+cprondo:{p:"The second after we lose the ball is the best moment to win it back, because they aren't organised yet either.",
+ s:"Three teams. When you lose it I start counting to six. Win it back before six and you stay out here. Don't, and you go in the middle. So the moment you lose it — don't be sad about it, go get it.",
+ c:"What do you do the second you lose the ball?", l:"No head-drop after a turnover. They turn and go."},
+hunt:{p:"Aggression with a brain. Go hard for six seconds — then get organised instead of chasing forever.",
+ s:"Six seconds to win it back, everybody hunt. When I shout SET, hunting's over. Get between them and our goal and squeeze together. Three seconds to be in shape or they get a free goal.",
+ c:"What does SET mean?", l:"The whole group changing behaviour together on the word."},
+bounce:{p:"Go to the ball. Don't let the ball come to you. This is the exact habit we're breaking.",
+ s:"I throw it up between you two. If it bounces twice it's dead and you both lose. So you take it out of the air or off one bounce. Move to it early.",
+ c:"How many bounces do you get?", l:"Players stepping toward the drop instead of drifting backwards."},
+step:{p:"Backing up is not defending. A defender who never gets beaten but never wins the ball isn't helping us.",
+ s:"Defender — there's a line five yards behind you. If he gets over that line with the ball, you lose the rep, even if he never beat you. So you can't just walk backwards. Close him down fast, then pick your moment.",
+ c:"Can you win this by backing up?", l:"A fast first five yards, then short steps and a decision."},
+war:{p:"First to the ball wins most things in football. Being outnumbered isn't a reason not to go.",
+ s:"I roll a ball out and call a number. That many go from each team. Sometimes I'll call two for you and one for them — tough, still go.",
+ c:"What do you do if you're outnumbered?", l:"Nobody jogging. Everybody arrives."},
+six:{p:"When we win it, go fast — they're disorganised for a few seconds and that's when goals are cheap.",
+ s:"Win the ball, six seconds to shoot. I'll count out loud. No shot in six and the ball goes over to them. So the second you win it, look at their goal first.",
+ c:"Where do you look the second you win it?", l:"First pass going forward instead of sideways."},
+wide:{p:"If you're not on the ball you're still part of the attack. Your run is what makes the counter work.",
+ s:"Goals only count if both wide players are over halfway. So if you're out wide and you're watching, the goal doesn't count. Your run is the attack.",
+ c:"Who has to be over halfway for it to count?", l:"Wide players sprinting before the ball reaches the final third."},
+cont32:{p:"The game doesn't stop and neither do we. You recover while running, not while standing.",
+ s:"Three attack two. Ball goes out or the defenders win it — straight the other way, new player joins. No stopping, no lines. Heads up, because it turns fast.",
+ c:"What happens when the ball goes out?", l:"Players turning and going without looking at you first."},
+identity:{p:"The better we defend, the more football we get to play. That's the deal, and the rules teach it without a speech.",
+ s:"Three teams. Winners stay on. Concede and you're off. That's it — defend well and you keep playing.",
+ c:"How do you stay on the field?", l:"Teams organising themselves without your voice."},
+street:{p:"Joy is part of the method, not a reward for finishing the work.",
+ s:"No positions, no rules, no me. Off the walls, keep it going. Go.",
+ c:"", l:"Kids arguing, laughing, and inventing things you'd never coach."},
+line:{p:"A pass that beats an opponent is worth more than a safe one. Safe passing looks tidy and achieves nothing.",
+ s:"One point every time a pass goes past one of their players. Three points for a goal. Passing sideways all day gets you nothing.",
+ c:"What kind of pass gets you a point?", l:"Players opening their body before the ball arrives."},
+ignite:{p:"Playing out is about purpose, not safety. We build to go forward, not to keep it.",
+ s:"Keeper starts every time. Four passes to get it into that far zone. Lose it in your own third and they get a free shot — so be brave, but be sharp.",
+ c:"How many passes to get it up there?", l:"Players splitting wide and deep instead of bunching around the ball."},
+chase:{p:"Finish before the pressure arrives. In a game you never get the empty net you get in practice.",
+ s:"Two-yard head start. The second the ball's played, he's chasing you. Miss the target and it's his turn to attack. Shoot early.",
+ c:"What happens if you miss the target?", l:"Shots going a stride earlier than they'd like."},
+c42:{p:"Winning the ball high up the field is how you score the easiest goals in football.",
+ s:"Four against two in the middle. Win it back in six seconds and you break two-against-one at that goal. Don't win it and you're defending three-against-two. Your reward for pressing is a goal.",
+ c:"What do you get if you win it inside six seconds?", l:"The press going as a group rather than one kid chasing."},
+firstshot:{p:"One touch too many is how most chances die at this age.",
+ s:"Once you're in the final third you get three touches. No shot in three and it's their ball. If you can see the goal, hit it.",
+ c:"How many touches in the final third?", l:"Shots from distance and rebounds followed in."},
+corner:{p:"Our own corner is one of the most likely moments to concede. Two players stay awake so it doesn't happen.",
+ s:"Attack the corner like normal. But you two stay high and awake. Second it gets cleared, you have six seconds to win it back before they counter.",
+ c:"Who stays back, and what's your job?", l:"Rest-defenders reacting to the clearance instead of watching the box."},
+kickoff:{p:"The first thirty seconds sets the tone for the whole game. Free intensity if you rehearse it.",
+ s:"Ball goes back and long. Front three — you sprint together the second it's touched. Win it in their half inside eight seconds.",
+ c:"When do you start running?", l:"Three players going at once, not one brave kid alone."},
+throw:{p:"Restarts are free speed. Most youth teams give away all their tempo at throw-ins.",
+ s:"Every throw-in, four seconds. Nearest player takes it — not whoever wants it. Late throw and the other team gets the ball.",
+ c:"Who takes the throw?", l:"Two players already moving before the ball is thrown."}
+};
+
+function teachBlock(id){
+  const e = EX[id]; if(!e) return "";
+  return `<div class="teach">
+    <p class="tpoint"><b>What you're teaching:</b> ${e.p}</p>
+    <span class="tk">Say it like this</span>
+    <p class="tscript">“${e.s}”</p>
+    <div class="tsplit">
+      ${e.c?`<div><span class="tk">Check they got it</span><p class="ask">“${e.c}”</p></div>`:""}
+      <div><span class="tk">It's working when</span><p>${e.l}</p></div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   FIELD MODE — interval timer
+   ============================================================ */
+const IV = {
+ brake:[6,20,40], react:[8,8,45], milly:[4,120,60], cprondo:[5,120,90], hunt:[4,150,90],
+ bounce:[10,25,35], step:[6,30,45], war:[12,25,45], six:[4,240,120], wide:[3,300,120],
+ cont32:[4,180,90], identity:[6,180,90], street:[1,480,0], line:[4,180,90], ignite:[10,30,60],
+ chase:[8,20,60], c42:[5,150,90], firstshot:[4,150,90], corner:[12,25,40], kickoff:[10,20,40], throw:[1,480,0]
+};
+let fieldView = "session";
+
+function renderField(){
+  let ids;
+  if(fieldView==="session"){
+    ids = BLOCKS.flatMap(b=>SESSION[b.k]);
+    if(!ids.length){
+      $("#fieldlist").innerHTML = `<p class="empty" style="grid-column:1/-1">No session built yet. Go to Session builder and hit Build session — or tap Show all drills.</p>`;
+      return;
+    }
+  } else ids = D.map(d=>d.id);
+  $("#fieldlist").innerHTML = ids.map(id=>{
+    const d=byId(id), iv=IV[id]||[4,120,60];
+    return `<button class="fbtn" data-run="${id}">
+      <span class="fn">${d.name}</span>
+      <span class="fs">${iv[0]}×${fmtShort(iv[1])}</span></button>`;
+  }).join("");
+}
+function fmtShort(s){return s>=60 ? (s/60)+"m" : s+"s";}
+function fmt(s){const m=Math.floor(s/60),r=s%60;return m>0?`${m}:${String(r).padStart(2,"0")}`:String(r);}
+
+let T = null;
+function openStage(id){
+  const d=byId(id), iv=IV[id]||[4,120,60];
+  T = {d, sets:iv[0], on:iv[1], off:iv[2], set:1, phase:"ready", left:iv[1], running:false, tick:null};
+  drawStage(); $("#stage").classList.add("on"); keepAwake(true);
+}
+function closeStage(){
+  if(T&&T.tick) clearInterval(T.tick);
+  T=null; $("#stage").classList.remove("on"); keepAwake(false);
+}
+function drawStage(){
+  const d=T.d;
+  const cls = T.phase==="work"?"work":T.phase==="rest"?"rest":T.phase==="done"?"done":"";
+  const label = T.phase==="ready"?"Ready":T.phase==="work"?"Work":T.phase==="rest"?"Rest":"Done";
+  $("#stage").innerHTML = `
+    <div class="stop">
+      <h2>${d.name}</h2>
+      <button class="xbtn" id="xstage" aria-label="Close timer">×</button>
+    </div>
+    <div class="clock">
+      <div class="phase">${label}</div>
+      <div class="big ${cls}">${T.phase==="done"?"✓":fmt(T.left)}</div>
+      <div class="setline">${T.phase==="done"?"Session block complete":`Set ${T.set} of ${T.sets}`}</div>
+    </div>
+    <div class="sctrl">
+      <button class="btn" id="tgo">${T.running?"Pause":T.phase==="done"?"Restart":"Start"}</button>
+      <button class="btn ghost" id="tskip">Skip</button>
+      <button class="btn ghost" id="treset">Reset</button>
+    </div>
+    <div class="scon"><div class="k">The constraint</div><p>${d.constraint}</p></div>
+    <div class="stage-teach">${teachBlock(d.id)}</div>
+    ${d.cues.length?`<ul class="scue">${d.cues.map(c=>`<li>“${c}”</li>`).join("")}</ul>`:""}
+    <p class="ssetup">${d.space} · ${d.players[0]}–${d.players[1]} players · ${d.work}<br><br>${d.note}</p>`;
+  $("#xstage").onclick=closeStage;
+  $("#tgo").onclick=toggleRun;
+  $("#tskip").onclick=()=>{T.left=0;step();drawStage();};
+  $("#treset").onclick=()=>{T.set=1;T.phase="ready";T.left=T.on;stopRun();drawStage();};
+}
+function toggleRun(){
+  if(T.phase==="done"){T.set=1;T.phase="ready";T.left=T.on;}
+  if(T.running){stopRun();} else {
+    if(T.phase==="ready"){T.phase="work";T.left=T.on;beep(2);}
+    T.running=true;
+    T.tick=setInterval(()=>{
+      T.left--;
+      if(T.left<=3&&T.left>0) beep(1);
+      if(T.left<=0) step();
+      drawStage();
+    },1000);
+  }
+  drawStage();
+}
+function stopRun(){ if(T.tick)clearInterval(T.tick); T.tick=null; T.running=false; }
+function step(){
+  if(T.phase==="work"){
+    if(T.set>=T.sets || T.off===0){ T.phase="done"; stopRun(); beep(3); keepAwake(false); return; }
+    T.phase="rest"; T.left=T.off; beep(2);
+  } else {
+    T.set++; T.phase="work"; T.left=T.on; beep(2);
+  }
+}
+let AC=null;
+function beep(n){
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    for(let i=0;i<n;i++){
+      const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime+i*0.16;
+      o.frequency.value = n===3?520:780; o.connect(g); g.connect(AC.destination);
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.25,t+0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+0.13);
+      o.start(t); o.stop(t+0.14);
+    }
+  }catch(e){}
+}
+let WL=null;
+async function keepAwake(on){
+  try{
+    if(on && "wakeLock" in navigator){ WL = await navigator.wakeLock.request("screen"); }
+    else if(WL){ WL.release(); WL=null; }
+  }catch(e){}
+}
+document.addEventListener("click",e=>{
+  const r=e.target.closest("[data-run]");
+  if(r) openStage(r.dataset.run);
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&T) closeStage(); });
+$("#ffull").addEventListener("click",()=>{fieldView="all";renderField();});
+$("#fsess").addEventListener("click",()=>{fieldView="session";renderField();});
+
+/* ============================================================
+   METHOD
+   ============================================================ */
+const METHOD = [
+{n:"01",h:"The week, not the session",b:`
+<p>The biggest jump you can make from here isn't a better drill — it's deciding what each practice is <em>for</em>. This comes from tactical periodization, the Porto methodology Pep Lijnders trained in before Liverpool. Its core claim: don't split football into fitness days and tactics days. Every session is the game. What rotates is the <strong>type of effort</strong>.</p>
+<p>Three efforts, and you never repeat one two days running:</p>
+<div class="days">
+  <div class="day"><div class="dk">Effort type</div><div class="dn">Tension</div><div class="dd">Short bursts, small spaces, lots of duels and braking. Long rests. <strong>Duels, 1v1s, rondos.</strong> Muscularly hard, low total volume.</div></div>
+  <div class="day"><div class="dk">Effort type</div><div class="dn">Duration</div><div class="dd">Longest continuous play, most players, biggest emotional load. <strong>Identity game, big small-sided games.</strong> The hardest night of the week.</div></div>
+  <div class="day"><div class="dk">Effort type</div><div class="dn">Speed</div><div class="dd">Big spaces, open runs, finishing, few players per area, full recovery. <strong>Counters, chased finishes.</strong> Sharp, not tiring.</div></div>
+</div>
+<p><strong>Two practices a week:</strong> Tension early, Speed the night before the game. <strong>Three practices:</strong> Tension → Duration → Speed. The hard night goes furthest from the game, never the day before.</p>
+<p>The same drill can serve different days by changing the space. Loose Ball War in a 20×15 is tension; the same drill in a 40×30 is speed.</p>`},
+
+{n:"02",h:"Designing your own drills",b:`
+<p>Every drill in this library is built the same way, and once you see the recipe you'll stop needing me for new ones. It's the constraints-led approach — Karl Newell's model, now the standard framework in skill acquisition. The idea: you don't install a behaviour by describing it. You design conditions where that behaviour is the obvious answer, and let the kids find it.</p>
+<ol class="qs">
+  <li><strong>What do I want to see?</strong> Say it as something you could count. Not "more aggressive" — "steps in and makes contact inside two seconds."</li>
+  <li><strong>Why does the opposite currently work?</strong> Waiting is winning something right now. Usually safety: if I don't go, I can't be beaten, and nobody shouts at me.</li>
+  <li><strong>What rule makes waiting lose?</strong> This is the constraint. Take away what hesitating earns them. That's it — that's the whole craft.</li>
+  <li><strong>How will I know?</strong> Pick a number and count it out loud. If you can't count it, you can't coach it.</li>
+</ol>
+<p><strong>The diagnostic:</strong> if you're shouting the target behaviour more than about twice a minute, the constraint isn't working. Fix the drill, not the kid.</p>`},
+
+{n:"03",h:"The five dials",b:`
+<p>You already have twenty-two drills. You actually have hundreds, because every one of them has five dials. The research on small-sided games is unusually clear about what each one does — change one at a time or you won't know what worked.</p>
+<table class="dials"><thead><tr><th>Dial</th><th>Turn it up</th><th>Use it when</th></tr></thead><tbody>
+<tr><td class="dl">Space per player</td><td>More space → more sprinting, higher top speeds, more accelerating and braking. Less space → more duels, more touches, higher heart rate.</td><td>Shrink it for aggression and duels. Grow it for counter-attacking speed.</td></tr>
+<tr><td class="dl">Numbers</td><td>Fewer players per side raises individual intensity sharply. An overloaded team works harder than the team it's beating.</td><td>Overload the group you want working. 3v3 is the intensity ceiling.</td></tr>
+<tr><td class="dl">Touch limit</td><td>Free play produces the <em>most</em> duels and holds intensity across repeated rounds better than one- or two-touch.</td><td>Use touch limits sparingly and never when duels are the point.</td></tr>
+<tr><td class="dl">Goals</td><td>Big goals and keepers → direct, more sprinting. Small goals → more turning. Possession-only → the lowest intensity of all three.</td><td>You want a goal to attack in almost everything you run.</td></tr>
+<tr><td class="dl">Time</td><td>Six seconds, four seconds, a countdown. Changes urgency without touching anything physical.</td><td>The cheapest dial. Always available, always free.</td></tr>
+</tbody></table>`},
+
+{n:"04",h:"How a rule graduates",b:`
+<p>A constraint isn't meant to live forever. The goal is that the behaviour survives after you take the rule away. Move one drill up a rung every few weeks, and go back down without drama if it collapses.</p>
+<ul class="ladder">
+  <li><b>Rung one</b>Rule is explicit and generous. Eight seconds. You count out loud, every time.</li>
+  <li><b>Rung two</b>Tighten the number. Six seconds, then five. Same rule, less room.</li>
+  <li><b>Rung three</b>Stop counting. You only say it when they miss it.</li>
+  <li><b>Rung four</b>Remove the rule. Play normal football and watch whether it still happens.</li>
+</ul>
+<p>Rung four is the actual test, and it's the only one that predicts Saturday. If it falls apart, you didn't fail — you found out the habit was still leaning on the scaffold. Back to rung two.</p>`},
+
+{n:"05",h:"Talk less than feels right",b:`
+<p>Research on youth coaches keeps finding the same thing: they give far more instruction and feedback than they believe they do, and most of it lands during live play, when a ten-year-old has no spare attention to process it.</p>
+<p>You have three tools that aren't talking, and they all work better:</p>
+<p><strong>Change the rule.</strong> Silent, instant, and it fixes the cause. <strong>Freeze it once.</strong> Not four times a session — once, for fifteen seconds, at a moment worth freezing. <strong>Ask instead of tell.</strong> "What did you see there?" produces a player who scans. "Pass it left" produces a player who waits for you.</p>
+<p>Try one deliberately silent block per session. Set the constraint, start it, and say nothing but names and encouragement for four minutes. Most coaches find it's the block where the most learning happens.</p>`},
+
+{n:"06",h:"Count the right things",b:`
+<p>Whatever you count out loud becomes what they play for. Goals are the default, and the default is working against you — a kid who is measured on goals learns to wait in good positions.</p>
+<p>Count these instead, and say the numbers in the huddle at the end:</p>
+<p><strong>Duels entered.</strong> Not won — entered. <strong>Balls won back inside six seconds.</strong> Team number, said as a team number. <strong>Times a wide player joined the counter.</strong> By name. <strong>Brave mistakes.</strong> Yes, out loud, as a positive.</p>
+<p>Four numbers, thirty seconds. Do it every session for a month and you'll watch the behaviour follow the counting. This is the cheapest culture tool you have and almost nobody uses it.</p>`},
+
+{n:"07",h:"Where to go deeper",b:`
+<p><strong>Intensity</strong> — Pep Lijnders. A season inside Liverpool, written by the man who designed the sessions. Closest thing to a primary source on this method.</p>
+<p><strong>Tactical Periodization</strong> — Xavier Tamarit. The clearest English entry point into Vítor Frade's model. Dense, worth it.</p>
+<p><strong>The Constraints-Led Approach</strong> — Renshaw, Davids, Newcombe &amp; Roberts. The theory behind every constraint in this library, written for practitioners.</p>
+<p><strong>Klopp in Elite Soccer</strong> — his own write-ups of the 6v3 counter-press drills, in his words.</p>
+<p>If you read one, read Lijnders. It's the one that will change what your Tuesday looks like.</p>`}
+];
+
+function renderMethod(){
+  $("#methodout").innerHTML = `<p class="lintro"><b>Twenty-two drills is a start. This is how you stop needing a drill list.</b> The four ideas below — the week, the recipe, the dials, and the ladder — let you build your own sessions for any age group you ever coach.</p>` +
+  METHOD.map(m=>`<div class="msec">
+    <div class="mhead"><span class="mnum">${m.n}</span><h3>${m.h}</h3></div>
+    <div class="mbody">${m.b}</div></div>`).join("");
+}
+
+initFilters(); render(); renderSession(); renderLang(); renderMethod(); renderField();
+</script>
+</body>
+</html>

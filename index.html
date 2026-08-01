@@ -2,7 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Counterpress">
+<meta name="theme-color" content="#0C1310">
 <title>Counterpress Lab — U11 Drill Library</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1273,6 +1280,27 @@ function renderMethod(){
     <div class="mhead"><span class="mnum">${m.n}</span><h3>${m.h}</h3></div>
     <div class="mbody">${m.b}</div></div>`).join("");
 }
+
+/* ============================================================
+   VERSION + AUTO-REFRESH
+   Bump BUILD on every push. The app checks the live file on
+   launch and reloads itself if GitHub has a newer build.
+   ============================================================ */
+const BUILD = "2026.08.01.3";
+
+async function checkForUpdate(){
+  try{
+    const r = await fetch(location.pathname + "?v=" + Date.now(), {cache:"no-store"});
+    const txt = await r.text();
+    const m = txt.match(/const BUILD = "([\d.]+)"/);
+    if(m && m[1] !== BUILD){
+      toast("Updating…");
+      setTimeout(()=>location.reload(true), 700);
+    }
+  }catch(e){ /* offline — keep using the cached copy */ }
+}
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden) checkForUpdate(); });
+setTimeout(checkForUpdate, 1200);
 
 initFilters(); render(); renderSession(); renderLang(); renderMethod(); renderField();
 </script>

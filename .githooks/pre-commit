@@ -1,0 +1,19 @@
+#!/bin/sh
+# Stamp a fresh BUILD into index.html whenever index.html is part of a commit.
+# Format: YYYY.MM.DD.N — N restarts at 1 each day.
+# Enabled with: git config core.hooksPath .githooks
+
+git diff --cached --name-only | grep -qx 'index.html' || exit 0
+
+today=$(date +%Y.%m.%d)
+current=$(sed -n 's/^const BUILD = "\([0-9.]*\)";$/\1/p' index.html | head -1)
+
+case "$current" in
+  "$today".*) n=$(( ${current##*.} + 1 )) ;;
+  *)          n=1 ;;
+esac
+
+new="$today.$n"
+perl -pi -e "s/^const BUILD = \"[0-9.]*\";\$/const BUILD = \"$new\";/" index.html
+git add index.html
+echo "BUILD $current -> $new"

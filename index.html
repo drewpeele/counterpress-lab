@@ -160,6 +160,7 @@ select{background:var(--surface);border:1px solid var(--line);color:var(--chalk)
 /* ---------- modal-free toast ---------- */
 /* ---------- teach it ---------- */
 .teach{border:1px solid var(--line);background:#101A15;padding:12px 13px;margin-bottom:12px;border-radius:var(--r)}
+.tsetup{font-size:13.5px;line-height:1.5;margin-bottom:12px;padding-bottom:11px;border-bottom:1px solid var(--line);color:var(--chalk)}
 .tpoint{font-size:13.5px;line-height:1.5;margin-bottom:11px}
 .tpoint b{color:var(--bib);font-weight:600}
 .tk{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
@@ -1043,9 +1044,35 @@ throw:{p:"Restarts are free speed. Most youth teams give away all their tempo at
  c:"Who takes the throw?", l:"Two players already moving before the ball is thrown."}
 };
 
+const SETUP = {
+brake:"Mark a 20×20 box with four cones and put the whole group on one side. In waves of four to six, they sprint in, come to a dead stop inside the box, then explode out the far side and jog back around.",
+react:"Pairs facing each other across a 15-yard lane, one ball on the ground between them. You stand to the side with a supply of balls and give a visual cue — drop a ball, raise an arm — and both sprint for it. Winner plays into a small goal.",
+milly:"Five players from one team spread around the edge of a 12×12 square. Two from the other team start inside. The ring keeps the ball, the two inside try to win it. With 14+ players, run two squares side by side.",
+cprondo:"Three teams of four in different bibs, 22×22 square. Two teams combine to keep the ball away from the third. Whichever team loses possession becomes the new defending team and goes in.",
+hunt:"Two teams of six on a half pitch, goal and keeper at each end. Play normal football. You count six seconds out loud every time a team loses the ball, then shout SET.",
+bounce:"Pairs facing each other about 8 yards apart, you standing to the side with a bag of balls. Throw one high between them and they compete for it. Winner attacks a small goal 10 yards behind the loser. Rotate pairs every two reps — run two or three stations if you have help.",
+step:"A 25×12 channel. Attacker starts on one end line with the ball, defender starts 5 yards in front of them, and a cone line sits 5 yards behind the defender. Attacker tries to get over the defender's end line. Pairs queue and rotate.",
+war:"Two teams in numbered lines on opposite sides of a 30×25 area, small goals at each end. You stand with a bag of balls, roll one into the middle and call a number — those players sprint in and play until a goal or the ball leaves.",
+six:"40×30 with a full goal and keeper at each end. 5v5 or 6v6. Normal football — you just count out loud from the moment a team wins the ball.",
+wide:"45×35, goal and keeper at each end, 6v6 or 7v7. Mark halfway with cones. Each team nominates two wide players who work the outside channels.",
+cont32:"Half pitch, goal and keeper at each end. Three attackers start at halfway and attack one goal against two defenders. Spare players wait on the halfway line — when possession turns over, one joins the new attack immediately and it goes the other way.",
+identity:"50×35, goal and keeper at each end. Three teams of five in different bibs. Two play, the third waits on the touchline. Concede and you come off, waiting team goes straight on.",
+street:"Any walled or boarded area — a tennis court, a fence line, or rebound boards. Two or three even teams, small goals, no keepers. Ball off the walls stays live.",
+line:"40×30 split into three zones by cone lines. 6v4 in favour of the team in possession, or 5v5 with two neutrals who always play with the ball. Ball starts in the back zone.",
+ignite:"Two-thirds of a pitch. Keeper plus four defenders and two midfielders against four pressing forwards. Mark a far zone with cones about 20 yards from the top end.",
+chase:"Attacking third with a full goal and keeper. Attacker starts on a cone 30 yards out, defender on a cone two yards behind them. You play a ball in and both go.",
+c42:"Half pitch split into middle and defensive thirds. Four attackers keep the ball from two defenders in the middle third. Two more defenders and a keeper wait in the defensive third with a full goal.",
+firstshot:"Attacking third, full goal and keeper. Two teams of four or five. Mark an entry line with cones about 25 yards out — the three-touch count starts when the ball crosses it.",
+corner:"Attacking third, full goal and keeper. Six attackers in and around the box against five defenders, plus two attackers who stay outside the box as rest defenders. Serve corners from both sides.",
+kickoff:"Full or three-quarter pitch in your actual game shape against a full opposition team. Ball on the centre spot, and you restart it every rep exactly as you would on Saturday.",
+throw:"Not a standalone drill — a rule you layer onto any small-sided game you're already running. Just start counting."
+};
+
 function teachBlock(id){
   const e = EX[id]; if(!e) return "";
+  const su = SETUP[id];
   return `<div class="teach">
+    ${su?`<span class="tk">The setup</span><p class="tsetup">${su}</p>`:""}
     <p class="tpoint"><b>What you're teaching:</b> ${e.p}</p>
     <span class="tk">Say it like this</span>
     <p class="tscript">“${e.s}”</p>

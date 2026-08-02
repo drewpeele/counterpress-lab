@@ -167,6 +167,9 @@ select{background:var(--surface);border:1px solid var(--line);color:var(--chalk)
 /* ---------- modal-free toast ---------- */
 /* ---------- teach it ---------- */
 .teach{border:1px solid var(--line);background:#101A15;padding:12px 13px;margin-bottom:12px;border-radius:var(--r)}
+.tkit{font-size:13px;line-height:1.5;margin-bottom:12px;padding-bottom:11px;border-bottom:1px solid var(--line);color:var(--chalk)}
+.tgear{color:var(--muted);font-size:12.5px}
+.tag.ball{border-color:#2E5A6B;color:#7FC4DC}
 .tsetup{font-size:13.5px;line-height:1.5;margin-bottom:12px;padding-bottom:11px;border-bottom:1px solid var(--line);color:var(--chalk)}
 .tpoint{font-size:13.5px;line-height:1.5;margin-bottom:11px}
 .tpoint b{color:var(--bib);font-weight:600}
@@ -337,6 +340,7 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
       <option value="buildout">Theme: Building out of the back</option>
       <option value="finishing">Theme: Finishing</option>
       <option value="setpiece">Theme: Set pieces &amp; restarts</option>
+    <option value="shape">Theme: Shape &amp; organisation</option>
     </select>
     <button class="btn" id="autobuild">Build session</button>
     <button class="btn ghost" id="save">Save</button>
@@ -388,7 +392,10 @@ const PRINCIPLES = [
  {id:5,t:"Know when to stop hunting",d:"Five seconds. Then get organised. Aggression with a brain."},
  {id:6,t:"Mistakes are the price",d:"We attempt more, so we fail more. Coach the attempt, not the outcome."},
  {id:7,t:"Rondos are pressing",d:"The middle is the prize job. Defenders score, not the ring."},
- {id:8,t:"Street football",d:"Competition, noise, and joy. Fun is the method, not the reward."}
+ {id:8,t:"Street football",d:"Competition, noise, and joy. Fun is the method, not the reward."},
+ {id:9,t:"First touch sets the rhythm",d:"The quality of the first touch decides whether we go forward or stall."},
+ {id:10,t:"Structure serves the press",d:"We occupy spaces so that losing the ball leaves three of us close enough to hunt."},
+ {id:11,t:"Two options, always",d:"Support is a movement, not a position. If they cannot see two of you, move."}
 ];
 
 /* ============================================================
@@ -615,10 +622,85 @@ const D = [
  prog:"Add it to every restart including goal kicks.",
  reg:"Six seconds while they learn it.",
  note:"Layer this on top of any small-sided game rather than running it on its own. Restarts are where U11 games leak all their tempo.",
- dia:[{k:'a',x:12,y:12},{k:'a',x:30,y:35},{k:'a',x:45,y:20},{k:'d',x:38,y:55},{k:'r',x:16,y:14,x2:40,y2:22}]}
+ dia:[{k:'a',x:12,y:12},{k:'a',x:30,y:35},{k:'a',x:45,y:20},{k:'d',x:38,y:55},{k:'r',x:16,y:14,x2:40,y2:22}]},
+
+/* ---------- SHAPE & ORGANISATION ---------- */
+{id:"walk",name:"Shape Walk",cat:"shape",moment:"inposs",pr:[10],phys:"Low / free",
+ mins:10,work:"2 x 5min, walk then jog",space:"Full pitch",players:[9,18],
+ constraint:"No opposition to start. When the ball moves, everyone moves. If the ball is on the right, the left winger is not on the touchline — they tuck in, ready for the counter-press. Freeze on the whistle and look around.",
+ cues:["Ball moves, you move","Ball side squeeze, far side tuck","Where is your triangle?"],
+ prog:"Add four passive defenders who walk. Then let them press for real.",
+ reg:"Walk it with only the back four and the two pivots.",
+ note:"Boring for four minutes and worth every second. This is the only drill here that installs the picture — everything else assumes they already have it.",
+ dia:[{k:'z',x:50,y:50},{k:'d',x:10,y:50},{k:'a',x:25,y:20},{k:'a',x:25,y:50},{k:'a',x:25,y:80},{k:'a',x:45,y:35},{k:'a',x:45,y:65},{k:'a',x:70,y:18},{k:'a',x:72,y:50},{k:'a',x:70,y:82}]},
+
+{id:"twoopt",name:"Two Options Always",cat:"shape",moment:"inposs",pr:[11],phys:"Moderate",
+ mins:14,work:"4 x 3min, 90s rest",space:"30 x 25",players:[10,16],
+ constraint:"If the player on the ball cannot see two teammates at different angles, they shout BLIND. Play stops instantly and the other team gets the ball. Your job off the ball is to make sure that word never gets said.",
+ cues:["Two options, always","If you cannot see me, I move","Angle, not distance"],
+ prog:"The two options must be at different distances — one short, one long.",
+ reg:"Add a third neutral and make the area bigger.",
+ note:"This is the drill for your exact problem. It moves responsibility off the kid on the ball and onto the eight who are not — which is where it actually belongs.",
+ dia:[{k:'a',x:30,y:50},{k:'a',x:52,y:26},{k:'a',x:55,y:74},{k:'d',x:44,y:50},{k:'d',x:70,y:50},{k:'n',x:14,y:50},{k:'b',x:34,y:52},{k:'r',x:36,y:46,x2:48,y2:30},{k:'r',x:36,y:56,x2:50,y2:70}]},
+
+{id:"tri",name:"Triangle Rondo",cat:"shape",moment:"inposs",pr:[7,11],phys:"Repeated accel",
+ mins:12,work:"5 x 90s, 60s rest",space:"12 x 12",players:[8,16],
+ constraint:"Four keep it from two, but every time the ball moves the two supporting players must move too — one higher, one wider. I will freeze it at random. Anyone standing still when I whistle gives the defenders a point.",
+ cues:["Ball moves, you move","One high, one wide","Never in his shadow"],
+ prog:"Freeze whistle becomes a shout of TRIANGLE and they self-check.",
+ reg:"5v2 in a bigger square, no freeze.",
+ note:"Triangles are not a shape you hold, they are a shape you keep rebuilding. The freeze whistle is what teaches that difference.",
+ dia:[{k:'a',x:22,y:30},{k:'a',x:75,y:25},{k:'a',x:50,y:80},{k:'a',x:20,y:70},{k:'d',x:45,y:45},{k:'d',x:62,y:58},{k:'b',x:27,y:33}]},
+
+{id:"fwdrec",name:"Forward or Recycle",cat:"shape",moment:"inposs",pr:[2,11],phys:"Moderate",
+ mins:16,work:"4 x 3min, 90s rest",space:"40 x 30, three channels",players:[10,18],
+ constraint:"You get two choices. Forward if it is on. Back and switch if it is not. A sideways pass into pressure is a turnover — I will call it and hand the ball over. Both choices are right. There is no third option.",
+ cues:["Can you go? Go","Cannot go? Back and switch","Recycle is not retreat"],
+ prog:"One point for a switch that changes the channel, three for a forward pass that beats a line.",
+ reg:"Remove the turnover call and just count the two choices out loud.",
+ note:"Kids freeze because they are choosing from eleven options. Give them two, tell them both are correct, and the hesitation disappears in about one session.",
+ dia:[{k:'z',x:33,y:50},{k:'z',x:67,y:50},{k:'a',x:18,y:35},{k:'a',x:20,y:70},{k:'a',x:50,y:30},{k:'a',x:52,y:72},{k:'a',x:82,y:50},{k:'d',x:38,y:45},{k:'d',x:64,y:60},{k:'r',x:24,y:40,x2:46,y2:32},{k:'r',x:24,y:66,x2:16,y2:72}]},
+
+{id:"third",name:"The Third Man",cat:"shape",moment:"inposs",pr:[9,11],phys:"Moderate",
+ mins:14,work:"4 x 2.5min, 90s rest",space:"35 x 28",players:[10,16],
+ constraint:"One point every time we play in to a teammate, straight back first time, then forward past a defender. In, back, through. The player who scores the point is the third one, not the one who started it.",
+ cues:["Set it back first time","Look past the first man","The third man is always free"],
+ prog:"Three points if the third man receives facing forward.",
+ reg:"Walk the pattern unopposed twice before playing live.",
+ note:"The cleanest way to beat an organised team, and once they see it work they will hunt for it. It also teaches the bounce pass, which is the single most underused pass at this age.",
+ dia:[{k:'a',x:15,y:50},{k:'a',x:45,y:50},{k:'a',x:60,y:22},{k:'d',x:32,y:40},{k:'d',x:55,y:55},{k:'r',x:20,y:50,x2:40,y2:50},{k:'r',x:44,y:44,x2:24,y2:42},{k:'r',x:24,y:38,x2:56,y2:24}]},
+
+{id:"clump",name:"Clump Killer",cat:"shape",moment:"outposs",pr:[5,10],phys:"Repeated accel",
+ mins:14,work:"4 x 3min, 90s rest",space:"40 x 30",players:[12,18],
+ constraint:"Never more than two of us within five yards of the ball. A third body arrives and I call it — the other team gets a free pass. One presses, one covers, everybody else holds their space and waits.",
+ cues:["First man goes, second man covers","Third man holds","Press in pairs, not packs"],
+ prog:"Shrink it to one presser and one cover across a bigger area.",
+ reg:"Allow three players near the ball while they learn the roles.",
+ note:"Aggression without this rule is just nine kids chasing one ball, which is exactly how a well organised team plays through you. Run it the week after any heavy pressing session.",
+ dia:[{k:'d',x:70,y:50},{k:'a',x:58,y:50},{k:'a',x:48,y:62},{k:'a',x:30,y:25},{k:'a',x:28,y:75},{k:'a',x:15,y:50},{k:'b',x:66,y:52}]},
+
+{id:"rest",name:"Rest Defence",cat:"shape",moment:"trans-def",pr:[5,10],phys:"Moderate",
+ mins:16,work:"4 x 4min, 2min rest",space:"50 x 35, two goals",players:[12,18],
+ constraint:"Two nominated players never cross halfway. Their only job is to be there when it goes wrong. If the other team counters into the space those two should have been covering, they score a free goal.",
+ cues:["Who is behind the ball?","Balance, do not ball-watch","You are the insurance"],
+ prog:"Rotate which two players hold, so everyone learns the job.",
+ reg:"Three players hold instead of two.",
+ note:"Straight at what happened to you on the counter. The lesson kids find hardest is that the two holding players are doing something important while doing apparently nothing.",
+ dia:[{k:'z',x:50,y:50},{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:30,y:35},{k:'a',x:30,y:65},{k:'a',x:65,y:25},{k:'a',x:70,y:50},{k:'a',x:65,y:75},{k:'d',x:80,y:40},{k:'d',x:82,y:62}]},
+
+{id:"winit3",name:"Win It, Three Go",cat:"shape",moment:"trans-att",pr:[4,10],phys:"Repeated sprint",
+ mins:16,work:"5 x 2.5min, 90s rest",space:"45 x 35, two goals",players:[12,18],
+ constraint:"The second we win the ball, three players move immediately — one forward, one wide, one behind the ball for the recycle. I count them out loud. Fewer than three move and we hand the ball straight back.",
+ cues:["Win it, three go","One forward, one wide, one behind","Do not all run the same way"],
+ prog:"Add the six-second shot clock on top.",
+ reg:"Two players instead of three, and walk the three roles first.",
+ note:"This is the missing link between winning the ball and doing anything useful with it. Pair it with Six-Second Counter and the two together fix your whole transition.",
+ dia:[{k:'g',x:94,y:50},{k:'a',x:40,y:50},{k:'a',x:66,y:25},{k:'a',x:62,y:75},{k:'a',x:22,y:50},{k:'d',x:52,y:40},{k:'d',x:78,y:55},{k:'b',x:44,y:52},
+      {k:'r',x:46,y:44,x2:62,y2:28},{k:'r',x:46,y:58,x2:58,y2:72},{k:'r',x:36,y:50,x2:28,y2:50}]}
+
 ];
 
-const CAT = {activation:"Activation",counterpress:"Counter-press",duels:"Duels / 1v1",transition:"Attacking transition",buildout:"Building out",finishing:"Finishing",setpiece:"Set pieces"};
+const CAT = {activation:"Activation",counterpress:"Counter-press",duels:"Duels / 1v1",transition:"Attacking transition",buildout:"Building out",finishing:"Finishing",setpiece:"Set pieces",shape:"Shape & organisation"};
 const MOM = {warmup:"Warm-up",outposs:"Out of possession",inposs:"In possession","trans-att":"Attacking transition","trans-def":"Defensive transition"};
 
 /* ============================================================
@@ -663,6 +745,7 @@ function card(d){
         <span class="tag">${CAT[d.cat]}</span>
         <span class="tag">${d.players[0]}–${d.players[1]} players</span>
         <span class="tag ph">${d.phys}</span>
+        ${KIT[d.id]?`<span class="tag ball">${KIT[d.id].s}</span>`:""}
         ${d.pr.map(p=>`<span class="tag p">P${p}</span>`).join("")}
       </div>
       <div class="constraint"><div class="k">The constraint</div><p>${d.constraint}</p></div>
@@ -760,6 +843,7 @@ const RECIPES = {
   transition:{activate:["brake"],rondo:["cprondo"],core1:["cont32"],core2:["wide"],game:["identity"],street:["street"]},
   buildout:{activate:["brake"],rondo:["milly"],core1:["line"],core2:["ignite"],game:["identity"],street:["street"]},
   finishing:{activate:["react"],rondo:["milly"],core1:["chase","firstshot"],core2:["c42"],game:["identity"],street:["street"]},
+  shape:{activate:["walk"],rondo:["tri"],core1:["twoopt"],core2:["fwdrec"],game:["rest"],street:["street"]},
   setpiece:{activate:["brake"],rondo:["cprondo"],core1:["kickoff"],core2:["corner"],game:["identity"],street:["street","throw"]}
 };
 
@@ -986,6 +1070,31 @@ function renderLang(){
    TEACH IT — what you're actually teaching, and how to say it
    ============================================================ */
 const EX = {
+walk:{p:"Everyone moves when the ball moves. Your position is not a spot on the grass, it changes every second depending on where the ball is.",
+ s:"No other team right now — just us. Watch the ball. Every time it moves, you move. If the ball is way over on the right, left winger, you are not on that line, you come inside. When I whistle, freeze and look around you.",
+ c:"If the ball goes to the right, what does the left winger do?", l:"Nine players shifting together like they are tied by string."},
+twoopt:{p:"Support is a movement, not a place to stand. If you are hidden behind a defender you might as well not be on the field.",
+ s:"Whoever has the ball — if you cannot see two teammates at different angles, shout BLIND. I stop it and the other team gets the ball. So everybody else: your job is to make sure nobody ever has to shout that.",
+ c:"Whose fault is it when someone shouts BLIND?", l:"Off-ball players shuffling constantly to find a line of sight."},
+tri:{p:"A triangle is not a shape you hold. It is a shape you keep rebuilding every time the ball moves.",
+ s:"Four outside, two in the middle. Every time the ball moves, you two supporting it move as well — one goes higher, one goes wider. I will freeze you at random. If you are standing still when I whistle, the middle two get a point.",
+ c:"When do you move?", l:"Constant small adjustments rather than kids planted on cones."},
+fwdrec:{p:"Two decisions, not eleven. Forward if it is on, back and switch if it is not. Both are correct.",
+ s:"You have two choices today. Forward if it is on — take it. If it is not on, back and switch to the other side. That is it. A sideways pass into pressure is a turnover and I will give them the ball.",
+ c:"What are your two choices?", l:"Heads coming up earlier, and far fewer panicked square passes."},
+third:{p:"The third man is always free, because the defence is watching the first two.",
+ s:"In, back, through. Pass in to a teammate, he sets it straight back first time, and then we go forward past the defender. A point every time we do it. The third player is the one who gets the point.",
+ c:"How many touches does the middle man take?", l:"First-time set-backs instead of turning into trouble."},
+clump:{p:"Press in pairs, not packs. One goes, one covers, everybody else holds their shape.",
+ s:"Never more than two of us near the ball. If a third one arrives I stop it and they get a free pass. First man goes and presses, second man covers behind him, everybody else stays in your space and waits for it to come to you.",
+ c:"How many of us go to the ball?", l:"A pressing pair with six players still holding their shape behind."},
+rest:{p:"Someone always has to be thinking about what happens if we lose it.",
+ s:"You two do not cross halfway. Ever. Your job is to be there when it all goes wrong. If they break away into the space where you should have been, they get a free goal — so it is on you.",
+ c:"What is your job when we are attacking?", l:"Two calm players holding position while everyone else pushes on."},
+winit3:{p:"Winning the ball is only half of it. Three players have to move immediately or the ball has nowhere to go.",
+ s:"The second we win it, three of you move. One forward, one wide, one drops behind the ball so we can recycle. I will count them out loud. If fewer than three go, we give the ball back.",
+ c:"How many move, and where do they go?", l:"Three distinct runs instead of everyone charging the same direction."}
+,
 brake:{p:"You can't win a ball you can't stop for. Braking is the skill that makes a tackle possible — and it's what protects their knees and ankles.",
  s:"Sprint to the box. Inside the box you stop completely — feet still, like a statue. Then explode out the other side. If you glide through it, you go again.",
  c:"What happens if you don't stop all the way?", l:"Short choppy steps into the stop instead of one long skid."},
@@ -1051,7 +1160,47 @@ throw:{p:"Restarts are free speed. Most youth teams give away all their tempo at
  c:"Who takes the throw?", l:"Two players already moving before the ball is thrown."}
 };
 
+const KIT = {
+walk:{s:"One ball",b:"One ball, moved by you or a coach so the tempo stays slow enough to think. Spares nearby.",g:"Full pitch, bibs, two goals"},
+twoopt:{s:"One ball",b:"One ball in play plus spares on the outside — the BLIND shout only works if restarts are instant.",g:"Cones for a 30x25 box, bibs, bibs for two neutrals"},
+tri:{s:"One ball",b:"One ball, two or three spares held by players outside the square.",g:"4 cones, bibs for the two defenders, a whistle you actually use"},
+fwdrec:{s:"One ball",b:"One ball plus spares on the sidelines.",g:"Cones marking three vertical channels, bibs"},
+third:{s:"One ball",b:"One ball plus spares. Restart quickly so they get lots of repetitions of the pattern.",g:"Cones for a 35x28 box, bibs"},
+clump:{s:"One ball",b:"One ball plus spares outside the area.",g:"Cones for a 40x30 box, bibs"},
+rest:{s:"One ball",b:"One ball plus spares in both goals so counters start immediately.",g:"Two goals, keepers, cones for halfway, bibs"},
+winit3:{s:"One ball",b:"One ball plus spares in the goal and along the sidelines.",g:"Two goals, keepers, bibs"},
+brake:{s:"Ball each",b:"A ball each. They dribble in, stop the ball dead under their foot, then push out with it. Run the first two reps with no ball at all so they feel the stopping mechanics, then add the ball.",g:"4 cones for the box"},
+react:{s:"You serve",b:"Bag of balls beside you — one ball per rep, and you're the one putting it into play.",g:"Cones for the lanes, one small goal"},
+milly:{s:"One ball",b:"One ball in play, two or three spares held by players on the outside so a ball leaving the grid never stops the rep.",g:"Bibs for the two defenders, 4 cones per square"},
+cprondo:{s:"One ball",b:"One ball in play, spares scattered outside the grid. Restart instantly — a ball out is not a break.",g:"Three bib colours, 4 cones"},
+hunt:{s:"One ball",b:"One ball in play, spares in both goals so restarts are immediate.",g:"Bibs, two goals, keepers"},
+bounce:{s:"You serve",b:"Bag of balls in your hands. You throw one high for every single rep — this drill doesn't work if they're serving each other.",g:"Two small goals per station"},
+step:{s:"Ball each",b:"A ball each for the attacking queue, so the next pair starts the moment the last one finishes.",g:"Cones for the channel and the defender's line"},
+war:{s:"You serve",b:"Big bag of balls at your feet. You roll one in for every rep and control the tempo entirely.",g:"Two small goals, bibs"},
+six:{s:"One ball",b:"One ball in play, spares in both goals. The six-second count depends on fast restarts.",g:"Two full goals, keepers, bibs"},
+wide:{s:"One ball",b:"One ball plus spares in the goals.",g:"Two goals, keepers, cones for halfway and the wide channels"},
+cont32:{s:"One ball",b:"One ball in play, spares in each goal. Keepers restart instantly — that's what makes it continuous.",g:"Two goals, keepers, bibs"},
+identity:{s:"One ball",b:"One ball plus spares in both goals so the changeover between teams is quick.",g:"Two goals, keepers, three bib colours"},
+street:{s:"One ball",b:"One ball, a couple of spares nearby. Off the walls it stays live.",g:"Small goals, walls or boards"},
+line:{s:"One ball",b:"One ball plus spares on the sidelines.",g:"Cones marking three zones, bibs"},
+ignite:{s:"Keeper serves",b:"Balls stacked in the keeper's net — the keeper starts every single rep, which is the whole point.",g:"Full goal, cones for the far zone, bibs"},
+chase:{s:"You serve",b:"Bag of balls beside you. You play the ball in and that's what triggers the chase.",g:"Full goal, keeper, two starting cones"},
+c42:{s:"One ball",b:"One ball plus spares — restart fast so the counter stays live.",g:"Full goal, keeper, cones for the thirds, bibs"},
+firstshot:{s:"One ball",b:"One ball plus spares in the goal.",g:"Full goal, keeper, cones for the entry line, bibs"},
+corner:{s:"You serve",b:"Bag of balls at the corner flag so you can serve corner after corner without stopping.",g:"Full goal, keeper, bibs"},
+kickoff:{s:"One ball",b:"One ball on the centre spot, spares on the sideline for quick resets.",g:"Full or three-quarter pitch, bibs, goals"},
+throw:{s:"Game ball",b:"Whatever ball the game you're already running is using. No extra equipment.",g:"None"}
+};
 const SETUP = {
+walk:"Your full 9v9 shape on a full pitch, no opposition. You or an assistant move the ball around slowly by hand or foot while all nine players adjust their positions to match. Freeze on a whistle and let them look around before restarting.",
+twoopt:"30x25 box. Two teams of five plus two neutrals in a third colour who always play with whoever has the ball. Normal keep-away, no goals.",
+tri:"12x12 square. Four attackers around the edge, two defenders inside. You stand outside with a whistle and freeze play at random moments.",
+fwdrec:"40x30 split into three vertical channels by cone lines, small goals at each end. 6v6. Ball starts at the back.",
+third:"35x28 box, no goals. Two teams of five with two defenders active at a time. You call out points as they happen so they hear the pattern being recognised.",
+clump:"40x30 box, small goals at each end. Two teams of six. You referee the five-yard rule out loud — that call is the whole drill.",
+rest:"50x35 with a goal and keeper at each end, cones marking halfway. Two teams of six. Each team nominates two players who cannot cross halfway.",
+winit3:"45x35 with a goal and keeper at each end. Two teams of six. You count the movers out loud every time possession turns over."
+,
 brake:"Mark a 20×20 box with four cones and put the whole group on one side. In waves of four to six, they sprint in, come to a dead stop inside the box, then explode out the far side and jog back around.",
 react:"Pairs facing each other across a 15-yard lane, one ball on the ground between them. You stand to the side with a supply of balls and give a visual cue — drop a ball, raise an arm — and both sprint for it. Winner plays into a small goal.",
 milly:"Five players from one team spread around the edge of a 12×12 square. Two from the other team start inside. The ring keeps the ball, the two inside try to win it. With 14+ players, run two squares side by side.",
@@ -1077,9 +1226,10 @@ throw:"Not a standalone drill — a rule you layer onto any small-sided game you
 
 function teachBlock(id){
   const e = EX[id]; if(!e) return "";
-  const su = SETUP[id];
+  const su = SETUP[id], k = KIT[id];
   return `<div class="teach">
     ${su?`<span class="tk">The setup</span><p class="tsetup">${su}</p>`:""}
+    ${k?`<span class="tk">Balls &amp; gear</span><p class="tkit">${k.b}<br><span class="tgear">Gear: ${k.g}</span></p>`:""}
     <p class="tpoint"><b>What you're teaching:</b> ${e.p}</p>
     <span class="tk">Say it like this</span>
     <p class="tscript">“${e.s}”</p>
@@ -1097,7 +1247,8 @@ const IV = {
  brake:[6,20,40], react:[8,8,45], milly:[4,120,60], cprondo:[5,120,90], hunt:[4,150,90],
  bounce:[10,25,35], step:[6,30,45], war:[12,25,45], six:[4,240,120], wide:[3,300,120],
  cont32:[4,180,90], identity:[6,180,90], street:[1,480,0], line:[4,180,90], ignite:[10,30,60],
- chase:[8,20,60], c42:[5,150,90], firstshot:[4,150,90], corner:[12,25,40], kickoff:[10,20,40], throw:[1,480,0]
+ chase:[8,20,60], walk:[2,300,60], twoopt:[4,180,90], tri:[5,90,60], fwdrec:[4,180,90],
+ third:[4,150,90], clump:[4,180,90], rest:[4,240,120], winit3:[5,150,90], c42:[5,150,90], firstshot:[4,150,90], corner:[12,25,40], kickoff:[10,20,40], throw:[1,480,0]
 };
 let fieldView = "session";
 
@@ -1286,9 +1437,10 @@ function renderMethod(){
    Bump BUILD on every push. The app checks the live file on
    launch and reloads itself if GitHub has a newer build.
    ============================================================ */
-const BUILD = "2026.08.01.3";
+const BUILD = "2026.08.02.2";
 
 async function checkForUpdate(){
+  if(!/^https?:$/.test(location.protocol)) return;
   try{
     const r = await fetch(location.pathname + "?v=" + Date.now(), {cache:"no-store"});
     const txt = await r.text();

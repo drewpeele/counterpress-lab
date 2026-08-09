@@ -183,6 +183,47 @@ select{background:var(--surface);border:1px solid var(--line);color:var(--chalk)
 @media(min-width:520px){.tsplit{grid-template-columns:1fr 1fr;gap:14px}}
 .stage-teach{margin-bottom:16px}
 
+
+/* ---------- coach handout ---------- */
+#handout{display:none}
+@media print{
+  body.printing-handout .wrap,body.printing-handout #stage,body.printing-handout #toast{display:none!important}
+  body.printing-handout #handout{display:block!important;color:#000;background:#fff;font-family:Georgia,'Times New Roman',serif;font-size:10.5pt;line-height:1.45}
+  body.printing-handout{background:#fff!important}
+  .ho-head{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:14px}
+  .ho-head h1{font-family:Helvetica,Arial,sans-serif;font-size:19pt;letter-spacing:-.5px;margin:0}
+  .ho-sub{font-family:Helvetica,Arial,sans-serif;font-size:9.5pt;color:#444;margin-top:4px}
+  .ho-note{border-left:3px solid #000;padding:6px 0 6px 10px;margin-bottom:14px;font-size:9.5pt}
+  .ho-oview{width:100%;border-collapse:collapse;margin-bottom:22px;font-size:9.5pt;page-break-after:always}
+  .ho-oview th{text-align:left;border-bottom:1.5px solid #000;padding:4px 8px 4px 0;font-family:Helvetica,Arial,sans-serif;font-size:8.5pt;text-transform:uppercase;letter-spacing:.08em}
+  .ho-oview td{border-bottom:1px solid #ccc;padding:6px 8px 6px 0;vertical-align:top}
+  .ho-drill{page-break-inside:avoid;page-break-after:always;padding-top:4px}
+  .ho-dhead{display:flex;align-items:baseline;gap:10px;border-bottom:1.5px solid #000;padding-bottom:5px;margin-bottom:10px}
+  .ho-n{font-family:Helvetica,Arial,sans-serif;font-size:9pt;letter-spacing:.1em}
+  .ho-dhead h2{font-family:Helvetica,Arial,sans-serif;font-size:15pt;margin:0;flex:1}
+  .ho-t{font-family:Helvetica,Arial,sans-serif;font-size:9pt;color:#444;white-space:nowrap}
+  .ho-cols{display:flex;gap:16px;margin-bottom:10px}
+  .ho-dia{width:34%;flex-shrink:0;border:1px solid #999;padding:5px}
+  .ho-dia svg{width:100%;height:auto}
+  .ho-dia svg circle[fill="#D8283C"]{fill:#000}
+  .ho-dia svg circle[fill="#E9C46A"]{fill:#888}
+  .ho-dia svg circle[fill="#5FBFA6"]{fill:#555}
+  .ho-dia svg [stroke="#E9EFE9"]{stroke:#000}
+  .ho-dia svg [stroke="#22362B"]{stroke:#aaa}
+  .ho-dia svg [stroke="#5FBFA6"]{stroke:#666}
+  .ho-dia svg [fill="#5FBFA6"]{fill:#666}
+  .ho-dia svg [fill="#E9C46A"]{fill:#999}
+  .ho-txt{flex:1}
+  #handout h3{font-family:Helvetica,Arial,sans-serif;font-size:8.5pt;text-transform:uppercase;letter-spacing:.1em;color:#000;margin:9px 0 2px;border-top:1px solid #ddd;padding-top:6px}
+  .ho-txt h3:first-child{margin-top:0;border-top:0;padding-top:0}
+  #handout p{margin:0 0 3px}
+  .ho-rule{border-left:3px solid #000;padding-left:9px;font-weight:bold}
+  .ho-say{font-style:italic}
+  .ho-pr{margin-top:9px;padding-top:6px;border-top:1px solid #ddd;font-size:9pt;color:#333}
+  .ho-foot{page-break-before:avoid;border-top:2px solid #000;padding-top:8px}
+  @page{margin:16mm}
+}
+
 /* ---------- field mode ---------- */
 .fmintro{color:var(--muted);font-size:14px;margin-bottom:18px;max-width:620px}
 .frow2{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-bottom:22px}
@@ -220,6 +261,7 @@ select{background:var(--surface);border:1px solid var(--line);color:var(--chalk)
 .mbody{max-width:760px;font-size:14.5px}
 .mbody p{margin-bottom:11px}
 .mbody strong{color:var(--chalk);font-weight:600}
+.mh4{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:var(--bib);margin:18px 0 7px}
 .days{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:14px 0}
 .day{background:var(--surface);padding:14px}
 .day .dk{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:10.5px;color:var(--bib)}
@@ -341,11 +383,13 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
       <option value="finishing">Theme: Finishing</option>
       <option value="setpiece">Theme: Set pieces &amp; restarts</option>
     <option value="shape">Theme: Shape &amp; organisation</option>
+    <option value="engine">Theme: Match engine (fitness)</option>
     </select>
     <button class="btn" id="autobuild">Build session</button>
     <button class="btn ghost" id="save">Save</button>
     <button class="btn ghost" id="load">Load saved</button>
-    <button class="btn ghost" id="print">Print</button>
+    <button class="btn ghost" id="handoutbtn">Coach handout</button>
+    <button class="btn ghost" id="print">Print list</button>
     <button class="btn ghost" id="wipe">Clear</button>
     <span class="totals" id="totals"></span>
   </div>
@@ -377,6 +421,7 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
   Principles adapted from Jürgen Klopp and Pep Lijnders. Physical work is age-scaled for U11: short doses at full intensity, everything with a ball, acceleration and braking over endurance running. No laps in here on purpose.
 </footer>
 </div>
+<div id="handout" aria-hidden="true"></div>
 <div id="stage" role="dialog" aria-modal="true" aria-label="Drill timer"></div>
 <div id="toast" role="status" aria-live="polite"></div>
 
@@ -540,12 +585,12 @@ const D = [
  dia:[{k:'g',x:8,y:50},{k:'g',x:92,y:50},{k:'a',x:30,y:35},{k:'a',x:38,y:65},{k:'d',x:62,y:35},{k:'d',x:68,y:62},{k:'n',x:50,y:15},{k:'n',x:50,y:85}]},
 
 {id:"street",name:"Street Pitch",cat:"activation",moment:"trans-att",pr:[6,8],phys:"Low / free",
- mins:8,work:"Free play to the whistle",space:"Boarded or walled area",players:[8,24],
- constraint:"No coaching. No stopping. No positions. Rebound off the boards and play. You referee nothing.",
+ mins:8,work:"Free play to the whistle",space:"Any small area, tight goals",players:[8,24],
+ constraint:"No coaching. No positions. No referee. Ball out of bounds comes back in fast — kick-ins only, no throw-ins, three seconds or it is the other team\u2019s. You say nothing but the final whistle.",
  cues:[],
  prog:"Two-touch to raise the tempo.",
  reg:"None needed. Let it be.",
- note:"Liverpool built a street pitch on purpose to train offensive aggression. End every session with this and they'll leave wanting the next one.",
+ note:"Liverpool built a street pitch on purpose to train offensive aggression. No walls needed — a tight pitch and instant kick-in restarts keep the ball alive nearly as well. End every session with this and they'll leave wanting the next one.",
  dia:[{k:'a',x:30,y:35},{k:'a',x:45,y:70},{k:'d',x:62,y:30},{k:'d',x:72,y:66},{k:'b',x:50,y:48}]},
 
 /* ---------- BUILD OUT ---------- */
@@ -696,11 +741,126 @@ const D = [
  reg:"Two players instead of three, and walk the three roles first.",
  note:"This is the missing link between winning the ball and doing anything useful with it. Pair it with Six-Second Counter and the two together fix your whole transition.",
  dia:[{k:'g',x:94,y:50},{k:'a',x:40,y:50},{k:'a',x:66,y:25},{k:'a',x:62,y:75},{k:'a',x:22,y:50},{k:'d',x:52,y:40},{k:'d',x:78,y:55},{k:'b',x:44,y:52},
-      {k:'r',x:46,y:44,x2:62,y2:28},{k:'r',x:46,y:58,x2:58,y2:72},{k:'r',x:36,y:50,x2:28,y2:50}]}
+      {k:'r',x:46,y:44,x2:62,y2:28},{k:'r',x:46,y:58,x2:58,y2:72},{k:'r',x:36,y:50,x2:28,y2:50}]},
+
+/* ---------- BUILD-UP ---------- */
+{id:"gkfour",name:"Keeper's Four Options",cat:"buildout",moment:"inposs",pr:[9,11],phys:"Low / free",
+ mins:12,work:"12 reps, 45s rest",space:"Defensive third",players:[8,14],
+ constraint:"Every rep starts with the keeper, and he has to name his option out loud before he plays it — WIDE, CENTRE, PIVOT or LONG. No call, or a call that does not match the pass, and possession goes over.",
+ cues:["Say it, then play it","Furthest option first","Long is a choice, not a panic"],
+ prog:"Add a presser who starts eight yards away and closes on the call.",
+ reg:"Let him name it after receiving rather than before.",
+ note:"Saying it out loud forces the scan. Most keepers at this age play the first thing they see rather than the best thing available.",
+ dia:[{k:'g',x:8,y:50},{k:'d',x:16,y:50},{k:'a',x:35,y:18},{k:'a',x:32,y:50},{k:'a',x:35,y:82},{k:'a',x:60,y:50},{k:'a',x:85,y:30},
+      {k:'r',x:22,y:46,x2:30,y2:22},{k:'r',x:22,y:50,x2:27,y2:50},{k:'r',x:22,y:56,x2:55,y2:52}]},
+
+{id:"pivot",name:"Pivot Decision",cat:"buildout",moment:"inposs",pr:[9,11],phys:"Moderate",
+ mins:14,work:"4 x 3min, 90s rest",space:"35 x 30",players:[8,14],
+ constraint:"The pivot has exactly two choices. Receiving facing forward — play outside, first time. Receiving facing your own goal — set it back to the centre back and we start again. There is no third option, and turning into pressure is a turnover.",
+ cues:["Facing forward? Play outside","Facing back? Recycle","Look over your shoulder before it arrives"],
+ prog:"Add a second defender marking the pivot so he has to check his shoulder every rep.",
+ reg:"Defenders passive, and let him take two touches.",
+ note:"This is the single most valuable rule in the whole build-up. Kids lose the ball in midfield because they try to turn out of trouble. Give them two legal answers and the turnovers stop almost immediately.",
+ dia:[{k:'a',x:18,y:50},{k:'a',x:48,y:50},{k:'a',x:75,y:22},{k:'a',x:75,y:78},{k:'d',x:60,y:40},{k:'d',x:40,y:62},{k:'b',x:24,y:52},
+      {k:'r',x:54,y:44,x2:70,y2:26},{k:'r',x:44,y:56,x2:24,y2:56}]},
+
+{id:"inbackthru",name:"In, Back, Through",cat:"buildout",moment:"inposs",pr:[9,11],phys:"Moderate",
+ mins:14,work:"4 x 3min, 90s rest",space:"40 x 30",players:[10,16],
+ constraint:"Only one way to score. In to a middle player, straight back first time, then forward past a defender. Any goal that did not come from that pattern does not count.",
+ cues:["In, back, through","One touch in the middle","The third man is free"],
+ prog:"Three points if the third man receives already facing forward.",
+ reg:"Walk the pattern unopposed five times, then add one passive defender.",
+ note:"Pairs with The Third Man in the shape section. This is the version aimed at the back third, where a well-drilled opponent will press you hardest.",
+ dia:[{k:'a',x:15,y:50},{k:'a',x:42,y:50},{k:'a',x:72,y:26},{k:'g',x:94,y:50},{k:'d',x:30,y:40},{k:'d',x:55,y:58},
+      {k:'r',x:20,y:50,x2:37,y2:50},{k:'r',x:42,y:44,x2:22,y2:44},{k:'r',x:24,y:40,x2:66,y2:28}]},
+
+{id:"hold",name:"Winger Jail",cat:"buildout",moment:"inposs",pr:[10,11],phys:"Low / free",
+ mins:12,work:"4 x 2.5min, 90s rest",space:"45 x 35, wide channels",players:[12,18],
+ constraint:"Wingers must keep at least one foot inside the wide channel at all times. Step out of it and the ball goes over. A goal is worth three if the build-up reached a winger who never once left his channel.",
+ cues:["Stay out there, you are stretching them","You are doing your job standing still","Do not come and help — be the space"],
+ prog:"Remove the channel cones and see whether they hold the width on their own.",
+ reg:"Widen the channels so it is easier to stay legal.",
+ note:"Every kid wants to run toward the ball. This is the drill that teaches the hardest idea in the build-up: standing still in the right place is work.",
+ dia:[{k:'z',x:22,y:50},{k:'z',x:78,y:50},{k:'a',x:10,y:20},{k:'a',x:10,y:80},{k:'a',x:40,y:35},{k:'a',x:45,y:65},{k:'a',x:90,y:25},{k:'d',x:55,y:45},{k:'d',x:62,y:62},{k:'g',x:94,y:50}]},
+
+{id:"provoke",name:"Provoke and Go",cat:"buildout",moment:"trans-att",pr:[2,10],phys:"Speed",
+ mins:16,work:"5 x 2.5min, 90s rest",space:"Two-thirds pitch",players:[12,18],
+ constraint:"The back four must make at least six passes before we go forward. But the moment their defensive line steps over the halfway cones, the very next pass has to go over the top. Miss that moment and the six passes start again.",
+ cues:["Slow, slow, slow — now","Watch their shoulders turn","On his shoulder, not his back"],
+ prog:"Drop it to four passes so the trigger comes faster and less predictably.",
+ reg:"You call NOW out loud the first few times until they see it themselves.",
+ note:"The payoff drill. Run it straight after the slow build work — the patience only makes sense to a ten-year-old once they have felt it turn into a goal.",
+ dia:[{k:'z',x:55,y:50},{k:'g',x:6,y:50},{k:'d',x:14,y:50},{k:'a',x:28,y:22},{k:'a',x:26,y:50},{k:'a',x:28,y:78},{k:'a',x:88,y:20},
+      {k:'d',x:52,y:35},{k:'d',x:54,y:65},{k:'r',x:32,y:48,x2:82,y2:24}]},
+
+/* ---------- MATCH ENGINE ---------- */
+{id:"trigger",name:"Press the Trigger",cat:"engine",moment:"outposs",pr:[1,5],phys:"Repeated sprint",
+ mins:14,work:"4 x 3min, 90s rest",space:"45 x 35, two goals",players:[12,18],
+ constraint:"You may only press on a trigger: a bad touch, a backwards pass, or a bouncing ball. Press without one and the other team gets a free pass out. Press ON one and win it — that goal is worth double.",
+ cues:["Wait... wait... THERE","Bad touch — GO","No trigger? Stay home and squeeze"],
+ prog:"Add a fourth trigger: any pass to their weakest-footed player.",
+ reg:"You call the triggers out loud for them the first two rounds.",
+ note:"This is the fitness drill that does not look like one. A team that presses everything is empty by minute twenty. A team that presses triggers is fresh at the end — pressing smarter IS the conditioning plan.",
+ dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'d',x:60,y:35},{k:'d',x:70,y:60},{k:'b',x:63,y:38},{k:'a',x:45,y:30},{k:'a',x:40,y:60},{k:'a',x:25,y:45},{k:'r',x:48,y:32,x2:57,y2:36}]},
+
+{id:"shifts",name:"Shift Change",cat:"engine",moment:"trans-def",pr:[3,8],phys:"Repeated sprint",
+ mins:16,work:"90s shifts, continuous game",space:"40 x 30, two goals",players:[12,18],
+ constraint:"Hockey rules. Teams of four or five, 90-second shifts, subs fly on and off without stopping play. The deal, said out loud: everything you have for 90 seconds, then you rest completely. Walking during your shift means your shift ends early.",
+ cues:["Empty the tank — rest is coming","Sprint your shift","Fresh legs, loud voice"],
+ prog:"Shifts drop to 60 seconds and the game speeds up further.",
+ reg:"Two-minute shifts with a full minute of standing rest between.",
+ note:"This installs the mental model that fixes your minute-twenty problem: intensity is a series of short all-out efforts with real recovery, not one long grind. Then carry the same idea into games with planned rotation.",
+ dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:35,y:35},{k:'a',x:40,y:65},{k:'d',x:60,y:35},{k:'d',x:65,y:65},{k:'z',x:22,y:50},{k:'n',x:12,y:15},{k:'n',x:12,y:85},{k:'r',x:12,y:20,x2:28,y2:38}]},
+
+{id:"secondwind",name:"The Second Wind Game",cat:"engine",moment:"trans-def",pr:[3,6],phys:"Repeated sprint",
+ mins:18,work:"5 x 3min, 60s rest",space:"50 x 35, two goals",players:[12,18],
+ constraint:"Five rounds. Only the last two count on the scoreboard, and everything in them is worth double. I count balls won back inside six seconds out loud ALL game — the team with more of them in the final round wins a bonus goal.",
+ cues:["This is the round that counts","Tired is when we find out","Six-second balls — I am counting"],
+ prog:"Only the final round counts, worth everything.",
+ reg:"Three rounds, last one counts.",
+ note:"You cannot make ten-year-olds less tired, but you can teach them that the tired minutes are the ones that decide games. Counting out loud keeps the attention alive, which at this age fades before the legs do.",
+ dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:30,y:30},{k:'a',x:35,y:65},{k:'d',x:60,y:35},{k:'d',x:68,y:62},{k:'b',x:48,y:50}]},
+
+{id:"away",name:"Away From the Crowd",cat:"transition",moment:"trans-att",pr:[1,4],phys:"Repeated sprint",
+ mins:14,work:"4 x 3min, 90s rest",space:"40 x 30, three zones",players:[10,16],
+ constraint:"When you win the ball in the middle zone, the first pass must LEAVE that zone — forward if it is on, or switched away to the far side. A first pass inside the zone where we won it is a turnover.",
+ cues:["First look forward","Play away from where you won it","The crowd is where you took it — leave the crowd"],
+ prog:"Add a six-second finish window after the escape pass.",
+ reg:"Allow one touch inside the zone before the escape pass.",
+ note:"Answers the exact question of what to do after the counter-press works. You won it where all the bodies are. The space is everywhere else. One rule — leave the zone — turns a scramble into an attack.",
+ dia:[{k:'z',x:33,y:50},{k:'z',x:67,y:50},{k:'a',x:50,y:45},{k:'a',x:45,y:62},{k:'d',x:55,y:55},{k:'d',x:42,y:40},{k:'a',x:82,y:25},{k:'a',x:15,y:60},{k:'b',x:51,y:48},{k:'r',x:55,y:44,x2:76,y2:28}]},
+
+{id:"cutback",name:"The Cutback Rule",cat:"finishing",moment:"trans-att",pr:[2,4],phys:"Speed",
+ mins:14,work:"5 x 2.5min, 90s rest",space:"Attacking half, full goal",players:[10,16],
+ constraint:"A goal from a cutback — reaching the end line wide and pulling it back to a runner — counts triple. A shot from a crossed high ball counts single. The maths does the coaching.",
+ cues:["Get to the line, then look back","Runner — arrive, don't wait","Pull it back to the penalty spot"],
+ prog:"Add a recovering defender chasing the wide player to the line.",
+ reg:"Start each rep with the wide player already behind the defence.",
+ note:"Cutbacks massively outscore crosses at every level, and at U11 the difference is even bigger because nobody wins headers. This gives your fast break from the middle a destination: win it, leave the crowd, hit the line, pull it back.",
+ dia:[{k:'g',x:92,y:50},{k:'a',x:75,y:12},{k:'a',x:60,y:45},{k:'a',x:55,y:70},{k:'d',x:78,y:35},{k:'d',x:72,y:62},{k:'r',x:80,y:14,x2:90,y2:22},{k:'r',x:90,y:26,x2:74,y2:44}]},
+
+{id:"followpass",name:"Follow Your Pass",cat:"shape",moment:"inposs",pr:[4,11],phys:"Repeated sprint",
+ mins:14,work:"4 x 3min, 90s rest",space:"40 x 30, two goals",players:[10,16],
+ constraint:"After any forward pass, the passer must get beyond the ball within five seconds. I count it out loud. If he is still behind it at five, possession goes over. The pass is not the end of your job — it is the start of your run.",
+ cues:["Pass, then go","Follow your pass","Up and diagonal, never sideways-sideways-back"],
+ prog:"Goal counts double if the scorer received from a player who had just followed his pass.",
+ reg:"Count to eight instead of five while they learn it.",
+ note:"Built for the pivots. Their movement has to be vertical and diagonal — drop, receive, play, then run beyond. This rule makes that countable, and it produces third-man runs for free because the passer becomes the runner nobody tracks.",
+ dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:35,y:50},{k:'a',x:58,y:35},{k:'d',x:48,y:42},{k:'d',x:68,y:55},{k:'b',x:40,y:52},{k:'r',x:40,y:48,x2:54,y2:38},{k:'r',x:38,y:44,x2:64,y2:24}]},
+
+{id:"jumpline",name:"The Jump",cat:"shape",moment:"trans-att",pr:[4,10],phys:"Moderate",
+ mins:12,work:"4 x 2.5min, 90s rest",space:"50 x 35, two goals",players:[12,18],
+ constraint:"The moment we win the ball and play it forward, the whole back line jumps ten yards up together — before the attack finishes. A goal only counts if every defender has crossed the jump line by the time the shot is taken. The ball going forward is the starting gun for everybody.",
+ cues:["The ball is the whistle","Jump together","Ten hard yards, then jog"],
+ prog:"Count out loud how many players are over halfway when a goal is scored — chase a team record.",
+ reg:"You shout JUMP the first rounds until the line moves without it.",
+ note:"Fixes the walking. The kids strolling forward on a break are not lazy — they think the break does not involve them. This rule makes the back of the team part of every attack, keeps the counter-press close if we lose it, and squeezes the space their counter needs.",
+ dia:[{k:'z',x:38,y:50},{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:30,y:25},{k:'a',x:28,y:50},{k:'a',x:30,y:75},{k:'a',x:60,y:40},{k:'a',x:70,y:60},{k:'b',x:64,y:42},
+      {k:'r',x:34,y:25,x2:46,y2:25},{k:'r',x:32,y:50,x2:44,y2:50},{k:'r',x:34,y:75,x2:46,y2:75}]}
 
 ];
 
-const CAT = {activation:"Activation",counterpress:"Counter-press",duels:"Duels / 1v1",transition:"Attacking transition",buildout:"Building out",finishing:"Finishing",setpiece:"Set pieces",shape:"Shape & organisation"};
+const CAT = {activation:"Activation",counterpress:"Counter-press",duels:"Duels / 1v1",transition:"Attacking transition",buildout:"Building out",finishing:"Finishing",setpiece:"Set pieces",shape:"Shape & organisation",engine:"Match engine"};
 const MOM = {warmup:"Warm-up",outposs:"Out of possession",inposs:"In possession","trans-att":"Attacking transition","trans-def":"Defensive transition"};
 
 /* ============================================================
@@ -841,8 +1001,9 @@ const RECIPES = {
   aggression:{activate:["brake","react"],rondo:["milly"],core1:["bounce","step"],core2:["war"],game:["identity"],street:["street"]},
   counterpress:{activate:["react"],rondo:["cprondo"],core1:["hunt"],core2:["six"],game:["identity"],street:["street"]},
   transition:{activate:["brake"],rondo:["cprondo"],core1:["cont32"],core2:["wide"],game:["identity"],street:["street"]},
-  buildout:{activate:["brake"],rondo:["milly"],core1:["line"],core2:["ignite"],game:["identity"],street:["street"]},
+  buildout:{activate:["brake"],rondo:["gkfour"],core1:["pivot"],core2:["hold"],game:["provoke"],street:["street"]},
   finishing:{activate:["react"],rondo:["milly"],core1:["chase","firstshot"],core2:["c42"],game:["identity"],street:["street"]},
+  engine:{activate:["react"],rondo:["cprondo"],core1:["trigger"],core2:["away","cutback"],game:["secondwind"],street:["street"]},
   shape:{activate:["walk"],rondo:["tri"],core1:["twoopt"],core2:["fwdrec"],game:["rest"],street:["street"]},
   setpiece:{activate:["brake"],rondo:["cprondo"],core1:["kickoff"],core2:["corner"],game:["identity"],street:["street","throw"]}
 };
@@ -904,19 +1065,120 @@ $("#autobuild").addEventListener("click",()=>{
 $("#wipe").addEventListener("click",()=>{BLOCKS.forEach(b=>SESSION[b.k]=[]);renderSession();toast("Cleared");});
 $("#print").addEventListener("click",()=>window.print());
 
+/* ---------- storage adapter: works on GitHub Pages and inside Claude ---------- */
+const store = {
+  async get(k){
+    try{
+      if(window.storage && window.storage.get){ const r = await window.storage.get(k); return r && r.value; }
+      return localStorage.getItem(k);
+    }catch(e){ return null; }
+  },
+  async set(k,v){
+    try{
+      if(window.storage && window.storage.set){ await window.storage.set(k,v); return true; }
+      localStorage.setItem(k,v); return true;
+    }catch(e){ return false; }
+  }
+};
+
+async function savedIndex(){
+  const raw = await store.get("cpl:index");
+  try{ return raw ? JSON.parse(raw) : []; }catch(e){ return []; }
+}
+
 $("#save").addEventListener("click",async()=>{
-  try{
-    await window.storage.set("session:current",JSON.stringify({theme:$("#theme").value,s:SESSION}));
-    toast("Saved");
-  }catch(err){ toast("Couldn't save"); }
+  const total = BLOCKS.reduce((s,b)=>s+SESSION[b.k].length,0);
+  if(!total){ toast("Nothing to save"); return; }
+  const def = $("#theme").selectedOptions[0].text.replace("Theme: ","") + " — " +
+    new Date().toLocaleDateString(undefined,{month:"short",day:"numeric"});
+  const name = window.prompt("Name this session:", def);
+  if(!name) return;
+  const ok = await store.set("cpl:s:"+name, JSON.stringify({theme:$("#theme").value,s:SESSION}));
+  if(!ok){ toast("Couldn't save"); return; }
+  const idx = await savedIndex();
+  if(!idx.includes(name)) idx.push(name);
+  await store.set("cpl:index", JSON.stringify(idx));
+  toast("Saved");
 });
+
 $("#load").addEventListener("click",async()=>{
+  const idx = await savedIndex();
+  if(!idx.length){ toast("Nothing saved yet"); return; }
+  const pick = window.prompt("Load which session?\n\n" + idx.map((n,i)=>(i+1)+". "+n).join("\n") + "\n\nType a number:");
+  if(!pick) return;
+  const name = idx[parseInt(pick,10)-1];
+  if(!name){ toast("No session " + pick); return; }
+  const raw = await store.get("cpl:s:"+name);
+  if(!raw){ toast("Couldn't load"); return; }
   try{
-    const r = await window.storage.get("session:current");
-    const v = JSON.parse(r.value);
-    SESSION = v.s; $("#theme").value = v.theme || "aggression";
-    renderSession(); toast("Loaded");
-  }catch(err){ toast("Nothing saved yet"); }
+    const v = JSON.parse(raw);
+    BLOCKS.forEach(b=>SESSION[b.k] = (v.s && v.s[b.k]) ? v.s[b.k] : []);
+    $("#theme").value = v.theme || "aggression";
+    renderSession(); renderField(); toast("Loaded");
+  }catch(e){ toast("Couldn't load"); }
+});
+
+
+/* ============================================================
+   COACH HANDOUT — printable / save-as-PDF session plan
+   ============================================================ */
+function buildHandout(){
+  const items = BLOCKS.flatMap(b=>SESSION[b.k].map(id=>({b,id})));
+  if(!items.length) return false;
+  const total = items.reduce((s,i)=>s+byId(i.id).mins,0);
+  const theme = $("#theme").selectedOptions[0].text.replace("Theme: ","");
+  const date = new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+
+  let h = `<div class="ho-head">
+      <h1>Counterpress Lab — Session Plan</h1>
+      <p class="ho-sub">${theme} &nbsp;·&nbsp; ${date} &nbsp;·&nbsp; ${total} minutes &nbsp;·&nbsp; U11 / 9v9</p>
+    </div>
+    <div class="ho-note"><b>For assisting coaches.</b> Each block below has the setup, the one rule that makes it work, what we are actually teaching, and the words to use. Run the rule strictly — the rule is doing the coaching. Praise players who try and fail; only get on players who stop.</div>
+    <table class="ho-oview"><thead><tr><th>Time</th><th>Block</th><th>Activity</th><th>Space</th><th>Balls</th></tr></thead><tbody>`;
+  let clock = 0;
+  items.forEach(({b,id})=>{
+    const d = byId(id), k = KIT[id]||{};
+    const hh = Math.floor(clock/60), mm = clock%60;
+    h += `<tr><td>${hh>0?hh+"h":""}${String(mm).padStart(2,"0")}</td><td>${b.n}</td><td><b>${d.name}</b> (${d.mins}′)</td><td>${d.space}</td><td>${k.s||""}</td></tr>`;
+    clock += d.mins;
+  });
+  h += `</tbody></table>`;
+
+  items.forEach(({b,id},i)=>{
+    const d=byId(id), e=EX[id]||{}, k=KIT[id]||{}, su=SETUP[id]||"", iv=IV[id]||[];
+    h += `<div class="ho-drill">
+      <div class="ho-dhead"><span class="ho-n">${String(i+1).padStart(2,"0")}</span>
+        <h2>${d.name}</h2><span class="ho-t">${d.mins} min${iv.length?` · ${iv[0]}×${fmtShort(iv[1])} on / ${fmtShort(iv[2])} off`:""}</span></div>
+      <div class="ho-cols">
+        <div class="ho-dia">${svg(d.dia)}</div>
+        <div class="ho-txt">
+          <h3>Setup</h3><p>${su}</p>
+          <h3>Balls &amp; gear</h3><p>${k.b||""} <em>Gear: ${k.g||"—"}</em></p>
+          <h3>The rule</h3><p class="ho-rule">${d.constraint}</p>
+        </div>
+      </div>
+      <h3>What we are teaching</h3><p>${e.p||""}</p>
+      <h3>Say it like this</h3><p class="ho-say">“${e.s||""}”</p>
+      ${e.c?`<h3>Check they understood</h3><p>“${e.c}”</p>`:""}
+      ${d.cues && d.cues.length?`<h3>Shout during play</h3><p>${d.cues.map(c=>"“"+c+"”").join(" &nbsp;·&nbsp; ")}</p>`:""}
+      <h3>It is working when</h3><p>${e.l||""}</p>
+      <div class="ho-pr"><b>Too easy:</b> ${d.prog} &nbsp;&nbsp;<b>Too hard:</b> ${d.reg}</div>
+    </div>`;
+  });
+
+  h += `<div class="ho-foot"><h3>Coaching reminders</h3>
+    <p><b>Praise the failed tackle.</b> If a player steps in, commits and gets beaten, that is the behaviour we want. Correcting it teaches everyone watching that hesitating is safer.<br>
+    <b>Get on them for stopping, never for going.</b> Losing the ball is not the mistake — the next three seconds is.<br>
+    <b>Two rules maximum</b> when explaining. Demo at half speed rather than talking. Ask the check question before starting.<br>
+    <b>Count out loud at the end:</b> duels entered, balls won back inside six seconds, wide players who joined the counter.</p></div>`;
+
+  $("#handout").innerHTML = h;
+  return true;
+}
+$("#handoutbtn").addEventListener("click",()=>{
+  if(!buildHandout()){ toast("Build a session first"); return; }
+  document.body.classList.add("printing-handout");
+  setTimeout(()=>{ window.print(); setTimeout(()=>document.body.classList.remove("printing-handout"),500); },120);
 });
 
 /* ============================================================
@@ -1070,6 +1332,43 @@ function renderLang(){
    TEACH IT — what you're actually teaching, and how to say it
    ============================================================ */
 const EX = {
+followpass:{p:"The pass is the start of your run, not the end of your job. Midfield movement is vertical and diagonal — drop to get it, play it, then go beyond it.",
+ s:"New rule for everyone, but especially you two in the middle. When you pass it forward, you have five seconds to get past the ball. I will count. If you are still standing behind your pass at five, the ball goes to them. Drop, receive, play — then GO.",
+ c:"What do you do right after you pass forward?", l:"Pivots arriving beyond the ball and third-man runs appearing without being coached."},
+jumpline:{p:"The ball going forward is the starting gun for the whole team, not just the two fastest kids. When we break, we break together.",
+ s:"When we win it and play forward, the whole back line jumps ten yards up, together, right away. Hard ten yards, then you can jog. If we score and any defender has not crossed that cone line, the goal does not count. The ball is the whistle — when it goes, you go.",
+ c:"When the ball goes forward, what does the back line do?", l:"The team moving up the pitch as one block, and seven or eight players over halfway when a goal goes in."},
+trigger:{p:"Pressing smarter is the fitness plan. A team that hunts everything is empty by minute twenty; a team that hunts the right moments is fresh at the end.",
+ s:"We do not chase everything anymore. We press on three signals: a bad touch, a backwards pass, or a bouncing ball. See one — everyone goes, hard. No signal — stay home, stay tight, make them play in front of us. Win it off a signal and the goal counts double.",
+ c:"What are the three signals?", l:"Bursts of full-speed pressing with calm, compact shape in between — instead of one long chase."},
+shifts:{p:"Intensity is short and all-out with real rest, not one long grind. This is how we play hard for a whole game.",
+ s:"Hockey rules. Ninety seconds on, everything you have, then you come off and rest properly. If you walk during your shift, your shift is over early. Empty the tank — more fuel is coming.",
+ c:"What do you do for your ninety seconds?", l:"Kids sprinting in minute fifteen because they trust the rest is real."},
+secondwind:{p:"The tired minutes are the ones that decide games. We do not get less tired than the other team — we stay switched on longer.",
+ s:"Five rounds. Here is the trick: only the last two go on the scoreboard, and everything in them is double. So pace yourselves smart, because the game is decided when everyone is tired. And I am counting six-second ball-wins the whole time — most in the final round earns a bonus goal.",
+ c:"Which rounds actually count?", l:"Effort rising in round four instead of falling off a cliff."},
+away:{p:"You won the ball where all the bodies are. The space is everywhere else — so the first pass leaves the crowd.",
+ s:"When we win it in the middle, the first pass has to get OUT of that middle zone. Look forward first — if it is on, play it. If not, switch it away to the far side. If your first pass stays in the crowd where we won it, that is a turnover.",
+ c:"Where does the first pass go after we win it?", l:"Heads up at the moment of winning it, and the ball leaving the scramble in one pass."},
+cutback:{p:"The pass back beats the ball in. At this age almost nobody scores from a high cross — the cutback to a runner is nearly a penalty.",
+ s:"Goals from a cutback count triple. That means: get to the end line out wide, then stop and pull it back to whoever is arriving at the spot. Runners — do not stand and wait in the box. Time your run so you arrive as the ball does.",
+ c:"Where does the wide player go before the pass, and where does it go back to?", l:"Wide players attacking the line instead of shooting from bad angles, and runners arriving late."},
+gkfour:{p:"Scanning before you play, not after. Naming the option out loud forces the look that most keepers skip.",
+ s:"Every ball starts with you. Before you play it, shout which one you are picking — wide, centre, pivot or long. If you do not call it, or you call one thing and play another, they get the ball.",
+ c:"What do you do before you pass it?", l:"The keeper head turning twice before the ball leaves his foot."},
+pivot:{p:"Two legal answers, no third one. Turning out of pressure is what loses the ball in midfield at this age.",
+ s:"You have two choices in there. If the ball comes and you are already facing forward — play it outside, first time. If it comes and you are facing our own goal — set it back to the centre back and we go again. That is it. If you try to turn and lose it, that is on you.",
+ c:"What are your two choices, and how do you know which one?", l:"Pivots checking over their shoulder before the ball reaches them."},
+inbackthru:{p:"The third man is free because the defence is watching the first two.",
+ s:"There is only one way to score today. Pass in to someone in the middle, he sets it straight back first time, then we go forward past a defender. Any other goal does not count.",
+ c:"How many touches does the middle man take?", l:"First-time set-backs and a forward pass that beats a line."},
+hold:{p:"Standing still in the right place is work. A winger who comes to the ball shrinks the pitch for everyone.",
+ s:"Wingers, you keep a foot in that channel the whole time. Step out and we lose the ball. And if we score after getting it to a winger who never left, it counts triple. You are stretching them just by standing there.",
+ c:"What happens if you come inside to get the ball?", l:"Wingers holding width even when the ball is nowhere near them."},
+provoke:{p:"We pass slowly on purpose to pull them out. The patience is a trap, not caution.",
+ s:"Six passes at the back before we can go forward. But watch their defenders — the second their line steps up over those cones, the very next pass goes over the top. Miss it and we start counting again.",
+ c:"What are you watching for while we pass at the back?", l:"Heads coming up during the slow build instead of switching off."}
+,
 walk:{p:"Everyone moves when the ball moves. Your position is not a spot on the grass, it changes every second depending on where the ball is.",
  s:"No other team right now — just us. Watch the ball. Every time it moves, you move. If the ball is way over on the right, left winger, you are not on that line, you come inside. When I whistle, freeze and look around you.",
  c:"If the ball goes to the right, what does the left winger do?", l:"Nine players shifting together like they are tied by string."},
@@ -1132,7 +1431,7 @@ identity:{p:"The better we defend, the more football we get to play. That's the 
  s:"Three teams. Winners stay on. Concede and you're off. That's it — defend well and you keep playing.",
  c:"How do you stay on the field?", l:"Teams organising themselves without your voice."},
 street:{p:"Joy is part of the method, not a reward for finishing the work.",
- s:"No positions, no rules, no me. Off the walls, keep it going. Go.",
+ s:"No positions, no rules, no me. Ball goes out, kick it back in fast — three seconds. Go.",
  c:"", l:"Kids arguing, laughing, and inventing things you'd never coach."},
 line:{p:"A pass that beats an opponent is worth more than a safe one. Safe passing looks tidy and achieves nothing.",
  s:"One point every time a pass goes past one of their players. Three points for a goal. Passing sideways all day gets you nothing.",
@@ -1161,6 +1460,18 @@ throw:{p:"Restarts are free speed. Most youth teams give away all their tempo at
 };
 
 const KIT = {
+followpass:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs"},
+jumpline:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, cones marking each jump line, bibs"},
+trigger:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs"},
+shifts:{s:"One ball",b:"One ball plus plenty of spares — the game never stops, so a dead ball must be replaced instantly.",g:"Two goals, keepers, bibs, cones marking each team's swap gate"},
+secondwind:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs, a scoreboard or loud voice"},
+away:{s:"One ball",b:"One ball plus spares on the sidelines.",g:"Cones for three vertical zones, small goals or targets on each side, bibs"},
+cutback:{s:"You serve",b:"Bag of balls with you at halfway — you feed each rep so the breaks come fast.",g:"Full goal, keeper, cones, bibs"},
+gkfour:{s:"Keeper serves",b:"Balls stacked in the keeper net. He restarts every rep, which is the whole drill.",g:"Full goal, cones, bibs"},
+pivot:{s:"One ball",b:"One ball plus spares on the sidelines so a turnover restarts instantly.",g:"Cones for a 35x30 box, bibs"},
+inbackthru:{s:"One ball",b:"One ball plus spares in the goal.",g:"Full goal, keeper, cones, bibs"},
+hold:{s:"One ball",b:"One ball plus spares.",g:"Full goal, keeper, cones marking both wide channels, bibs"},
+provoke:{s:"Keeper serves",b:"Balls in the keeper net. Every rep starts from the back so the slow build is unavoidable.",g:"Full goal, keeper, cones on halfway, bibs"},
 walk:{s:"One ball",b:"One ball, moved by you or a coach so the tempo stays slow enough to think. Spares nearby.",g:"Full pitch, bibs, two goals"},
 twoopt:{s:"One ball",b:"One ball in play plus spares on the outside — the BLIND shout only works if restarts are instant.",g:"Cones for a 30x25 box, bibs, bibs for two neutrals"},
 tri:{s:"One ball",b:"One ball, two or three spares held by players outside the square.",g:"4 cones, bibs for the two defenders, a whistle you actually use"},
@@ -1181,7 +1492,7 @@ six:{s:"One ball",b:"One ball in play, spares in both goals. The six-second coun
 wide:{s:"One ball",b:"One ball plus spares in the goals.",g:"Two goals, keepers, cones for halfway and the wide channels"},
 cont32:{s:"One ball",b:"One ball in play, spares in each goal. Keepers restart instantly — that's what makes it continuous.",g:"Two goals, keepers, bibs"},
 identity:{s:"One ball",b:"One ball plus spares in both goals so the changeover between teams is quick.",g:"Two goals, keepers, three bib colours"},
-street:{s:"One ball",b:"One ball, a couple of spares nearby. Off the walls it stays live.",g:"Small goals, walls or boards"},
+street:{s:"One ball",b:"One ball, several spares spread around the edge so a dead ball never stops the game for more than a second.",g:"Cones for a tight pitch, small goals or cone gates"},
 line:{s:"One ball",b:"One ball plus spares on the sidelines.",g:"Cones marking three zones, bibs"},
 ignite:{s:"Keeper serves",b:"Balls stacked in the keeper's net — the keeper starts every single rep, which is the whole point.",g:"Full goal, cones for the far zone, bibs"},
 chase:{s:"You serve",b:"Bag of balls beside you. You play the ball in and that's what triggers the chase.",g:"Full goal, keeper, two starting cones"},
@@ -1192,6 +1503,18 @@ kickoff:{s:"One ball",b:"One ball on the centre spot, spares on the sideline for
 throw:{s:"Game ball",b:"Whatever ball the game you're already running is using. No extra equipment.",g:"None"}
 };
 const SETUP = {
+followpass:"40x30 with a goal and keeper at each end, 5v5 or 6v6. Normal football with the follow rule. You count the five seconds out loud after every forward pass until they start moving without it.",
+jumpline:"50x35 with a goal and keeper at each end, 6v6 or 7v7. Cone a jump line ten yards ahead of each team's normal defensive line. Play normal football — the rule does the rest.",
+trigger:"45x35 with a goal and keeper at each end, 6v6. Normal football with one pressing rule. You referee the triggers loudly for the first rounds so everyone hears what counts.",
+shifts:"40x30 with a goal and keeper at each end. Three teams of four or five. Two play, one rests beside a cone gate on each sideline. Every 90 seconds you shout SHIFT and teams swap on the fly without stopping the game.",
+secondwind:"50x35 with a goal and keeper at each end. Two teams of six. Play five three-minute rounds with a minute between. You keep two counts out loud all game: the score, and balls won back inside six seconds.",
+away:"40x30 split into three vertical zones, small goals or target players at each end. 5v5 in the middle zone with a free target player wide in each outside zone.",
+cutback:"Attacking half with a full goal and keeper. Groups of three attackers against two defenders. Each rep starts from you at halfway: play into the middle runner, wide player sprints the channel.",
+gkfour:"Defensive third with a full goal and keeper. Four defenders and two midfielders in front of him, four opponents pressing. The keeper has a stack of balls and restarts every rep.",
+pivot:"35x30 box. One player starts as the pivot in the middle with a centre back behind him and two wide targets ahead. Two defenders mark the middle. Rotate the pivot every ninety seconds so everyone learns the decision.",
+inbackthru:"40x30 with a full goal and keeper at one end. Two teams of five. Mark nothing special — the pattern rule does all the work.",
+hold:"45x35 with a goal and keeper, and cone lines marking a five-yard channel down each touchline. 6v6, each team with two nominated wingers.",
+provoke:"Two-thirds of a pitch with a full goal and keeper at the defending end. Cones on halfway marking the opposition defensive line. Six defenders and midfielders against five pressing players, with a target winger high up.",
 walk:"Your full 9v9 shape on a full pitch, no opposition. You or an assistant move the ball around slowly by hand or foot while all nine players adjust their positions to match. Freeze on a whistle and let them look around before restarting.",
 twoopt:"30x25 box. Two teams of five plus two neutrals in a third colour who always play with whoever has the ball. Normal keep-away, no goals.",
 tri:"12x12 square. Four attackers around the edge, two defenders inside. You stand outside with a whistle and freeze play at random moments.",
@@ -1213,7 +1536,7 @@ six:"40×30 with a full goal and keeper at each end. 5v5 or 6v6. Normal football
 wide:"45×35, goal and keeper at each end, 6v6 or 7v7. Mark halfway with cones. Each team nominates two wide players who work the outside channels.",
 cont32:"Half pitch, goal and keeper at each end. Three attackers start at halfway and attack one goal against two defenders. Spare players wait on the halfway line — when possession turns over, one joins the new attack immediately and it goes the other way.",
 identity:"50×35, goal and keeper at each end. Three teams of five in different bibs. Two play, the third waits on the touchline. Concede and you come off, waiting team goes straight on.",
-street:"Any walled or boarded area — a tennis court, a fence line, or rebound boards. Two or three even teams, small goals, no keepers. Ball off the walls stays live.",
+street:"Cone off a tight pitch — roughly 25x20 for 4v4 or 5v5, smaller than feels right. Two or three even teams, small goals or cone gates, no keepers. Spare balls around the edge and kick-in restarts keep it flowing.",
 line:"40×30 split into three zones by cone lines. 6v4 in favour of the team in possession, or 5v5 with two neutrals who always play with the ball. Ball starts in the back zone.",
 ignite:"Two-thirds of a pitch. Keeper plus four defenders and two midfielders against four pressing forwards. Mark a far zone with cones about 20 yards from the top end.",
 chase:"Attacking third with a full goal and keeper. Attacker starts on a cone 30 yards out, defender on a cone two yards behind them. You play a ball in and both go.",
@@ -1247,7 +1570,7 @@ const IV = {
  brake:[6,20,40], react:[8,8,45], milly:[4,120,60], cprondo:[5,120,90], hunt:[4,150,90],
  bounce:[10,25,35], step:[6,30,45], war:[12,25,45], six:[4,240,120], wide:[3,300,120],
  cont32:[4,180,90], identity:[6,180,90], street:[1,480,0], line:[4,180,90], ignite:[10,30,60],
- chase:[8,20,60], walk:[2,300,60], twoopt:[4,180,90], tri:[5,90,60], fwdrec:[4,180,90],
+ chase:[8,20,60], followpass:[4,180,90], jumpline:[4,150,90], trigger:[4,180,90], shifts:[8,90,30], secondwind:[5,180,60], away:[4,180,90], cutback:[5,150,90], gkfour:[12,25,45], pivot:[4,180,90], inbackthru:[4,180,90], hold:[4,150,90], provoke:[5,150,90], walk:[2,300,60], twoopt:[4,180,90], tri:[5,90,60], fwdrec:[4,180,90],
  third:[4,150,90], clump:[4,180,90], rest:[4,240,120], winit3:[5,150,90], c42:[5,150,90], firstshot:[4,150,90], corner:[12,25,40], kickoff:[10,20,40], throw:[1,480,0]
 };
 let fieldView = "session";
@@ -1417,7 +1740,83 @@ const METHOD = [
 <p><strong>Duels entered.</strong> Not won — entered. <strong>Balls won back inside six seconds.</strong> Team number, said as a team number. <strong>Times a wide player joined the counter.</strong> By name. <strong>Brave mistakes.</strong> Yes, out loud, as a positive.</p>
 <p>Four numbers, thirty seconds. Do it every session for a month and you'll watch the behaviour follow the counting. This is the cheapest culture tool you have and almost nobody uses it.</p>`},
 
-{n:"07",h:"Where to go deeper",b:`
+{n:"08",h:"Building up the Klopp way",b:`
+<p>Most youth teams are taught to play out from the back so they can <strong>keep</strong> the ball. Liverpool played out from the back to <strong>provoke</strong>. The ball at your feet is bait — you invite them forward, and the moment they come, the space is behind them.</p>
+<p>That distinction changes everything. A team taught to keep it passes sideways forever and looks tidy. A team taught to provoke passes backwards on purpose and then goes through you. Say it to the players in those words: <em>we are not passing at the back to be safe, we are passing to pull them out of their shape.</em></p>
+
+<h4 class="mh4">The build shape from your 3-2-3</h4>
+<p>Keeper off his line. Wide defenders high and near the touchlines. Centre back central. One pivot drops beside him — that gives you a back four with the keeper. Other pivot stays between their lines. Wingers high and wide and <strong>they do not come to the ball</strong>. Striker on the last defender. That produces triangles everywhere without anyone having to think about triangles.</p>
+
+<h4 class="mh4">One decision per player</h4>
+<p>This is the part that makes it work at U11. Nobody chooses from eleven options. Everybody has two, and both are correct.</p>
+<table class="dials"><thead><tr><th>Player</th><th>If this…</th><th>…then this</th></tr></thead><tbody>
+<tr><td class="dl">Keeper</td><td>A wide defender is free</td><td>Play him. Otherwise centre back. Long is a choice, not a panic.</td></tr>
+<tr><td class="dl">Centre back</td><td>The dropping pivot is free</td><td>Play him. If not, wide defender. If pressed, back to the keeper.</td></tr>
+<tr><td class="dl">Wide defender</td><td>Winger or pivot is ahead of you</td><td>Forward. If not, back inside and we start again.</td></tr>
+<tr><td class="dl">Low pivot</td><td>You receive <em>facing forward</em></td><td>Play outside, first time. If you receive facing your own goal, set it back to the centre back and we start again. Never turn.</td></tr>
+<tr><td class="dl">High pivot</td><td>You can turn</td><td>Turn and go forward. If you cannot, set it back first time and spin off.</td></tr>
+<tr><td class="dl">Winger</td><td>Ball is on your side and you are free</td><td>Receive wide. Otherwise stay high and be the runner behind — do not come short.</td></tr>
+<tr><td class="dl">Striker</td><td>Their line steps up</td><td>Run behind it. If they drop instead, come short and receive.</td></tr>
+</tbody></table>
+
+<h4 class="mh4">Three patterns to rehearse</h4>
+<p><strong>Out the side.</strong> Keeper to wide defender, winger drops in late and sets it back first time, wide defender into the high pivot, pivot switches to the empty far side. Works because the winger drags a marker out — if he drops too early nobody follows and there is no space to switch into.</p>
+<p><strong>In, back, through.</strong> Centre back into the dropping pivot, straight back first time, then past their stepping midfield into the high pivot. The pivot is bait, not the destination.</p>
+<p><strong>Over the top.</strong> Deliberately slow at the back until their line steps up, then straight over it for the winger running behind. This is the payoff, and it is what makes the boring part make sense.</p>
+
+<h4 class="mh4">Running the walkthrough</h4>
+<p>Walking pace with no opposition, then walking with passive defenders, then jogging at half resistance, then live with the defenders scoring a point for winning it in the defensive third. <strong>Do not rush to step four.</strong> The picture has to be boring and automatic before it survives pressure.</p>
+<p>Freeze questions worth asking: <em>point at your two options — if you cannot point at two, move until you can. Who is behind the ball right now? Where is the space — not where is the ball?</em></p>
+
+<h4 class="mh4">The four errors you will see</h4>
+<p><strong>Wingers drift inside.</strong> Put a cone on the touchline and make them stand on it. <strong>Everyone converges on the ball.</strong> No more than two players within five yards. <strong>The pivot turns instead of setting back.</strong> One touch only in the middle, enforced strictly. <strong>Sideways forever.</strong> Two choices — forward if it is on, back and switch if it is not.</p>
+<p>And the one that undoes all of it: <strong>correcting the player who tried the forward pass and lost it.</strong> Do that once and everybody learns sideways is safer.</p>`},
+
+{n:"09",h:"The minute-twenty problem",b:`
+<p>Every young pressing team hits the same wall: perfect for twenty minutes, then walking. Before reaching for conditioning drills, know what is actually failing — because at this age it is usually not the legs.</p>
+<p><strong>Kill exercise punishments.</strong> Push-ups for a failed counter-press add fatigue as the penalty for fatigue, so the tired kid comes back more tired and fails again. Worse, they teach that pressing is associated with punishment. Every consequence stays inside the game: fail the press, defend a free counter. Lose the rep, go in the middle.</p>
+<p><strong>Spend the energy budget on triggers.</strong> Klopp's sides never hunted everything — they pressed on signals (a bad touch, a backwards pass, a bouncing ball) and stayed compact otherwise. A team that presses everything is empty by minute twenty; a team that presses triggers finishes the game. Your SET call is a fitness tool. Use it more, not less.</p>
+<p><strong>Rotate on purpose.</strong> With a 14-player squad, plan shifts like hockey: roughly eight-minute bursts where the deal is sprint-everything-then-rest, not forty minutes of pacing yourself. Kids will empty the tank when they trust the rest is coming. Say the deal out loud before kickoff.</p>
+<p><strong>Concentration dies before legs do.</strong> A ten-year-old recovers from sprints in under a minute — what fades at minute twenty is attention. Counting out loud is the antidote: six-second ball-wins, duels entered, wide players joining. When the counting continues in the second half, so does the behaviour.</p>
+<p><strong>After the press works: leave the crowd.</strong> You won the ball where all the bodies are, so the first pass must exit that zone — forward if it is on, switched away if not. Then give the break a destination: hit the end line and pull it back. The cutback outscores the cross at every level, and at U11 it is nearly a penalty.</p>
+<p>The drills: Press the Trigger, Shift Change, The Second Wind Game, Away From the Crowd, The Cutback Rule — or run the Match engine session theme.</p>`},
+
+{n:"10",h:"One job per zone",b:`
+<p>A player's job is defined by where the ball is, not where they are standing. Three zones — ours, the middle, theirs. Every player learns one job and one thought per zone. Repeat these verbatim, every week, until they say them back to you.</p>
+
+<h4 class="mh4">Ball in our third — building</h4>
+<table class="dials"><thead><tr><th>Player</th><th>Job</th><th>The thought</th></tr></thead><tbody>
+<tr><td class="dl">CB</td><td>Split wide of the goal, be an easy pass</td><td>"I am always available."</td></tr>
+<tr><td class="dl">Outside backs</td><td>High and wide, on the touchline</td><td>"I make the field big."</td></tr>
+<tr><td class="dl">Pivots</td><td>One drops to the ball, one stays high. Never both.</td><td>"One low, one high — never two of the same."</td></tr>
+<tr><td class="dl">Wingers</td><td>Stay high, stay wide, do not come back</td><td>"I am the reward, not the rescue."</td></tr>
+<tr><td class="dl">Striker</td><td>Pin the last defender</td><td>"I hold their line where I want it."</td></tr>
+</tbody></table>
+
+<h4 class="mh4">Ball in the middle — progressing</h4>
+<table class="dials"><thead><tr><th>Player</th><th>Job</th><th>The thought</th></tr></thead><tbody>
+<tr><td class="dl">CB</td><td>Step up behind the ball — ten yards, not thirty. Be the recycle station.</td><td>"I follow the ball forward."</td></tr>
+<tr><td class="dl">Outside backs</td><td>Ball side: overlap or offer wide. Far side: tuck in, move up with the line.</td><td>"Ball near, I attack. Ball far, I balance."</td></tr>
+<tr><td class="dl">Pivots</td><td>Come short, play the pass, then run beyond the ball. Movement is vertical and diagonal, never sideways-sideways-back.</td><td>"Pass, then go. I follow my pass."</td></tr>
+<tr><td class="dl">Wingers</td><td>Stretch to the touchline and threaten behind — give the pivot two forward targets</td><td>"Wide feet, forward eyes."</td></tr>
+<tr><td class="dl">Striker</td><td>Move opposite the ball to open a lane, or show short to bounce it</td><td>"I make the defender choose."</td></tr>
+</tbody></table>
+
+<h4 class="mh4">Ball in their third — finishing</h4>
+<table class="dials"><thead><tr><th>Player</th><th>Job</th><th>The thought</th></tr></thead><tbody>
+<tr><td class="dl">CB</td><td>Halfway line, central. The wall every clearance hits.</td><td>"Nothing gets past me for free."</td></tr>
+<tr><td class="dl">Outside backs</td><td>Ball side joins the attack; far side holds with the CB</td><td>"One of us joins, one of us insures."</td></tr>
+<tr><td class="dl">Pivots</td><td>One arrives at the top of the box for the cutback; one screens behind the ball</td><td>"One finishes, one protects."</td></tr>
+<tr><td class="dl">Wingers</td><td>Ball side attacks the end line; far side attacks the back post</td><td>"Line or back post — never in between."</td></tr>
+<tr><td class="dl">Striker</td><td>In the box, moving, arriving as the ball arrives</td><td>"I arrive, I do not wait."</td></tr>
+</tbody></table>
+
+<h4 class="mh4">The two team rules that tie it together</h4>
+<p><strong>The ball is the whistle.</strong> When the ball goes forward, that is the starting gun for everyone — the back line jumps ten hard yards together. Nobody watches a break; you are in it or moving to be in it. Drill: The Jump.</p>
+<p><strong>Follow your pass.</strong> A forward pass is the start of your run, not the end of your job — beyond the ball within five seconds. Drill: Follow Your Pass.</p>
+<p>The count that enforces both: how many of us are over halfway when the shot goes in? Say the number out loud after every goal in every scrimmage.</p>`},
+
+{n:"11",h:"Where to go deeper",b:`
 <p><strong>Intensity</strong> — Pep Lijnders. A season inside Liverpool, written by the man who designed the sessions. Closest thing to a primary source on this method.</p>
 <p><strong>Tactical Periodization</strong> — Xavier Tamarit. The clearest English entry point into Vítor Frade's model. Dense, worth it.</p>
 <p><strong>The Constraints-Led Approach</strong> — Renshaw, Davids, Newcombe &amp; Roberts. The theory behind every constraint in this library, written for practitioners.</p>
@@ -1437,7 +1836,7 @@ function renderMethod(){
    Bump BUILD on every push. The app checks the live file on
    launch and reloads itself if GitHub has a newer build.
    ============================================================ */
-const BUILD = "2026.08.02.2";
+const BUILD = "2026.08.09.3";
 
 async function checkForUpdate(){
   if(!/^https?:$/.test(location.protocol)) return;

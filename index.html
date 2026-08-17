@@ -856,7 +856,71 @@ const D = [
  reg:"You shout JUMP the first rounds until the line moves without it.",
  note:"Fixes the walking. The kids strolling forward on a break are not lazy — they think the break does not involve them. This rule makes the back of the team part of every attack, keeps the counter-press close if we lose it, and squeezes the space their counter needs.",
  dia:[{k:'z',x:38,y:50},{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:30,y:25},{k:'a',x:28,y:50},{k:'a',x:30,y:75},{k:'a',x:60,y:40},{k:'a',x:70,y:60},{k:'b',x:64,y:42},
-      {k:'r',x:34,y:25,x2:46,y2:25},{k:'r',x:32,y:50,x2:44,y2:50},{k:'r',x:34,y:75,x2:46,y2:75}]}
+      {k:'r',x:34,y:25,x2:46,y2:25},{k:'r',x:32,y:50,x2:44,y2:50},{k:'r',x:34,y:75,x2:46,y2:75}]},
+
+/* ---------- WEEK: 3-3-2, TRIGGERS, COVER, LOOSE BALLS ---------- */
+{id:"tri332",name:"The Midfield Triangle",cat:"shape",moment:"inposs",pr:[10,11],phys:"Moderate",
+ mins:14,work:"4 x 3min, 90s rest",space:"45 x 35",players:[12,18],
+ constraint:"The three midfielders must always make a triangle with the point at the back — one holder behind, two ahead. I freeze at random. If the three are ever flat in a line, or the holder is level with or ahead of the other two, the other team gets the ball.",
+ cues:["One behind, two ahead","Holder — you are the point","If you go, someone drops"],
+ prog:"The holder is allowed to join the attack, but one attacking mid must drop into his spot before he goes.",
+ reg:"Walk it unopposed with the three midfielders only, calling out who is the point.",
+ note:"This installs the 3-3-2 middle. The holder is your permanent central cover, which is what fixes the stretched-wide problem, and he is also the low pivot from the build-up so every decision you have taught still applies.",
+ dia:[{k:'a',x:20,y:30},{k:'a',x:20,y:70},{k:'a',x:38,y:50},{k:'a',x:58,y:30},{k:'a',x:58,y:70},{k:'a',x:82,y:40},{k:'a',x:82,y:62},{k:'d',x:50,y:50},{k:'d',x:68,y:45},{k:'b',x:40,y:52}]},
+
+{id:"cover",name:"Press and Cover",cat:"engine",moment:"outposs",pr:[5,10],phys:"Repeated accel",
+ mins:14,work:"4 x 3min, 90s rest",space:"45 x 35, two goals",players:[12,18],
+ constraint:"When a wide player steps to press, the nearest central player must be inside and behind him within three seconds. If the presser gets beaten and there is nobody covering, that is a free run — no defender may chase for five seconds. The pair only counts as pressing if both are in position.",
+ cues:["You go, I cover","Inside and behind","Press in pairs"],
+ prog:"The cover player must also call GO or HOLD out loud when the presser is deciding.",
+ reg:"You name the presser and the cover on every play for the first round.",
+ note:"The stretched-wide problem is not really the wide player's fault — it is nobody moving to cover behind him. This makes the cover the job that gets punished if it is missed.",
+ dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'d',x:70,y:20},{k:'b',x:73,y:22},{k:'a',x:58,y:25},{k:'a',x:50,y:42},{k:'a',x:38,y:55},{k:'a',x:30,y:75},{k:'r',x:52,y:40,x2:56,y2:32}]},
+
+{id:"shiftpress",name:"Switch and Slide",cat:"engine",moment:"outposs",pr:[5,10],phys:"Repeated sprint",
+ mins:14,work:"4 x 3min, 90s rest",space:"50 x 35, wide channels",players:[12,18],
+ constraint:"When the ball is switched to the far side, the whole defending team must have shifted so that no defender is more than fifteen yards from the ball side by the time it arrives. Two spare balls sit at the ends of the wide channels — a switch that catches the defence still on the wrong side, the attacker plays straight to the spare and scores.",
+ cues:["Ball moves, we move","Slide as one","Far side tucks — you are cover now"],
+ prog:"Shrink it to ten yards.",
+ reg:"Coach walks with the ball and shouts SLIDE on each switch until they move without it.",
+ note:"The other half of the stretched-wide fix. Being compact only works if the whole line slides together when the ball changes sides.",
+ dia:[{k:'z',x:22,y:50},{k:'z',x:78,y:50},{k:'d',x:14,y:30},{k:'b',x:16,y:32},{k:'d',x:88,y:70},{k:'a',x:30,y:30},{k:'a',x:38,y:50},{k:'a',x:46,y:70},{k:'a',x:26,y:75},{k:'r',x:20,y:32,x2:82,y2:66}]},
+
+{id:"trigger2",name:"Trigger Ladder",cat:"engine",moment:"outposs",pr:[1,5],phys:"Repeated sprint",
+ mins:16,work:"4 x 3.5min, 90s rest",space:"50 x 35, two goals",players:[12,18],
+ constraint:"Four triggers, and I call which ones are live before each round: bad touch, backwards pass, bouncing ball, and a pass to the wide player facing his own goal. Round one — only bad touch is live. Round two — add the back pass. Round three — all four. Round four — nothing is announced. Press without a live trigger and the other team gets a free pass forward. Press ON one and win it — double.",
+ cues:["What is live right now?","Bad touch — GO","See it before it happens"],
+ prog:"The final round has no coach voice at all — the kids call the triggers themselves.",
+ reg:"Two triggers maximum, and you shout them as they happen.",
+ note:"Progression of Press the Trigger. Adding triggers one at a time teaches recognition, and the silent last round tests whether they see it themselves — which is the whole point.",
+ dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'d',x:65,y:30},{k:'d',x:72,y:60},{k:'b',x:68,y:32},{k:'a',x:50,y:28},{k:'a',x:44,y:52},{k:'a',x:30,y:45},{k:'r',x:53,y:30,x2:61,y2:31}]},
+
+{id:"fifty",name:"Fifty-Fifty Gauntlet",cat:"duels",moment:"outposs",pr:[4,6],phys:"Braking / COD",
+ mins:14,work:"12 reps, 40s rest",space:"30 x 20, two goals",players:[8,16],
+ constraint:"Two players start on the same line, coach plays a ball out in front of them into space. First one to it plays 1v1 to goal. But: if either player slows before reaching it, that player is out of the rep and the other goes to goal alone. Arriving second at full speed still counts — slowing down does not.",
+ cues:["Run through it, not to it","Body first, ball second","Slowing down is the only way to lose"],
+ prog:"Two v two, both pairs sprinting to the same ball.",
+ reg:"Play the ball closer so the run is shorter.",
+ note:"The loose-ball fix. The kid who slows down to see who gets there is the one you are coaching out. Full speed and second is legal; hesitating is not.",
+ dia:[{k:'a',x:15,y:40},{k:'d',x:15,y:60},{k:'b',x:50,y:50},{k:'g',x:94,y:50},{k:'r',x:20,y:42,x2:44,y2:49},{k:'r',x:20,y:58,x2:44,y2:51}]},
+
+{id:"tacklethru",name:"Tackle Through",cat:"duels",moment:"outposs",pr:[4,6],phys:"Braking / COD",
+ mins:12,work:"10 reps each, 45s rest",space:"20 x 12 channel",players:[6,16],
+ constraint:"Attacker dribbles at the defender. Defender must make contact with the ball — a tackle, a poke, a block — inside three seconds of the attacker crossing the halfway cone. Making contact and losing the ball is fine and counts. Backing off, standing, or letting him go by without a challenge is the only failure.",
+ cues:["Get a foot on it","Contact counts, hesitating does not","Step, then step again"],
+ prog:"Attacker gets a running start.",
+ reg:"Attacker walks in for the first few reps.",
+ note:"You said the kids run through a play or tackle instead of committing. This isolates the commitment: touching the ball, even badly, is always the right answer here.",
+ dia:[{k:'z',x:50,y:50},{k:'a',x:20,y:50},{k:'d',x:72,y:50},{k:'b',x:26,y:52},{k:'r',x:28,y:50,x2:62,y2:50}]},
+
+{id:"three32",name:"3-3-2 Live",cat:"engine",moment:"trans-def",pr:[1,5,10],phys:"Repeated sprint",
+ mins:20,work:"4 x 4min, 2min rest",space:"Full 9v9 pitch",players:[14,18],
+ constraint:"9v9, our 3-3-2 against whatever the other team wants. Three rules live at once: press only on a called trigger, cover behind every wide press, and the midfield triangle must hold its point. I count each of them out loud. Break one, the other team gets a free pass forward. Break two in one play, free shot.",
+ cues:["Trigger, cover, triangle","Who is the point?","Slide"],
+ prog:"You go silent for the last round and the captains do the counting.",
+ reg:"One rule live per round, rotating.",
+ note:"The whole week under match pressure. This is the block that tells you what stuck.",
+ dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:20,y:25},{k:'a',x:20,y:50},{k:'a',x:20,y:75},{k:'a',x:38,y:50},{k:'a',x:52,y:32},{k:'a',x:52,y:68},{k:'a',x:75,y:40},{k:'a',x:75,y:60},{k:'d',x:65,y:50},{k:'d',x:80,y:30}]}
 
 ];
 
@@ -1332,6 +1396,27 @@ function renderLang(){
    TEACH IT — what you're actually teaching, and how to say it
    ============================================================ */
 const EX = {
+tri332:{p:"The midfield three is a triangle with the point at the back. The holder is the point — he is the cover, and he is the low pivot when we build.",
+ s:"You three in the middle are a triangle. One of you is always behind the other two — that is the point, that is our holder. If I look at you and you are in a line, or the point has run ahead, I stop it and they get the ball. If the point wants to go forward, one of the other two drops into his spot first.",
+ c:"What shape are the three of you, and who is the point?", l:"One player consistently sitting behind the other two, and someone dropping when he steps."},
+cover:{p:"A press only works in pairs. When one steps, one covers behind. The stretched-wide problem is not the presser's fault, it is nobody covering.",
+ s:"When one of you goes to press out wide, the nearest player inside has three seconds to get behind and inside him. If the presser gets beaten and nobody is there, that is a free run and nobody may chase for five seconds. So the cover is the job that gets punished if you skip it.",
+ c:"When your teammate presses wide, where do you go?", l:"Every wide press has a second body inside and behind it before the attacker can beat the first."},
+shiftpress:{p:"Being compact only works if the whole team slides together when the ball switches sides.",
+ s:"When they switch the ball to the other side, all of us slide across. Everyone. If they switch it and one of us is still standing on the old side, they play to that spare ball in the channel and score. So when the ball moves, we move.",
+ c:"What happens when the ball switches sides?", l:"The whole line sliding as one block, far side tucking in as it goes."},
+trigger2:{p:"Pressing on a signal, not on emotion. We add signals one at a time until you see all four without me telling you.",
+ s:"Round one, the only signal is a bad touch. Round two, I add the back pass. Round three, all four are live — bad touch, back pass, bouncing ball, and a wide player facing his own goal. Round four I say nothing at all — you call it. Press without a signal, they get a free pass. Press on one and win it, double.",
+ c:"Which signals are live this round?", l:"Bursts of pressing that start from a visible signal, and kids shouting the trigger themselves in round four."},
+fifty:{p:"Arriving second at full speed is fine. Slowing down to see who gets there is the only way to lose a loose ball.",
+ s:"I play a ball out in front of you two. First one there goes to goal one v one. But if either of you slows down before you reach it, you are out of the rep and the other one goes to goal on his own. Second place at full speed still counts. Slowing down does not.",
+ c:"What is the only way to lose this rep?", l:"Two players still accelerating when they reach the ball, and contact instead of hesitation."},
+tacklethru:{p:"Getting a foot on the ball is always the right answer. Contact and losing it counts. Standing there does not.",
+ s:"He dribbles at you. Once he crosses the middle cone, you have three seconds to get a foot on the ball — a tackle, a poke, a block, anything. Touching it and losing it is fine. Backing off and letting him go past without a challenge is the only way to fail.",
+ c:"What counts as a success here?", l:"Defenders stepping in and making contact instead of backing up."},
+three32:{p:"Everything from this week, live, under match pressure. Trigger, cover, triangle.",
+ s:"Real game, our shape. Three rules at once: press only on a signal, cover behind every wide press, and the middle three keep their point. I count all three out loud. Break one, they get a free pass. Break two in the same play, free shot.",
+ c:"What are the three rules?", l:"The three habits surviving fatigue and a real opponent."},
 followpass:{p:"The pass is the start of your run, not the end of your job. Midfield movement is vertical and diagonal — drop to get it, play it, then go beyond it.",
  s:"New rule for everyone, but especially you two in the middle. When you pass it forward, you have five seconds to get past the ball. I will count. If you are still standing behind your pass at five, the ball goes to them. Drop, receive, play — then GO.",
  c:"What do you do right after you pass forward?", l:"Pivots arriving beyond the ball and third-man runs appearing without being coached."},
@@ -1460,6 +1545,13 @@ throw:{p:"Restarts are free speed. Most youth teams give away all their tempo at
 };
 
 const KIT = {
+tri332:{s:"One ball",b:"One ball plus spares.",g:"Cones for a 45x35 box, bibs, whistle"},
+cover:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs"},
+shiftpress:{s:"One ball",b:"One ball in play plus a spare sitting at the far end of each wide channel — those spares are part of the drill.",g:"Two small goals or targets, cones for the wide channels, bibs"},
+trigger2:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs"},
+fifty:{s:"You serve",b:"Bag of balls at your feet — you play every ball out into space so the run is honest.",g:"Two small goals, cones for the start line"},
+tacklethru:{s:"Ball each",b:"A ball for each attacker in the queue so reps go fast.",g:"Cones for a 20x12 channel and the halfway mark"},
+three32:{s:"One ball",b:"One ball plus spares in both goals.",g:"Full 9v9 pitch, two goals, keepers, bibs"},
 followpass:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs"},
 jumpline:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, cones marking each jump line, bibs"},
 trigger:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs"},
@@ -1503,6 +1595,13 @@ kickoff:{s:"One ball",b:"One ball on the centre spot, spares on the sideline for
 throw:{s:"Game ball",b:"Whatever ball the game you're already running is using. No extra equipment.",g:"None"}
 };
 const SETUP = {
+tri332:"45x35, 7v5 or 8v6 in favour of the team in possession, using the actual 3-3-2 shape for the possession team. You stand outside with a whistle and freeze play whenever the midfield three lose their triangle.",
+cover:"45x35 with a goal and keeper each end, 6v6. Play normally. You referee the three-second cover rule loudly for the first round.",
+shiftpress:"50x35 with cone lines marking a wide channel down each side and a spare ball resting at the far end of each channel. 6v6 with small goals. Attackers are encouraged to switch the ball frequently.",
+trigger2:"50x35 with a goal and keeper each end, 6v6. Before each round you announce which triggers are live. Round four you announce nothing.",
+fifty:"30x20 with a small goal at each end. Two players start shoulder to shoulder on the same line, you stand behind them and play a ball out into space in front. Rotate pairs constantly — run two lanes if you have numbers.",
+tacklethru:"20x12 channel with a cone at halfway. Attacker starts at one end with the ball, defender starts at the other. Attacker dribbles at him. Pairs queue and rotate; the three-second clock starts when the ball crosses halfway.",
+three32:"Full 9v9 pitch, goals and keepers, one team in the 3-3-2 against a second team playing however you like. Two captains stand with you for the counting in the final round.",
 followpass:"40x30 with a goal and keeper at each end, 5v5 or 6v6. Normal football with the follow rule. You count the five seconds out loud after every forward pass until they start moving without it.",
 jumpline:"50x35 with a goal and keeper at each end, 6v6 or 7v7. Cone a jump line ten yards ahead of each team's normal defensive line. Play normal football — the rule does the rest.",
 trigger:"45x35 with a goal and keeper at each end, 6v6. Normal football with one pressing rule. You referee the triggers loudly for the first rounds so everyone hears what counts.",
@@ -1570,7 +1669,7 @@ const IV = {
  brake:[6,20,40], react:[8,8,45], milly:[4,120,60], cprondo:[5,120,90], hunt:[4,150,90],
  bounce:[10,25,35], step:[6,30,45], war:[12,25,45], six:[4,240,120], wide:[3,300,120],
  cont32:[4,180,90], identity:[6,180,90], street:[1,480,0], line:[4,180,90], ignite:[10,30,60],
- chase:[8,20,60], followpass:[4,180,90], jumpline:[4,150,90], trigger:[4,180,90], shifts:[8,90,30], secondwind:[5,180,60], away:[4,180,90], cutback:[5,150,90], gkfour:[12,25,45], pivot:[4,180,90], inbackthru:[4,180,90], hold:[4,150,90], provoke:[5,150,90], walk:[2,300,60], twoopt:[4,180,90], tri:[5,90,60], fwdrec:[4,180,90],
+ chase:[8,20,60], tri332:[4,180,90], cover:[4,180,90], shiftpress:[4,180,90], trigger2:[4,210,90], fifty:[12,20,40], tacklethru:[10,15,45], three32:[4,240,120], followpass:[4,180,90], jumpline:[4,150,90], trigger:[4,180,90], shifts:[8,90,30], secondwind:[5,180,60], away:[4,180,90], cutback:[5,150,90], gkfour:[12,25,45], pivot:[4,180,90], inbackthru:[4,180,90], hold:[4,150,90], provoke:[5,150,90], walk:[2,300,60], twoopt:[4,180,90], tri:[5,90,60], fwdrec:[4,180,90],
  third:[4,150,90], clump:[4,180,90], rest:[4,240,120], winit3:[5,150,90], c42:[5,150,90], firstshot:[4,150,90], corner:[12,25,40], kickoff:[10,20,40], throw:[1,480,0]
 };
 let fieldView = "session";
@@ -1811,6 +1910,8 @@ const METHOD = [
 <tr><td class="dl">Striker</td><td>In the box, moving, arriving as the ball arrives</td><td>"I arrive, I do not wait."</td></tr>
 </tbody></table>
 
+<h4 class="mh4">The 3-3-2 adjustment</h4>
+<p>Same jobs, one change: the midfield is a <strong>triangle with the point at the back</strong>. The holder is the point — permanent central cover, and the low pivot when we build. The two ahead of him are the high pivots. Wide backs can step and press because the holder is always behind them. When the holder wants to join, one of the two ahead drops into his spot first. That triangle is what fixes getting stretched wide, and it flexes back into a 3-2-3 by pushing one attacking mid up.</p>
 <h4 class="mh4">The two team rules that tie it together</h4>
 <p><strong>The ball is the whistle.</strong> When the ball goes forward, that is the starting gun for everyone — the back line jumps ten hard yards together. Nobody watches a break; you are in it or moving to be in it. Drill: The Jump.</p>
 <p><strong>Follow your pass.</strong> A forward pass is the start of your run, not the end of your job — beyond the ball within five seconds. Drill: Follow Your Pass.</p>
@@ -1836,7 +1937,7 @@ function renderMethod(){
    Bump BUILD on every push. The app checks the live file on
    launch and reloads itself if GitHub has a newer build.
    ============================================================ */
-const BUILD = "2026.08.09.3";
+const BUILD = "2026.08.16.1";
 
 async function checkForUpdate(){
   if(!/^https?:$/.test(location.protocol)) return;

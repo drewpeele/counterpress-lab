@@ -463,6 +463,15 @@ body.bfocus .bpitch{max-width:100%}
       <option value="3-2-3">Shape: 3-2-3</option>
       <option value="2-3-3">Shape: 2-3-3</option>
       <option value="3-1-3-1">Shape: 3-1-3-1</option>
+      <option value="3-2-1-2">Shape: 3-2-1-2</option>
+    </select>
+    <select class="btool" id="bshapethem" aria-label="Opposition shape">
+      <option value="">Them: same</option>
+      <option value="3-3-2">Them: 3-3-2</option>
+      <option value="3-2-3">Them: 3-2-3</option>
+      <option value="2-3-3">Them: 2-3-3</option>
+      <option value="3-1-3-1">Them: 3-1-3-1</option>
+      <option value="3-2-1-2">Them: 3-2-1-2</option>
     </select>
     <button class="btool" id="bplay">Play</button>
     <button class="btool" id="borient">Rotate</button>
@@ -477,7 +486,8 @@ body.bfocus .bpitch{max-width:100%}
   <p class="bhint"><b>Move</b> drags players and the ball. Pick <b>Run</b>, <b>Pass</b> or <b>Press</b> and
   drag on the pitch to draw an arrow. <b>+ Frame</b> copies the current positions to a new frame — move them,
   then <b>Play</b> animates the whole sequence. <b>Focus</b> hides the header so the pitch fills the phone.
-  Red is us, outlined is them, up the page is the way we attack.</p>
+  Red triangles are us and they point the way we attack; outlined circles are them.
+  <b>Them</b> defaults to mirroring our shape — set it separately to model an opponent.</p>
 </section>
 
 <section id="view-method" role="tabpanel" aria-labelledby="tab-method" class="hide">
@@ -2020,7 +2030,10 @@ const FORMS = {
   "3-3-2":  [[25,4],[10,20],[25,17],[40,20],[10,41],[25,33],[40,41],[18,58],[32,58]],
   "3-2-3":  [[25,4],[10,20],[25,17],[40,20],[16,38],[34,38],[8,58],[25,61],[42,58]],
   "2-3-3":  [[25,4],[16,18],[34,18],[10,38],[25,35],[40,38],[8,58],[25,61],[42,58]],
-  "3-1-3-1":[[25,4],[10,20],[25,17],[40,20],[25,31],[10,46],[25,43],[40,46],[25,61]]
+  "3-1-3-1":[[25,4],[10,20],[25,17],[40,20],[25,31],[10,46],[25,43],[40,46],[25,61]],
+  /* 3-2-1-2 — back three, two holding mids, one at the tip, two up top.
+     5 and 6 screen; 7 is the free man between the lines. */
+  "3-2-1-2":[[25,4],[10,20],[25,17],[40,20],[17,32],[33,32],[25,45],[17,60],[33,60]]
 };
 
 const BPEN = {
@@ -2035,21 +2048,23 @@ let BTOOL = "move";
 let BPLAY = null;
 let BDRAG = null;
 
-function newBoard(shape){
+function newBoard(shape, shapeThem){
   const f = FORMS[shape] || FORMS["3-3-2"];
+  const g = FORMS[shapeThem] || f;          /* blank = they mirror our shape */
   const roster = [];
   const pos = {};
   f.forEach((p,i)=>{ /* our shape, attacking up the page */
     roster.push({id:"u"+i, side:"us", label:String(i+1)});
     pos["u"+i] = {x:p[0], y:p[1]};
   });
-  f.forEach((p,i)=>{
+  g.forEach((p,i)=>{
     roster.push({id:"t"+i, side:"them", label:String(i+1)});
     pos["t"+i] = {x:BW - p[0], y:BL - p[1]};
   });
   roster.push({id:"ball", side:"ball", label:""});
   pos.ball = {x:25, y:38};
-  return {orient:"v", shape:shape||"3-3-2", roster, frames:[{pos, draws:[]}], cur:0, name:null};
+  return {orient:"v", shape:shape||"3-3-2", shapeThem:shapeThem||"", roster,
+          frames:[{pos, draws:[]}], cur:0, name:null};
 }
 
 function bFrame(){ return BOARD.frames[BOARD.cur]; }
@@ -2118,15 +2133,32 @@ function bDraw(d){
 function bToken(t,p,r){
   const a = bxy(p.x,p.y);
   const rad = (r || 1.9) * BU;
+  const dp = ` data-x="${p.x.toFixed(2)}" data-y="${p.y.toFixed(2)}"`;
+
   if(t.side === "ball")
-    return `<g class="btok" data-id="${t.id}">`
+    return `<g class="btok" data-id="${t.id}"${dp}>`
       + `<circle cx="${a[0]}" cy="${a[1]}" r="${0.95*BU}" fill="#E9EFE9" stroke="#0C1310" stroke-width="2"/></g>`;
-  const fill = t.side === "us" ? "#D8283C" : "none";
-  const stroke = t.side === "us" ? "#0C1310" : "#E9EFE9";
-  const txt = t.side === "us" ? "#E9EFE9" : "#E9EFE9";
-  return `<g class="btok" data-id="${t.id}">`
-    + `<circle cx="${a[0]}" cy="${a[1]}" r="${rad}" fill="${fill}" stroke="${stroke}" stroke-width="2.5"/>`
-    + `<text x="${a[0]}" y="${a[1]+5}" text-anchor="middle" font-size="14" font-weight="700" fill="${txt}" font-family="Archivo,sans-serif" pointer-events="none">${t.label}</text>`
+
+  /* us = filled triangle, apex pointing the way we attack.
+     them = outlined circle. Shape carries the team, not just colour,
+     so it still reads at arm's length in sunlight. */
+  if(t.side === "us"){
+    const R = 2.35 * BU;
+    const q = BOARD.orient === "v"
+      ? [[a[0], a[1]-R], [a[0]-R*0.866, a[1]+R*0.5], [a[0]+R*0.866, a[1]+R*0.5]]
+      : [[a[0]+R, a[1]], [a[0]-R*0.5, a[1]-R*0.866], [a[0]-R*0.5, a[1]+R*0.866]];
+    const d = q.map((c,i)=>(i?"L":"M")+c[0].toFixed(1)+" "+c[1].toFixed(1)).join(" ")+" Z";
+    const tx = BOARD.orient === "v" ? a[0] : a[0] - R*0.26;
+    const ty = BOARD.orient === "v" ? a[1] + R*0.30 : a[1] + 4.5;
+    return `<g class="btok" data-id="${t.id}"${dp}>`
+      + `<path d="${d}" fill="#D8283C" stroke="#0C1310" stroke-width="2.5" stroke-linejoin="round"/>`
+      + `<text x="${tx}" y="${ty}" text-anchor="middle" font-size="13" font-weight="700" fill="#E9EFE9" font-family="Archivo,sans-serif" pointer-events="none">${t.label}</text>`
+      + `</g>`;
+  }
+
+  return `<g class="btok" data-id="${t.id}"${dp}>`
+    + `<circle cx="${a[0]}" cy="${a[1]}" r="${rad}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`
+    + `<text x="${a[0]}" y="${a[1]+5}" text-anchor="middle" font-size="14" font-weight="700" fill="#E9EFE9" font-family="Archivo,sans-serif" pointer-events="none">${t.label}</text>`
     + `</g>`;
 }
 
@@ -2335,7 +2367,8 @@ async function bSave(){
   const name = window.prompt("Name this situation:", BOARD.name || "High press trigger");
   if(!name) return;
   const ok = await store.set("cpl:b:"+name, JSON.stringify({
-    orient:BOARD.orient, shape:BOARD.shape, roster:BOARD.roster, frames:BOARD.frames
+    orient:BOARD.orient, shape:BOARD.shape, shapeThem:BOARD.shapeThem,
+    roster:BOARD.roster, frames:BOARD.frames
   }));
   if(!ok){ toast("Could not save"); return; }
   const idx = await bSavedIndex();
@@ -2362,7 +2395,10 @@ async function bLoad(){
   if(!raw){ toast("Could not load"); return; }
   try{
     const o = JSON.parse(raw);
-    BOARD = {orient:o.orient||"v", shape:o.shape||"3-3-2", roster:o.roster, frames:o.frames, cur:0, name};
+    BOARD = {orient:o.orient||"v", shape:o.shape||"3-3-2", shapeThem:o.shapeThem||"",
+             roster:o.roster, frames:o.frames, cur:0, name};
+    $("#bshape").value = BOARD.shape;
+    $("#bshapethem").value = BOARD.shapeThem;
     renderBoard(); toast("Loaded " + name);
   }catch(e){ toast("Could not load"); }
 }
@@ -2372,12 +2408,13 @@ Object.keys(BPEN).concat(["move","erase"]).forEach(k=>{
   const el = $("#btool-"+k);
   if(el) el.addEventListener("click",()=>{ BTOOL = k; renderBoard(); });
 });
-$("#bshape").addEventListener("change",()=>{
-  const keep = BOARD && BOARD.name;
-  BOARD = newBoard($("#bshape").value);
-  BOARD.name = null;
-  renderBoard(); toast("Shape reset");
-});
+function bReshape(){
+  BOARD = newBoard($("#bshape").value, $("#bshapethem").value);
+  renderBoard();
+  toast($("#bshapethem").value ? "Shapes reset" : "Shape reset — they mirror us");
+}
+$("#bshape").addEventListener("change", bReshape);
+$("#bshapethem").addEventListener("change", bReshape);
 $("#borient").addEventListener("click",()=>{
   BOARD.orient = BOARD.orient === "v" ? "h" : "v";
   renderBoard();
@@ -2386,7 +2423,8 @@ $("#bclear").addEventListener("click",()=>{
   bFrame().draws = []; renderBoard(); toast("Arrows cleared");
 });
 $("#bnew").addEventListener("click",()=>{
-  BOARD = newBoard($("#bshape").value); renderBoard(); toast("New board");
+  BOARD = newBoard($("#bshape").value, $("#bshapethem").value);
+  renderBoard(); toast("New board");
 });
 $("#bfocus").addEventListener("click",()=>{
   const on = document.body.classList.toggle("bfocus");
@@ -2402,7 +2440,7 @@ $("#bload").addEventListener("click", bLoad);
    Bump BUILD on every push. The app checks the live file on
    launch and reloads itself if GitHub has a newer build.
    ============================================================ */
-const BUILD = "2026.08.31.1";
+const BUILD = "2026.08.31.2";
 
 async function checkForUpdate(){
   if(!/^https?:$/.test(location.protocol)) return;

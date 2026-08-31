@@ -327,6 +327,39 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
   .item .it,.btime{color:#000}
   .bnum{color:#000}
 }
+
+/* ---------- tactics board ---------- */
+.btoolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px}
+.btoolbar .sep{width:1px;height:20px;background:var(--line);margin:0 4px}
+.btool{background:var(--surface);border:1px solid var(--line);color:var(--muted);cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  font-size:12px;padding:7px 11px;border-radius:var(--r);flex-shrink:0}
+.btool:hover{color:var(--chalk)}
+.btool:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.btool[disabled]{opacity:.35;cursor:default}
+.btool[data-on="1"]{background:var(--red-dim);color:var(--chalk);border-color:var(--red)}
+.btool .sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+select.btool{-webkit-appearance:none;appearance:none;padding-right:22px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 13px) 12px,calc(100% - 8px) 12px;background-size:5px 5px;background-repeat:no-repeat}
+#bstage{border:1px solid var(--line);background:var(--pitch);padding:10px;margin-bottom:14px}
+body.bfocus header{display:none}
+body.bfocus nav{margin:10px 0 14px}
+body.bfocus .bhint{display:none}
+body.bfocus #bstage{padding:4px}
+body.bfocus .bpitch{max-width:100%}
+.bpitch{width:100%;max-width:430px;margin:0 auto;display:block;touch-action:none;
+  user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.bpitch.wide{max-width:100%}
+.btok{cursor:grab}
+.bframes{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.bdot{width:30px;height:30px;border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;border-radius:var(--r);flex-shrink:0}
+.bdot[data-on="1"]{background:var(--cyan);color:var(--pitch);border-color:var(--cyan)}
+.bhint{color:var(--muted);font-size:13px;max-width:620px}
+.bhint b{color:var(--chalk);font-weight:600}
+#bname{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:12px;color:var(--muted);margin-left:auto}
 </style>
 </head>
 <body>
@@ -343,6 +376,7 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
   <button role="tab" id="tab-lib" aria-selected="true" aria-controls="view-lib">Drill library</button>
   <button role="tab" id="tab-ses" aria-selected="false" aria-controls="view-ses">Session builder</button>
   <button role="tab" id="tab-field" aria-selected="false" aria-controls="view-field">Field mode</button>
+  <button role="tab" id="tab-board" aria-selected="false" aria-controls="view-board">Board</button>
   <button role="tab" id="tab-method" aria-selected="false" aria-controls="view-method">Method</button>
   <button role="tab" id="tab-lang" aria-selected="false" aria-controls="view-lang">Sideline language</button>
 </nav>
@@ -407,6 +441,45 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
 </section>
 
 <!-- ============ METHOD ============ -->
+<!-- ============ TACTICS BOARD ============ -->
+<section id="view-board" role="tabpanel" aria-labelledby="tab-board" class="hide">
+  <div id="bstage"></div>
+
+  <div class="btoolbar">
+    <button class="btool" id="btool-move" data-on="1">Move</button>
+    <button class="btool" id="btool-run"><span class="sw" style="background:#5FBFA6"></span>Run</button>
+    <button class="btool" id="btool-pass"><span class="sw" style="background:#E9C46A"></span>Pass</button>
+    <button class="btool" id="btool-press"><span class="sw" style="background:#D8283C"></span>Press</button>
+    <button class="btool" id="btool-free"><span class="sw" style="background:#8CA396"></span>Line</button>
+    <button class="btool" id="btool-erase">Erase</button>
+    <button class="btool" id="bclear">Clear arrows</button>
+  </div>
+
+  <div class="bframes" id="bframes"></div>
+
+  <div class="btoolbar">
+    <select class="btool" id="bshape" aria-label="Starting shape">
+      <option value="3-3-2">Shape: 3-3-2</option>
+      <option value="3-2-3">Shape: 3-2-3</option>
+      <option value="2-3-3">Shape: 2-3-3</option>
+      <option value="3-1-3-1">Shape: 3-1-3-1</option>
+    </select>
+    <button class="btool" id="bplay">Play</button>
+    <button class="btool" id="borient">Rotate</button>
+    <button class="btool" id="bfocus">Focus</button>
+    <span class="sep"></span>
+    <button class="btool" id="bsave">Save</button>
+    <button class="btool" id="bload">Load saved</button>
+    <button class="btool" id="bnew">Reset</button>
+    <span id="bname">Unsaved situation</span>
+  </div>
+
+  <p class="bhint"><b>Move</b> drags players and the ball. Pick <b>Run</b>, <b>Pass</b> or <b>Press</b> and
+  drag on the pitch to draw an arrow. <b>+ Frame</b> copies the current positions to a new frame — move them,
+  then <b>Play</b> animates the whole sequence. <b>Focus</b> hides the header so the pitch fills the phone.
+  Red is us, outlined is them, up the page is the way we attack.</p>
+</section>
+
 <section id="view-method" role="tabpanel" aria-labelledby="tab-method" class="hide">
   <div id="methodout"></div>
 </section>
@@ -1036,7 +1109,7 @@ $("#clearall").addEventListener("click",()=>{
 });
 
 /* ---------- tabs ---------- */
-const TABS=["lib","ses","field","method","lang"];
+const TABS=["lib","ses","field","board","method","lang"];
 TABS.forEach(v=>$("#tab-"+v).addEventListener("click",()=>swap(v)));
 function swap(v){
   TABS.forEach(k=>{
@@ -1044,6 +1117,8 @@ function swap(v){
     $("#view-"+k).classList.toggle("hide",k!==v);
   });
   if(v==="field") renderField();
+  if(v==="board") renderBoard();
+  if(v!=="board" && typeof bStop==="function" && BPLAY) bStop();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -1933,11 +2008,401 @@ function renderMethod(){
 }
 
 /* ============================================================
+   TACTICS BOARD — 9v9 field mapping
+   Drag players, draw runs/passes/press, save named situations,
+   step or animate through frames. No dependencies.
+   ============================================================ */
+const BM = 20, BU = 9, BW = 50, BL = 76;          /* margin px, px/yard, pitch width & length in yards */
+const BVW = BW * BU + BM * 2, BVL = BL * BU + BM * 2;
+
+/* 9v9 shapes — [across, along], 0,0 = our left corner, y grows toward their goal */
+const FORMS = {
+  "3-3-2":  [[25,4],[10,20],[25,17],[40,20],[10,41],[25,33],[40,41],[18,58],[32,58]],
+  "3-2-3":  [[25,4],[10,20],[25,17],[40,20],[16,38],[34,38],[8,58],[25,61],[42,58]],
+  "2-3-3":  [[25,4],[16,18],[34,18],[10,38],[25,35],[40,38],[8,58],[25,61],[42,58]],
+  "3-1-3-1":[[25,4],[10,20],[25,17],[40,20],[25,31],[10,46],[25,43],[40,46],[25,61]]
+};
+
+const BPEN = {
+  run:  {stroke:"#5FBFA6", dash:"",      head:1, label:"Run"},
+  pass: {stroke:"#E9C46A", dash:"7 5",   head:1, label:"Pass"},
+  press:{stroke:"#D8283C", dash:"",      head:1, label:"Press"},
+  free: {stroke:"#8CA396", dash:"3 4",   head:0, label:"Line"}
+};
+
+let BOARD = null;
+let BTOOL = "move";
+let BPLAY = null;
+let BDRAG = null;
+
+function newBoard(shape){
+  const f = FORMS[shape] || FORMS["3-3-2"];
+  const roster = [];
+  const pos = {};
+  f.forEach((p,i)=>{ /* our shape, attacking up the page */
+    roster.push({id:"u"+i, side:"us", label:String(i+1)});
+    pos["u"+i] = {x:p[0], y:p[1]};
+  });
+  f.forEach((p,i)=>{
+    roster.push({id:"t"+i, side:"them", label:String(i+1)});
+    pos["t"+i] = {x:BW - p[0], y:BL - p[1]};
+  });
+  roster.push({id:"ball", side:"ball", label:""});
+  pos.ball = {x:25, y:38};
+  return {orient:"v", shape:shape||"3-3-2", roster, frames:[{pos, draws:[]}], cur:0, name:null};
+}
+
+function bFrame(){ return BOARD.frames[BOARD.cur]; }
+
+/* yards -> svg px, and back */
+function bxy(x,y){
+  return BOARD.orient === "v"
+    ? [BM + x*BU, BM + (BL - y)*BU]
+    : [BM + y*BU, BM + x*BU];
+}
+function binv(px,py){
+  return BOARD.orient === "v"
+    ? [(px - BM)/BU, BL - (py - BM)/BU]
+    : [(py - BM)/BU, (px - BM)/BU];
+}
+function bclamp(p){
+  p.x = Math.max(0.6, Math.min(BW - 0.6, p.x));
+  p.y = Math.max(0.6, Math.min(BL - 0.6, p.y));
+  return p;
+}
+
+function bLine(x1,y1,x2,y2,w){
+  const a = bxy(x1,y1), b = bxy(x2,y2);
+  return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#22362B" stroke-width="${w||2}"/>`;
+}
+function bRect(x1,y1,x2,y2){
+  const a = bxy(x1,y1), b = bxy(x2,y2);
+  const x = Math.min(a[0],b[0]), y = Math.min(a[1],b[1]);
+  return `<rect x="${x}" y="${y}" width="${Math.abs(b[0]-a[0])}" height="${Math.abs(b[1]-a[1])}" fill="none" stroke="#22362B" stroke-width="2"/>`;
+}
+
+function bPitch(){
+  const c = bxy(25,38);
+  const spotA = bxy(25,10), spotB = bxy(25,66);
+  let s = "";
+  s += `<rect x="0" y="0" width="${BOARD.orient==="v"?BVW:BVL}" height="${BOARD.orient==="v"?BVL:BVW}" fill="#0C1310"/>`;
+  s += bRect(0,0,50,76);
+  s += bLine(0,38,50,38);
+  s += `<circle cx="${c[0]}" cy="${c[1]}" r="${8*BU}" fill="none" stroke="#22362B" stroke-width="2"/>`;
+  s += `<circle cx="${c[0]}" cy="${c[1]}" r="3" fill="#22362B"/>`;
+  s += bRect(9,0,41,14) + bRect(9,76,41,62);
+  s += bRect(17,0,33,6) + bRect(17,76,33,70);
+  s += `<circle cx="${spotA[0]}" cy="${spotA[1]}" r="3" fill="#22362B"/>`;
+  s += `<circle cx="${spotB[0]}" cy="${spotB[1]}" r="3" fill="#22362B"/>`;
+  /* goals, drawn just outside each line */
+  const g1 = bxy(22,0), g2 = bxy(28,0), g3 = bxy(22,76), g4 = bxy(28,76);
+  if(BOARD.orient === "v"){
+    s += `<rect x="${g1[0]}" y="${g1[1]}" width="${g2[0]-g1[0]}" height="10" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
+    s += `<rect x="${g3[0]}" y="${g3[1]-10}" width="${g4[0]-g3[0]}" height="10" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
+  }else{
+    s += `<rect x="${g1[0]-10}" y="${g1[1]}" width="10" height="${g2[1]-g1[1]}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
+    s += `<rect x="${g3[0]}" y="${g3[1]}" width="10" height="${g4[1]-g3[1]}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
+  }
+  return s;
+}
+
+function bDraw(d){
+  const pts = d.pts.map(p=>bxy(p[0],p[1]));
+  const pen = BPEN[d.t] || BPEN.free;
+  const path = pts.map((p,i)=>(i?"L":"M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  return `<path d="${path}" fill="none" stroke="${pen.stroke}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"`
+    + (pen.dash ? ` stroke-dasharray="${pen.dash}"` : "")
+    + (pen.head ? ` marker-end="url(#bhead-${d.t})"` : "") + `/>`;
+}
+
+function bToken(t,p,r){
+  const a = bxy(p.x,p.y);
+  const rad = (r || 1.9) * BU;
+  if(t.side === "ball")
+    return `<g class="btok" data-id="${t.id}">`
+      + `<circle cx="${a[0]}" cy="${a[1]}" r="${0.95*BU}" fill="#E9EFE9" stroke="#0C1310" stroke-width="2"/></g>`;
+  const fill = t.side === "us" ? "#D8283C" : "none";
+  const stroke = t.side === "us" ? "#0C1310" : "#E9EFE9";
+  const txt = t.side === "us" ? "#E9EFE9" : "#E9EFE9";
+  return `<g class="btok" data-id="${t.id}">`
+    + `<circle cx="${a[0]}" cy="${a[1]}" r="${rad}" fill="${fill}" stroke="${stroke}" stroke-width="2.5"/>`
+    + `<text x="${a[0]}" y="${a[1]+5}" text-anchor="middle" font-size="14" font-weight="700" fill="${txt}" font-family="Archivo,sans-serif" pointer-events="none">${t.label}</text>`
+    + `</g>`;
+}
+
+function bDefs(){
+  return `<defs>` + Object.keys(BPEN).filter(k=>BPEN[k].head).map(k=>
+    `<marker id="bhead-${k}" markerWidth="4.4" markerHeight="4.4" refX="3.5" refY="2.2" orient="auto">`
+    + `<path d="M0,0 L4.4,2.2 L0,4.4 Z" fill="${BPEN[k].stroke}"/></marker>`).join("") + `</defs>`;
+}
+
+function bSvg(pos, draws){
+  const vb = BOARD.orient === "v" ? `0 0 ${BVW} ${BVL}` : `0 0 ${BVL} ${BVW}`;
+  let s = `<svg id="bsvg" class="bpitch${BOARD.orient==="h"?" wide":""}" viewBox="${vb}" role="img" aria-label="Tactics board">`;
+  s += bDefs() + bPitch();
+  (draws||[]).forEach(d=>{ s += bDraw(d); });
+  BOARD.roster.filter(t=>t.side!=="ball").forEach(t=>{ s += bToken(t, pos[t.id]); });
+  s += bToken(BOARD.roster.find(t=>t.side==="ball"), pos.ball);
+  return s + `</svg>`;
+}
+
+function renderBoard(){
+  if(!BOARD) BOARD = newBoard("3-3-2");
+  const f = bFrame();
+  $("#bstage").innerHTML = bSvg(f.pos, f.draws);
+  $("#bframes").innerHTML = BOARD.frames.map((x,i)=>
+    `<button class="bdot" data-i="${i}" data-on="${i===BOARD.cur?1:0}" aria-label="Frame ${i+1}">${i+1}</button>`).join("")
+    + `<button class="btool" id="baddframe">+ Frame</button>`
+    + (BOARD.frames.length>1 ? `<button class="btool" id="bdelframe">Delete frame</button>` : "");
+  Object.keys(BPEN).forEach(k=>{ const el=$("#btool-"+k); if(el) el.setAttribute("data-on", BTOOL===k?"1":"0"); });
+  $("#btool-move").setAttribute("data-on", BTOOL==="move"?"1":"0");
+  $("#btool-erase").setAttribute("data-on", BTOOL==="erase"?"1":"0");
+  $("#bplay").textContent = BOARD.frames.length>1 ? "Play" : "Play";
+  $("#bplay").disabled = BOARD.frames.length < 2;
+  $("#bname").textContent = BOARD.name ? BOARD.name : "Unsaved situation";
+  bBind();
+}
+
+/* ---------- pointer handling ---------- */
+function bPoint(e){
+  const svg = $("#bsvg");
+  const r = svg.getBoundingClientRect();
+  const vw = BOARD.orient === "v" ? BVW : BVL;
+  const vh = BOARD.orient === "v" ? BVL : BVW;
+  const px = (e.clientX - r.left) * (vw / r.width);
+  const py = (e.clientY - r.top) * (vh / r.height);
+  return binv(px, py);
+}
+
+/* nearest token to a tap, in yards — z-order independent so the ball
+   never steals a grab from a player standing on top of it */
+function bPick(at){
+  const f = bFrame();
+  let id = null, best = 3.4;
+  BOARD.roster.forEach(t=>{
+    const p = f.pos[t.id];
+    const d = Math.hypot(p.x - at[0], p.y - at[1]) - (t.side === "ball" ? 0.5 : 0);
+    if(d < best){ best = d; id = t.id; }
+  });
+  return id;
+}
+
+function bBind(){
+  const svg = $("#bsvg");
+  if(!svg) return;
+
+  svg.addEventListener("pointerdown", e=>{
+    if(BPLAY) return;
+    const at = bPoint(e);
+    if(BTOOL === "move"){
+      const id = bPick(at);
+      if(!id) return;
+      BDRAG = {id};
+      svg.setPointerCapture(e.pointerId);
+      e.preventDefault();
+      return;
+    }
+    if(BTOOL === "erase"){
+      const f = bFrame();
+      let best = -1, bd = 3.2;
+      f.draws.forEach((d,i)=>{
+        d.pts.forEach(p=>{
+          const dist = Math.hypot(p[0]-at[0], p[1]-at[1]);
+          if(dist < bd){ bd = dist; best = i; }
+        });
+      });
+      if(best >= 0){ f.draws.splice(best,1); renderBoard(); }
+      return;
+    }
+    BDRAG = {stroke:{t:BTOOL, pts:[[at[0],at[1]],[at[0],at[1]]]}};
+    bFrame().draws.push(BDRAG.stroke);
+    svg.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+
+  svg.addEventListener("pointermove", e=>{
+    if(!BDRAG) return;
+    const at = bPoint(e);
+    if(BDRAG.id){
+      bclamp(Object.assign(bFrame().pos[BDRAG.id], {x:at[0], y:at[1]}));
+    }else{
+      const s = BDRAG.stroke;
+      if(BTOOL === "free"){
+        const last = s.pts[s.pts.length-1];
+        if(Math.hypot(last[0]-at[0], last[1]-at[1]) > 1.2) s.pts.push([at[0],at[1]]);
+      }else{
+        s.pts[1] = [at[0], at[1]];
+      }
+    }
+    bRepaint();
+  });
+
+  const end = ()=>{
+    if(BDRAG && BDRAG.stroke){
+      const s = BDRAG.stroke;
+      const len = Math.hypot(s.pts[0][0]-s.pts[s.pts.length-1][0], s.pts[0][1]-s.pts[s.pts.length-1][1]);
+      if(len < 2) bFrame().draws.pop();
+    }
+    BDRAG = null;
+    renderBoard();
+  };
+  svg.addEventListener("pointerup", end);
+  svg.addEventListener("pointercancel", end);
+
+  $("#bframes").querySelectorAll(".bdot").forEach(b=>
+    b.addEventListener("click",()=>{ BOARD.cur = +b.dataset.i; renderBoard(); }));
+  const add = $("#baddframe");
+  if(add) add.addEventListener("click",()=>{
+    const src = bFrame();
+    const pos = {}; Object.keys(src.pos).forEach(k=>pos[k]={x:src.pos[k].x, y:src.pos[k].y});
+    BOARD.frames.splice(BOARD.cur+1, 0, {pos, draws:[]});
+    BOARD.cur++; renderBoard(); toast("Frame added");
+  });
+  const del = $("#bdelframe");
+  if(del) del.addEventListener("click",()=>{
+    BOARD.frames.splice(BOARD.cur,1);
+    BOARD.cur = Math.max(0, BOARD.cur-1); renderBoard(); toast("Frame deleted");
+  });
+}
+
+/* repaint without rebuilding listeners — keeps drags smooth */
+function bRepaint(){
+  const f = bFrame();
+  const svg = $("#bsvg");
+  if(!svg) return;
+  const vb = svg.getAttribute("viewBox");
+  svg.innerHTML = bDefs() + bPitch()
+    + f.draws.map(bDraw).join("")
+    + BOARD.roster.filter(t=>t.side!=="ball").map(t=>bToken(t, f.pos[t.id])).join("")
+    + bToken(BOARD.roster.find(t=>t.side==="ball"), f.pos.ball);
+  svg.setAttribute("viewBox", vb);
+}
+
+/* ---------- playback ---------- */
+function bStop(){
+  if(BPLAY){ cancelAnimationFrame(BPLAY.raf); BPLAY = null; }
+  $("#bplay").textContent = "Play";
+  renderBoard();
+}
+function bPlayAll(){
+  if(BPLAY){ bStop(); return; }
+  if(BOARD.frames.length < 2) return;
+  $("#bplay").textContent = "Stop";
+  const HOLD = 700, MOVE = 950;
+  let seg = 0, t0 = performance.now();
+  const svg = $("#bsvg");
+  BPLAY = {raf:0};
+  const tick = now=>{
+    const el = now - t0;
+    const from = BOARD.frames[seg], to = BOARD.frames[seg+1];
+    let pos, draws;
+    if(el < HOLD){
+      pos = from.pos; draws = from.draws;
+    }else if(el < HOLD + MOVE){
+      const k = (el - HOLD) / MOVE;
+      const e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k+2,2)/2;
+      pos = {};
+      Object.keys(from.pos).forEach(id=>{
+        pos[id] = {
+          x: from.pos[id].x + (to.pos[id].x - from.pos[id].x) * e,
+          y: from.pos[id].y + (to.pos[id].y - from.pos[id].y) * e
+        };
+      });
+      draws = from.draws;
+    }else{
+      seg++; t0 = now;
+      if(seg >= BOARD.frames.length - 1){ BOARD.cur = BOARD.frames.length-1; bStop(); return; }
+      BPLAY.raf = requestAnimationFrame(tick); return;
+    }
+    const vb = svg.getAttribute("viewBox");
+    svg.innerHTML = bDefs() + bPitch()
+      + draws.map(bDraw).join("")
+      + BOARD.roster.filter(t=>t.side!=="ball").map(t=>bToken(t, pos[t.id])).join("")
+      + bToken(BOARD.roster.find(t=>t.side==="ball"), pos.ball);
+    svg.setAttribute("viewBox", vb);
+    BPLAY.raf = requestAnimationFrame(tick);
+  };
+  BPLAY.raf = requestAnimationFrame(tick);
+}
+
+/* ---------- save / load ---------- */
+async function bSavedIndex(){
+  const raw = await store.get("cpl:bindex");
+  try{ return raw ? JSON.parse(raw) : []; }catch(e){ return []; }
+}
+
+async function bSave(){
+  const name = window.prompt("Name this situation:", BOARD.name || "High press trigger");
+  if(!name) return;
+  const ok = await store.set("cpl:b:"+name, JSON.stringify({
+    orient:BOARD.orient, shape:BOARD.shape, roster:BOARD.roster, frames:BOARD.frames
+  }));
+  if(!ok){ toast("Could not save"); return; }
+  const idx = await bSavedIndex();
+  if(!idx.includes(name)){ idx.push(name); await store.set("cpl:bindex", JSON.stringify(idx)); }
+  BOARD.name = name; renderBoard(); toast("Saved");
+}
+
+async function bLoad(){
+  const idx = await bSavedIndex();
+  if(!idx.length){ toast("Nothing saved yet"); return; }
+  const pick = window.prompt("Load which situation?\n\n" + idx.map((n,i)=>(i+1)+". "+n).join("\n") + "\n\nType a number, or - and a number to delete.", "1");
+  if(!pick) return;
+  const delMode = pick.trim().startsWith("-");
+  const n = parseInt(pick.replace("-",""),10);
+  if(!n || n < 1 || n > idx.length){ toast("No such entry"); return; }
+  const name = idx[n-1];
+  if(delMode){
+    await store.set("cpl:b:"+name, "");
+    idx.splice(n-1,1);
+    await store.set("cpl:bindex", JSON.stringify(idx));
+    toast("Deleted " + name); return;
+  }
+  const raw = await store.get("cpl:b:"+name);
+  if(!raw){ toast("Could not load"); return; }
+  try{
+    const o = JSON.parse(raw);
+    BOARD = {orient:o.orient||"v", shape:o.shape||"3-3-2", roster:o.roster, frames:o.frames, cur:0, name};
+    renderBoard(); toast("Loaded " + name);
+  }catch(e){ toast("Could not load"); }
+}
+
+/* ---------- toolbar wiring (bound once) ---------- */
+Object.keys(BPEN).concat(["move","erase"]).forEach(k=>{
+  const el = $("#btool-"+k);
+  if(el) el.addEventListener("click",()=>{ BTOOL = k; renderBoard(); });
+});
+$("#bshape").addEventListener("change",()=>{
+  const keep = BOARD && BOARD.name;
+  BOARD = newBoard($("#bshape").value);
+  BOARD.name = null;
+  renderBoard(); toast("Shape reset");
+});
+$("#borient").addEventListener("click",()=>{
+  BOARD.orient = BOARD.orient === "v" ? "h" : "v";
+  renderBoard();
+});
+$("#bclear").addEventListener("click",()=>{
+  bFrame().draws = []; renderBoard(); toast("Arrows cleared");
+});
+$("#bnew").addEventListener("click",()=>{
+  BOARD = newBoard($("#bshape").value); renderBoard(); toast("New board");
+});
+$("#bfocus").addEventListener("click",()=>{
+  const on = document.body.classList.toggle("bfocus");
+  $("#bfocus").setAttribute("data-on", on?"1":"0");
+  window.scrollTo({top:0});
+});
+$("#bplay").addEventListener("click", bPlayAll);
+$("#bsave").addEventListener("click", bSave);
+$("#bload").addEventListener("click", bLoad);
+
+/* ============================================================
    VERSION + AUTO-REFRESH
    Bump BUILD on every push. The app checks the live file on
    launch and reloads itself if GitHub has a newer build.
    ============================================================ */
-const BUILD = "2026.08.16.1";
+const BUILD = "2026.08.31.1";
 
 async function checkForUpdate(){
   if(!/^https?:$/.test(location.protocol)) return;
@@ -1954,7 +2419,7 @@ async function checkForUpdate(){
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden) checkForUpdate(); });
 setTimeout(checkForUpdate, 1200);
 
-initFilters(); render(); renderSession(); renderLang(); renderMethod(); renderField();
+initFilters(); render(); renderSession(); renderLang(); renderMethod(); renderField(); renderBoard();
 </script>
 </body>
 </html>

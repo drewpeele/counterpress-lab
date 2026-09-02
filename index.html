@@ -97,7 +97,7 @@ input[type=search]:focus{outline:none;border-color:var(--cyan)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
 .card{border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column}
 .card:hover{border-color:#31503F}
-.dia{background:#0A100D;border-bottom:1px solid var(--line);padding:8px}
+.dia{background:#12281E;border-bottom:1px solid var(--line);padding:7px}
 .dia svg{display:block;width:100%;height:auto}
 .cbody{padding:14px 15px 15px;display:flex;flex-direction:column;flex:1}
 .ctop{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
@@ -205,14 +205,18 @@ select{background:var(--surface);border:1px solid var(--line);color:var(--chalk)
   .ho-cols{display:flex;gap:16px;margin-bottom:10px}
   .ho-dia{width:34%;flex-shrink:0;border:1px solid #999;padding:5px}
   .ho-dia svg{width:100%;height:auto}
-  .ho-dia svg circle[fill="#D8283C"]{fill:#000}
-  .ho-dia svg circle[fill="#E9C46A"]{fill:#888}
-  .ho-dia svg circle[fill="#5FBFA6"]{fill:#555}
-  .ho-dia svg [stroke="#E9EFE9"]{stroke:#000}
-  .ho-dia svg [stroke="#22362B"]{stroke:#aaa}
-  .ho-dia svg [stroke="#5FBFA6"]{stroke:#666}
-  .ho-dia svg [fill="#5FBFA6"]{fill:#666}
-  .ho-dia svg [fill="#E9C46A"]{fill:#999}
+  .ho-dia svg .bd{fill:#fff}
+  .ho-dia svg .ch,.ho-dia svg .ar{stroke:#000!important;stroke-opacity:1!important}
+  .ho-dia svg .gl{fill:#000!important;fill-opacity:1!important}
+  .ho-dia svg .us{fill:#000}
+  .ho-dia svg .op{stroke:#000!important;stroke-opacity:1!important}
+  .ho-dia svg .nu{fill:#9a9a9a}
+  .ho-dia svg .bl{fill:#fff;stroke:#000;stroke-width:1}
+  .ho-dia svg .bi{fill:#000}
+  .ho-dia svg .cn{stroke:#555!important}
+  .ho-dia svg .ct{fill:#333!important;fill-opacity:1!important}
+  .ho-dia svg .zn{fill:#000;fill-opacity:.12}
+  .ho-dia svg marker path{fill:#000!important;fill-opacity:1!important}
   .ho-txt{flex:1}
   #handout h3{font-family:Helvetica,Arial,sans-serif;font-size:8.5pt;text-transform:uppercase;letter-spacing:.1em;color:#000;margin:9px 0 2px;border-top:1px solid #ddd;padding-top:6px}
   .ho-txt h3:first-child{margin-top:0;border-top:0;padding-top:0}
@@ -327,39 +331,104 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
   .item .it,.btime{color:#000}
   .bnum{color:#000}
 }
+/* ============================================================
+   DESIGN BRIEF PASS — Today, field mode, daylight, motion
+   ============================================================ */
+:root{ --dur:170ms; --ease:cubic-bezier(.22,.61,.36,1); --measure:640px; }
+.card,.fbtn,.chip,.btn,.pr,.addbtn,.qatile,.runcard{
+  transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
 
-/* ---------- tactics board ---------- */
-.btoolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px}
-.btoolbar .sep{width:1px;height:20px;background:var(--line);margin:0 4px}
-.btool{background:var(--surface);border:1px solid var(--line);color:var(--muted);cursor:pointer;
-  font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
-  font-size:12px;padding:7px 11px;border-radius:var(--r);flex-shrink:0}
-.btool:hover{color:var(--chalk)}
-.btool:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-.btool[disabled]{opacity:.35;cursor:default}
-.btool[data-on="1"]{background:var(--red-dim);color:var(--chalk);border-color:var(--red)}
-.btool .sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
-select.btool{-webkit-appearance:none;appearance:none;padding-right:22px;
-  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
-  background-position:calc(100% - 13px) 12px,calc(100% - 8px) 12px;background-size:5px 5px;background-repeat:no-repeat}
-#bstage{border:1px solid var(--line);background:var(--pitch);padding:10px;margin-bottom:14px}
-body.bfocus header{display:none}
-body.bfocus nav{margin:10px 0 14px}
-body.bfocus .bhint{display:none}
-body.bfocus #bstage{padding:4px}
-body.bfocus .bpitch{max-width:100%}
-.bpitch{width:100%;max-width:430px;margin:0 auto;display:block;touch-action:none;
-  user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
-.bpitch.wide{max-width:100%}
-.btok{cursor:grab}
-.bframes{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-.bdot{width:30px;height:30px;border:1px solid var(--line);background:var(--surface);color:var(--muted);
-  font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;border-radius:var(--r);flex-shrink:0}
-.bdot[data-on="1"]{background:var(--cyan);color:var(--pitch);border-color:var(--cyan)}
-.bhint{color:var(--muted);font-size:13px;max-width:620px}
-.bhint b{color:var(--chalk);font-weight:600}
-#bname{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-  font-size:12px;color:var(--muted);margin-left:auto}
+/* reading measure */
+.mbody{max-width:var(--measure);font-size:16px;line-height:1.62}
+.mbody p{margin-bottom:12px}
+.lintro{max-width:var(--measure);font-size:16px;line-height:1.6}
+
+/* daylight toggle button in the header */
+.daybtn{background:transparent;border:1px solid var(--line);color:var(--muted);cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:11px;padding:3px 9px;border-radius:var(--r)}
+.daybtn[aria-pressed="true"]{background:var(--bib);border-color:var(--bib);color:var(--pitch)}
+.daybtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* ---------- TODAY ---------- */
+.today{display:grid;gap:14px}
+.runcard{display:block;width:100%;text-align:left;padding:0;cursor:pointer;color:var(--chalk);
+  border:1px solid var(--line);background:var(--surface);border-radius:var(--r);overflow:hidden;font:inherit}
+.runcard:hover{border-color:#31503F}
+.runcard:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.runcard.flat{cursor:default}
+.rc-top{padding:20px 20px 18px}
+.rc-eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  font-size:11px;color:var(--muted)}
+.rc-theme{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:-.03em;
+  font-size:clamp(26px,5.5vw,40px);line-height:1;margin:8px 0 10px}
+.rc-meta{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  font-size:14px;color:var(--bib)}
+.rc-list{list-style:none;margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.rc-list li{display:flex;gap:10px;align-items:baseline;padding:3px 0;font-size:13px;color:var(--muted)}
+.rc-list li b{font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;
+  letter-spacing:-.01em;color:var(--chalk);flex:1}
+.rc-list li span{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--bib);font-size:13px}
+.rc-list li i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;font-size:10.5px;width:62px;flex-shrink:0}
+.rc-go{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;
+  background:var(--red);color:#fff;border:0;cursor:pointer;padding:0 20px;min-height:62px;
+  font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:17px}
+.rc-go:hover{filter:brightness(1.12)}
+.qa{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.qatile{display:flex;flex-direction:column;justify-content:center;gap:5px;text-align:left;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--chalk);padding:16px 16px;min-height:86px;border-radius:var(--r)}
+.qatile:hover{border-color:#31503F}
+.qatile:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.qk{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:-.02em}
+.qv{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:12px;color:var(--muted)}
+
+/* ---------- FIELD MODE (flagship) ---------- */
+#stage{padding:0;overflow:hidden;transition:background-color var(--dur) var(--ease)}
+#stage[data-phase="work"]{background:#170C0F;--sweepc:rgba(216,40,60,.30)}
+#stage[data-phase="rest"]{background:#0A1815;--sweepc:rgba(95,191,166,.26)}
+#stage[data-phase="done"]{background:#16130B;--sweepc:rgba(233,196,106,.26)}
+#stage::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,var(--sweepc,transparent),transparent)}
+#stage.flip::after{animation:sweep 280ms var(--ease)}
+@keyframes sweep{0%{opacity:.9;transform:translateX(-100%)}100%{opacity:0;transform:translateX(100%)}}
+.sscroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 22px;position:relative;z-index:1}
+.sbar{flex-shrink:0;position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.7fr 1fr;gap:8px;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
+.sbar button{min-height:58px;padding:8px 6px;font-size:14px;border-radius:var(--r)}
+.sbar .go{font-size:19px}
+.xbtn{min-width:52px;min-height:52px}
+.big{font-size:clamp(84px,26vh,180px)}
+.scon p{font-size:17px}
+.scue li{font-size:16px;padding:5px 0 5px 12px}
+.sdia{background:#12281E;border:1px solid var(--line);border-radius:var(--r);padding:7px;margin:0 0 16px}
+.sdia svg{display:block;width:100%;height:auto}
+
+/* the working tabs give the screen back to the work */
+body[data-tab="today"] .thesis,body[data-tab="field"] .thesis{display:none}
+body[data-tab="today"] header,body[data-tab="field"] header{padding:22px 0 16px}
+body[data-tab="today"] h1,body[data-tab="field"] h1{font-size:clamp(26px,5vw,38px);margin:6px 0 10px}
+body[data-tab="today"] .meta,body[data-tab="field"] .meta{margin-top:12px}
+body[data-tab="today"] nav,body[data-tab="field"] nav{margin:16px 0 16px}
+
+/* ---------- DAYLIGHT BOOST ---------- */
+body.day{
+  --pitch:#050A07; --surface:#0D1712; --surface-2:#122019; --line:#48705C;
+  --chalk:#FFFFFF; --muted:#C3D8CB; --red:#FF4B5F; --bib:#FFD87A; --cyan:#8CEBCE; --red-dim:#9C2233;
+}
+body.day{background-image:none}
+body.day .thesis,body.day .mbody,body.day .lintro{font-size:17px}
+body.day .constraint p,body.day .dwrap,body.day .item .ic{font-size:14px;font-weight:500}
+body.day .scon p{font-size:19px;font-weight:500}
+body.day .scue li{font-size:17px;font-weight:500;color:#DFFAF1}
+body.day .cue,body.day .tscript,body.day .lsay li{color:#DFFAF1}
+body.day .tag,body.day .chip,body.day .qv,body.day .rc-eyebrow{color:#CFE3D6}
+body.day .big{font-weight:700}
+body.day .card,body.day .fbtn,body.day .qatile,body.day .runcard,body.day .block{border-width:1.5px}
+body.day .dia,body.day .sdia{background:#0E2318}
+body.day #stage[data-phase="work"]{background:#100407}
+body.day #stage[data-phase="rest"]{background:#04110E}
 </style>
 </head>
 <body>
@@ -369,20 +438,23 @@ body.bfocus .bpitch{max-width:100%}
   <div class="eyebrow">U11 · 14+ players · 90 minutes</div>
   <h1>Counterpress<br><span class="em">Lab</span></h1>
   <p class="thesis"><b>Every drill in here is built so that hesitating loses.</b> Not a collection of activities — a curriculum. Filter by principle, moment, or physical load, then drop what you pick straight into a 90-minute session plan.</p>
-  <div class="meta"><span id="drillcount">— drills</span><span>8 principles</span><span>Klopp / Lijnders model</span></div>
+  <div class="meta"><span id="drillcount">— drills</span><span id="prcount">— principles</span><span>Klopp / Lijnders model</span><button class="daybtn" id="daytoggle" aria-pressed="false" title="High-contrast mode for direct sunlight">Daylight</button></div>
 </header>
 
 <nav role="tablist">
-  <button role="tab" id="tab-lib" aria-selected="true" aria-controls="view-lib">Drill library</button>
+  <button role="tab" id="tab-today" aria-selected="true" aria-controls="view-today">Today</button>
+  <button role="tab" id="tab-lib" aria-selected="false" aria-controls="view-lib">Drill library</button>
   <button role="tab" id="tab-ses" aria-selected="false" aria-controls="view-ses">Session builder</button>
   <button role="tab" id="tab-field" aria-selected="false" aria-controls="view-field">Field mode</button>
-  <button role="tab" id="tab-board" aria-selected="false" aria-controls="view-board">Board</button>
   <button role="tab" id="tab-method" aria-selected="false" aria-controls="view-method">Method</button>
   <button role="tab" id="tab-lang" aria-selected="false" aria-controls="view-lang">Sideline language</button>
 </nav>
 
 <!-- ============ LIBRARY ============ -->
-<section id="view-lib" role="tabpanel" aria-labelledby="tab-lib">
+<!-- ============ TODAY ============ -->
+<section id="view-today" role="tabpanel" aria-labelledby="tab-today"><div class="today" id="todayout"></div></section>
+
+<section id="view-lib" role="tabpanel" aria-labelledby="tab-lib" class="hide">
   <div class="principles" id="principles"></div>
 
   <div class="filters">
@@ -441,55 +513,6 @@ body.bfocus .bpitch{max-width:100%}
 </section>
 
 <!-- ============ METHOD ============ -->
-<!-- ============ TACTICS BOARD ============ -->
-<section id="view-board" role="tabpanel" aria-labelledby="tab-board" class="hide">
-  <div id="bstage"></div>
-
-  <div class="btoolbar">
-    <button class="btool" id="btool-move" data-on="1">Move</button>
-    <button class="btool" id="btool-run"><span class="sw" style="background:#5FBFA6"></span>Run</button>
-    <button class="btool" id="btool-pass"><span class="sw" style="background:#E9C46A"></span>Pass</button>
-    <button class="btool" id="btool-press"><span class="sw" style="background:#D8283C"></span>Press</button>
-    <button class="btool" id="btool-free"><span class="sw" style="background:#8CA396"></span>Line</button>
-    <button class="btool" id="btool-erase">Erase</button>
-    <button class="btool" id="bclear">Clear arrows</button>
-  </div>
-
-  <div class="bframes" id="bframes"></div>
-
-  <div class="btoolbar">
-    <select class="btool" id="bshape" aria-label="Starting shape">
-      <option value="3-3-2">Shape: 3-3-2</option>
-      <option value="3-2-3">Shape: 3-2-3</option>
-      <option value="2-3-3">Shape: 2-3-3</option>
-      <option value="3-1-3-1">Shape: 3-1-3-1</option>
-      <option value="3-2-1-2">Shape: 3-2-1-2</option>
-    </select>
-    <select class="btool" id="bshapethem" aria-label="Opposition shape">
-      <option value="">Them: same</option>
-      <option value="3-3-2">Them: 3-3-2</option>
-      <option value="3-2-3">Them: 3-2-3</option>
-      <option value="2-3-3">Them: 2-3-3</option>
-      <option value="3-1-3-1">Them: 3-1-3-1</option>
-      <option value="3-2-1-2">Them: 3-2-1-2</option>
-    </select>
-    <button class="btool" id="bplay">Play</button>
-    <button class="btool" id="borient">Rotate</button>
-    <button class="btool" id="bfocus">Focus</button>
-    <span class="sep"></span>
-    <button class="btool" id="bsave">Save</button>
-    <button class="btool" id="bload">Load saved</button>
-    <button class="btool" id="bnew">Reset</button>
-    <span id="bname">Unsaved situation</span>
-  </div>
-
-  <p class="bhint"><b>Move</b> drags players and the ball. Pick <b>Run</b>, <b>Pass</b> or <b>Press</b> and
-  drag on the pitch to draw an arrow. <b>+ Frame</b> copies the current positions to a new frame — move them,
-  then <b>Play</b> animates the whole sequence. <b>Focus</b> hides the header so the pitch fills the phone.
-  Red triangles are us and they point the way we attack; outlined circles are them.
-  <b>Them</b> defaults to mirroring our shape — set it separately to model an opponent.</p>
-</section>
-
 <section id="view-method" role="tabpanel" aria-labelledby="tab-method" class="hide">
   <div id="methodout"></div>
 </section>
@@ -527,26 +550,133 @@ const PRINCIPLES = [
 ];
 
 /* ============================================================
-   DIAGRAM PRIMITIVES  (a=attacker/red  d=defender/chalk  n=neutral/amber
-   g=goal  c=cone  b=ball  r=arrow  z=zone line)
+   DIAGRAM ENGINE — chalkboard, matches the session-plan generator
+   a = us (bib filled)      d = opposition (hollow chalk)
+   n = neutral (grey)       b = ball        c = cone
+   g = goal bar             z = dashed line across the grid
+   zn = constraint zone (x,y,x2,y2)
+   r = arrow (add dash:1 for a run, solid = a pass)
    ============================================================ */
-function svg(spec){
-  const W=200,H=130;
-  let out=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Setup diagram">`;
-  out+=`<rect x="4" y="4" width="${W-8}" height="${H-8}" fill="none" stroke="#22362B" stroke-width="1.5"/>`;
-  (spec||[]).forEach(e=>{
-    const x=e.x*2, y=e.y*1.3;
-    if(e.k==='a') out+=`<circle cx="${x}" cy="${y}" r="6" fill="#D8283C"/>`;
-    if(e.k==='d') out+=`<circle cx="${x}" cy="${y}" r="6" fill="none" stroke="#E9EFE9" stroke-width="1.8"/>`;
-    if(e.k==='n') out+=`<circle cx="${x}" cy="${y}" r="6" fill="#E9C46A"/>`;
-    if(e.k==='b') out+=`<circle cx="${x}" cy="${y}" r="3" fill="#5FBFA6"/>`;
-    if(e.k==='c') out+=`<path d="M${x} ${y-5} L${x+4.5} ${y+4} L${x-4.5} ${y+4} Z" fill="#E9C46A" opacity=".8"/>`;
-    if(e.k==='g') out+=`<rect x="${x-2}" y="${y-11}" width="4" height="22" fill="none" stroke="#E9EFE9" stroke-width="2.4"/>`;
-    if(e.k==='z') out+=`<line x1="${x}" y1="6" x2="${x}" y2="${H-6}" stroke="#22362B" stroke-width="1.4" stroke-dasharray="4 4"/>`;
-    if(e.k==='r') out+=`<line x1="${x}" y1="${y}" x2="${e.x2*2}" y2="${e.y2*1.3}" stroke="#5FBFA6" stroke-width="1.6" marker-end="url(#ar)"/>`;
+const BOARD="#1E4634", CHALK="#E9EFE9", CBIB="#E9C46A", CGREY="#8A938C", CINK="#0B0E0C", CRED="#D8283C";
+
+function _ctx(x,y,t,size,anchor,fill,op){
+  return `<text class="ct" x="${x}" y="${y}" font-family="Barlow Condensed,sans-serif" font-size="${size}" `
+       + `font-weight="700" letter-spacing="1" fill="${fill}" fill-opacity="${op}" text-anchor="${anchor}">${t}</text>`;
+}
+function _trim(x1,y1,x2,y2,pa,pb){
+  const dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy)||1, ux=dx/L, uy=dy/L;
+  return [x1+ux*pa, y1+uy*pa, x2-ux*pb, y2-uy*pb];
+}
+
+function _pitchKind(dims){
+  const t=(dims||"").toLowerCase();
+  if(/full pitch|three-quarter|full or/.test(t)) return "full";
+  if(/half pitch|half a pitch|half-pitch|half field/.test(t)) return "half";
+  if(/attacking third|final third|defensive third/.test(t)) return "third";
+  return null;
+}
+function _pitchLines(kind, right, x, y, w, h){
+  const C=CHALK, OP=".85", cy=y+h/2;
+  const A=(px,py,pw,ph,o)=>`<rect class="ch" x="${px}" y="${py}" width="${pw}" height="${ph}" fill="none" stroke="${C}" stroke-opacity="${o||OP}" stroke-width="1.3"/>`;
+  const L=(x1,y1,x2,y2)=>`<line class="ch" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C}" stroke-opacity="${OP}" stroke-width="1.3"/>`;
+  const CIR=(cx,cyy,r,o)=>`<circle class="ch" cx="${cx}" cy="${cyy}" r="${r}" fill="none" stroke="${C}" stroke-opacity="${o||OP}" stroke-width="1.3"/>`;
+  const DOT=(cx,cyy)=>`<circle class="gl" cx="${cx}" cy="${cyy}" r="1.6" fill="${C}"/>`;
+  const BAR=(gx)=>`<rect class="gl" x="${gx}" y="${cy-13}" width="3" height="26" fill="${C}" fill-opacity=".95"/>`;
+  const PW = kind==="full" ? 52 : kind==="half" ? 68 : 96;
+  const PH = 86, GW = PW*0.38, GH = 44;
+  function end(side){
+    const px  = side==="L" ? x : x+w-PW;
+    const gx  = side==="L" ? x : x+w-GW;
+    const spt = side==="L" ? x+PW*0.62 : x+w-PW*0.62;
+    const gbx = side==="L" ? x-3 : x+w;
+    const ARC=(d)=>`<path class="ch" d="${d}" fill="none" stroke="${C}" stroke-opacity=".7" stroke-width="1.2"/>`;
+    const corners = side==="L"
+      ? ARC(`M${x+5},${y} A5,5 0 0,1 ${x},${y+5}`) + ARC(`M${x},${y+h-5} A5,5 0 0,1 ${x+5},${y+h}`)
+      : ARC(`M${x+w},${y+5} A5,5 0 0,1 ${x+w-5},${y}`) + ARC(`M${x+w-5},${y+h} A5,5 0 0,1 ${x+w},${y+h-5}`);
+    return A(px,cy-PH/2,PW,PH)+A(gx,cy-GH/2,GW,GH)+DOT(spt,cy)+BAR(gbx)+corners;
+  }
+  let s = A(x,y,w,h,".9");
+  if(kind==="full"){
+    s += L(x+w/2,y,x+w/2,y+h) + CIR(x+w/2,cy,22) + DOT(x+w/2,cy) + end("L") + end("R");
+  } else {
+    s += end(right ? "R" : "L");
+    if(kind==="half"){
+      const ex = right ? x : x+w, sweep = right ? 1 : 0;
+      s += `<path class="ch" d="M${ex},${cy-22} A22,22 0 0,${sweep} ${ex},${cy+22}" fill="none" stroke="${C}" stroke-opacity="${OP}" stroke-width="1.3"/>`;
+    }
+  }
+  return s;
+}
+
+let _mid = 0;
+function svg(spec, dims){
+  const MID = "ah"+(++_mid);
+  const W=330, H=190, PX=20, PY=30, PW=290, PH=146;
+  const X=v=>PX+(v/100)*PW, Y=v=>PY+(v/100)*PH;
+  const items = spec||[];
+
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Setup diagram">`
+        + `<defs><marker id="${MID}" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">`
+        + `<path d="M0,0 L8,4 L0,8 Z" fill="${CHALK}" fill-opacity=".9"/></marker></defs>`
+        + `<rect class="bd" width="${W}" height="${H}" rx="6" fill="${BOARD}"/>`;
+
+  const lab = (dims||"").toString().replace(/\s+/g," ").trim().toUpperCase();
+  if(lab) s += _ctx(12, 19, lab.length>44 ? lab.slice(0,42)+"…" : lab, 9.5, "start", CHALK, ".82");
+
+  const kind = _pitchKind(dims);
+  const goals = items.filter(e=>e.k==='g');
+  if(kind){
+    const right = goals.length ? goals[0].x >= 50 : true;
+    s += _pitchLines(kind, right, PX, PY, PW, PH);
+  } else {
+    s += `<rect class="ch" x="${PX}" y="${PY}" width="${PW}" height="${PH}" fill="none" `
+       + `stroke="${CHALK}" stroke-opacity=".9" stroke-width="1.4"/>`;
+    // a goal on a boundary edge gets a real box in front of it
+    goals.forEach(e=>{
+      if(e.x<=8 || e.x>=92){
+        const bw=44, bh=76, gy=Y(e.y);
+        const bx = e.x<=8 ? PX : PX+PW-bw;
+        s += `<rect class="ch" x="${bx}" y="${gy-bh/2}" width="${bw}" height="${bh}" fill="none" `
+           + `stroke="${CHALK}" stroke-opacity=".55" stroke-width="1.2"/>`;
+      }
+    });
+  }
+
+  // constraint zones sit under everything else
+  items.filter(e=>e.k==='zn').forEach(e=>{
+    s += `<rect class="zn" x="${X(e.x)}" y="${Y(e.y)}" width="${X(e.x2)-X(e.x)}" height="${Y(e.y2)-Y(e.y)}" `
+       + `fill="${CRED}" fill-opacity=".26"/>`;
   });
-  out+=`<defs><marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#5FBFA6"/></marker></defs></svg>`;
-  return out;
+
+  items.forEach(e=>{
+    const x=X(e.x), y=Y(e.y);
+    switch(e.k){
+      case 'z':
+        s+=`<line class="ch" x1="${x}" y1="${PY+3}" x2="${x}" y2="${PY+PH-3}" stroke="${CHALK}" `
+          +`stroke-opacity=".5" stroke-width="1.2" stroke-dasharray="5 5"/>`; break;
+      case 'g': {
+        if(kind) break;
+        const gx = e.x<=8 ? PX-3 : e.x>=92 ? PX+PW : x-1.5;
+        s+=`<rect class="gl" x="${gx}" y="${y-13}" width="3" height="26" fill="${CHALK}" fill-opacity=".95"/>`;
+        break; }
+      case 'c':
+        s+=`<path class="cn" d="M${x} ${y-5.5} L${x+5} ${y+4} L${x-5} ${y+4} Z" fill="none" stroke="${CBIB}" stroke-width="1.6"/>`; break;
+      case 'a':
+        s+=`<circle class="us" cx="${x}" cy="${y}" r="6.5" fill="${CBIB}"/>`; break;
+      case 'd':
+        s+=`<circle class="op" cx="${x}" cy="${y}" r="6.5" fill="none" stroke="${CHALK}" stroke-opacity=".92" stroke-width="2"/>`; break;
+      case 'n':
+        s+=`<circle class="nu" cx="${x}" cy="${y}" r="6.5" fill="${CGREY}"/>`; break;
+      case 'b':
+        s+=`<circle class="bl" cx="${x}" cy="${y}" r="3.6" fill="#FFFFFF"/><circle class="bi" cx="${x}" cy="${y}" r="1.2" fill="${BOARD}"/>`; break;
+      case 'r': {
+        const [ax,ay,bx,by]=_trim(x,y,X(e.x2),Y(e.y2),9,10);
+        const dash = e.dash ? ` stroke-dasharray="5 4"` : "";
+        s+=`<line class="ar" x1="${ax.toFixed(1)}" y1="${ay.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}" `
+          +`stroke="${CHALK}" stroke-opacity=".9" stroke-width="1.7"${dash} marker-end="url(#${MID})"/>`; break; }
+    }
+  });
+  return s+`</svg>`;
 }
 
 /* ============================================================
@@ -1004,6 +1134,44 @@ const D = [
  reg:"One rule live per round, rotating.",
  note:"The whole week under match pressure. This is the block that tells you what stuck.",
  dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:20,y:25},{k:'a',x:20,y:50},{k:'a',x:20,y:75},{k:'a',x:38,y:50},{k:'a',x:52,y:32},{k:'a',x:52,y:68},{k:'a',x:75,y:40},{k:'a',x:75,y:60},{k:'d',x:65,y:50},{k:'d',x:80,y:30}]}
+,
+
+/* ---------- 1v1 TECHNIQUE (from video, added 2026.08) ---------- */
+{id:"gate",name:"Guard the Gate",cat:"duels",moment:"outposs",pr:[3,4],phys:"Agility / COD",
+ mins:8,work:"8 x 5s, 30s between",space:"15 x 15 with one gate in a corner",players:[2,20],
+ constraint:"Five seconds. Attacker gets out through the gate or the defender has won. Tagged at any point and the rep is over. No ball at all.",
+ cues:["Get to the gate before he does","Small steps when he is close","Feet alive, do not commit"],
+ prog:"A second gate in the opposite corner so the defender has to pick which one to protect.",
+ reg:"Seven seconds instead of five, or widen the gate.",
+ note:"No ball, on purpose. It strips 1v1 defending back to footwork and body position, which is the part most U11 defenders are actually missing when they get beaten. Source: Soccer Drill Defending and Pressing U11 - youtube.com/watch?v=zqt_c00WM-Q",
+ dia:[{k:'c',x:10,y:12},{k:'c',x:90,y:12},{k:'c',x:10,y:88},{k:'c',x:90,y:88},{k:'g',x:80,y:18},{k:'a',x:18,y:82},{k:'d',x:68,y:36},{k:'r',x:23,y:78,x2:74,y2:26}]},
+
+{id:"onemove",name:"One Move",cat:"duels",moment:"inposs",pr:[4,11],phys:"Agility / COD",
+ mins:8,work:"6 x 20s, 40s between",space:"20 x 20",players:[2,20],
+ constraint:"Twenty seconds. Jog around inside the square with your man on you, then pick your moment and make ONE move to get away and out of the square. One move only. Get caught and the rep is his.",
+ cues:["Pick your moment, do not rush it","Change of pace beats a trick","Go the way he is not"],
+ prog:"Two changes of direction allowed, at any point in the twenty seconds.",
+ reg:"Bigger square, or thirty seconds.",
+ note:"The attacking half of the same coin. This is losing a marker, and it teaches patience: the kids who move constantly never get away, the ones who wait and then go once do. Source: Soccer Drill Defending and Pressing U11 - youtube.com/watch?v=zqt_c00WM-Q",
+ dia:[{k:'c',x:10,y:12},{k:'c',x:90,y:12},{k:'c',x:10,y:88},{k:'c',x:90,y:88},{k:'a',x:34,y:64},{k:'d',x:42,y:72},{k:'r',x:37,y:59,x2:56,y2:32},{k:'r',x:59,y:30,x2:86,y2:42}]},
+
+{id:"follow",name:"Follow the Pass",cat:"counterpress",moment:"outposs",pr:[1,3,10],phys:"Accel / decel",
+ mins:14,work:"3 rounds, 8 reps each, alternate roles",space:"10 yds apart, cone at halfway",players:[2,20],
+ constraint:"You pass it, you defend it. Follow your own pass, accelerate to the middle cone, then decelerate into a low side-on position that shows him one way. Get to arm's length, hold it for three seconds watching the ball, then touch him. Arrive flat or square and the rep does not count.",
+ cues:["Fast to get there, slow when you get there","Show him one way","Arm's length, eyes on the ball"],
+ prog:"Round two the receiver dribbles side to side and the defender has to stay with him. Round three he tries to beat him at game speed.",
+ reg:"Walk the whole thing through with no pressure until the arrival looks right.",
+ note:"The best version of this I have seen and it fixes the exact problem: arriving late and flat, then defending a 1v1 at pace. Build it over three rounds and do not skip to round three. Source: How to Defend in Soccer, 3 Drills - youtube.com/watch?v=LR9ifmPXGhI",
+ dia:[{k:'c',x:50,y:20},{k:'c',x:50,y:80},{k:'d',x:14,y:50},{k:'b',x:21,y:50},{k:'a',x:86,y:50},{k:'r',x:24,y:50,x2:78,y2:50},{k:'r',x:18,y:62,x2:46,y2:59}]},
+
+{id:"wallturn",name:"Wall and Turn",cat:"counterpress",moment:"outposs",pr:[1,3,10],phys:"Accel / decel",
+ mins:12,work:"3 rounds, 6 reps each, rotate all three roles",space:"10 yds each side of the attacker",players:[3,21],
+ constraint:"Attacker starts with his back to the defender and plays a wall pass out the same distance the defender is behind him, so the ball comes back at the same moment the defender can arrive. Attacker is trying to receive and turn. The defender has to be at arm's length and side-on before the ball lands, or the rep belongs to the attacker.",
+ cues:["Go when the ball goes","Fast to get there, slow when you get there","Get across his back, do not go through him"],
+ prog:"Attacker gets one free touch to set himself before he is allowed to turn. Then let him turn and attack a goal so the defender has to recover and run with him.",
+ reg:"Shorten the wall pass so the ball comes back quicker and the defender has less ground to cover.",
+ note:"The back-to-goal version of Follow the Pass, and the more honest one. In a game the ball is played into a man facing away from you and the only time you get is however long the ball is in the air. Here the wall pass sets that clock instead of the coach. Two players and a wall works fine if you have not got a third.",
+ dia:[{k:'c',x:31,y:22},{k:'c',x:31,y:70},{k:'n',x:90,y:46},{k:'a',x:50,y:46},{k:'b',x:56,y:46},{k:'d',x:12,y:46},{k:'r',x:58,y:46,x2:84,y2:46},{k:'r',x:84,y:60,x2:58,y2:60},{k:'r',x:16,y:53,x2:42,y2:50}]}
 
 ];
 
@@ -1029,6 +1197,7 @@ function initFilters(){
   $("#f-cat").innerHTML = Object.entries(CAT).map(([k,v])=>chip(v,k,"cat")).join("");
   $("#f-phys").innerHTML = PHYS.map(p=>chip(p,p,"phys")).join("");
   $("#drillcount").textContent = D.length + " drills";
+  $("#prcount").textContent = PRINCIPLES.length + " principles";
 }
 
 function matches(d){
@@ -1045,7 +1214,7 @@ function matches(d){
 
 function card(d){
   return `<article class="card">
-    <div class="dia">${svg(d.dia)}</div>
+    <div class="dia">${svg(d.dia, d.space)}</div>
     <div class="cbody">
       <div class="ctop"><h3 class="cname">${d.name}</h3><span class="ctime">${d.mins}′</span></div>
       <div class="ctags">
@@ -1119,17 +1288,62 @@ $("#clearall").addEventListener("click",()=>{
 });
 
 /* ---------- tabs ---------- */
-const TABS=["lib","ses","field","board","method","lang"];
+const TABS=["today","lib","ses","field","method","lang"];
 TABS.forEach(v=>$("#tab-"+v).addEventListener("click",()=>swap(v)));
 function swap(v){
   TABS.forEach(k=>{
     $("#tab-"+k).setAttribute("aria-selected",String(k===v));
     $("#view-"+k).classList.toggle("hide",k!==v);
   });
+  document.body.dataset.tab = v;
   if(v==="field") renderField();
-  if(v==="board") renderBoard();
-  if(v!=="board" && typeof bStop==="function" && BPLAY) bStop();
+  if(v==="today") renderToday();
   window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ============================================================
+   TODAY — the landing screen. One decision: run it or build it.
+   ============================================================ */
+const SHORT={activate:"Arrival",rondo:"Rondo",core1:"Core 1",core2:"Core 2",game:"Identity",street:"Street"};
+function renderToday(){
+  const filled = BLOCKS.filter(b=>SESSION[b.k].length);
+  const ids = BLOCKS.flatMap(b=>SESSION[b.k]);
+  const total = ids.reduce((n,id)=>n+byId(id).mins,0);
+  const theme = $("#theme").selectedOptions[0].text.replace("Theme: ","");
+  let h = "";
+  if(ids.length){
+    h += `<button class="runcard" id="runnow">
+      <div class="rc-top">
+        <div class="rc-eyebrow">Planned · ${filled.length} of ${BLOCKS.length} blocks</div>
+        <div class="rc-theme">${theme}</div>
+        <div class="rc-meta">${ids.length} drill${ids.length>1?"s":""} · ${total}′ of 90′</div>
+        <ol class="rc-list">${filled.map(b=>{
+          const names = SESSION[b.k].map(id=>byId(id).name).join(" · ");
+          const mins = SESSION[b.k].reduce((n,id)=>n+byId(id).mins,0);
+          return `<li><i>${SHORT[b.k]||b.n}</i><b>${names}</b><span>${mins}′</span></li>`;
+        }).join("")}</ol>
+      </div>
+      <div class="rc-go"><span>Run session</span><span aria-hidden="true">→</span></div>
+    </button>`;
+  } else {
+    h += `<div class="runcard flat">
+      <div class="rc-top">
+        <div class="rc-eyebrow">No session yet</div>
+        <div class="rc-theme">Nothing planned</div>
+        <div class="rc-meta">Build one in two taps.</div>
+      </div>
+      <button class="rc-go" data-go="ses"><span>Build a session</span><span aria-hidden="true">→</span></button>
+    </div>`;
+  }
+  h += `<div class="qa">
+    <button class="qatile" data-go="lib"><span class="qk">Drill library</span><span class="qv">${D.length} drills · ${PRINCIPLES.length} principles</span></button>
+    <button class="qatile" data-go="ses"><span class="qk">Session builder</span><span class="qv">Six blocks · 90 minutes</span></button>
+    <button class="qatile" data-go="field"><span class="qk">Field mode</span><span class="qv">Timer · constraint · cues</span></button>
+  </div>`;
+  $("#todayout").innerHTML = h;
+  const run = $("#runnow");
+  if(run) run.onclick = ()=>{ fieldView="session"; swap("field"); };
+  document.querySelectorAll("#todayout [data-go]").forEach(b=>b.onclick=()=>swap(b.dataset.go));
 }
 
 /* ============================================================
@@ -1185,6 +1399,7 @@ function renderSession(){
     </div>`;
   }).join("");
   const over = total>90;
+  if($("#todayout") && !$("#view-today").classList.contains("hide")) renderToday();
   $("#totals").className = "totals"+(over?" over":"");
   $("#totals").innerHTML = `Total <b>${total}′</b> / 90′`;
   document.querySelectorAll("[data-pick]").forEach(s=>s.addEventListener("change",e=>{
@@ -1299,7 +1514,7 @@ function buildHandout(){
       <div class="ho-dhead"><span class="ho-n">${String(i+1).padStart(2,"0")}</span>
         <h2>${d.name}</h2><span class="ho-t">${d.mins} min${iv.length?` · ${iv[0]}×${fmtShort(iv[1])} on / ${fmtShort(iv[2])} off`:""}</span></div>
       <div class="ho-cols">
-        <div class="ho-dia">${svg(d.dia)}</div>
+        <div class="ho-dia">${svg(d.dia, d.space)}</div>
         <div class="ho-txt">
           <h3>Setup</h3><p>${su}</p>
           <h3>Balls &amp; gear</h3><p>${k.b||""} <em>Gear: ${k.g||"—"}</em></p>
@@ -1481,6 +1696,18 @@ function renderLang(){
    TEACH IT — what you're actually teaching, and how to say it
    ============================================================ */
 const EX = {
+wallturn:{p:"The real picture. In a game the ball is played into a man with his back to you and all the time you get is however long the ball is travelling. Same accelerate then decelerate, except now the ball sets the clock instead of you.",
+ s:"You go when the ball goes, not when it comes back. Sprint the first half of it, then slow down and get side on across his back. Arm's length, do not lean on him. If you are there before it lands he cannot turn. If you are late he is round you and gone.",
+ c:"How long have you actually got to get there?", l:"Defender leaving on the wall pass rather than on the return, and arriving side on as the ball lands."},
+gate:{p:"1v1 defending with the ball taken away. All that is left is where you put your feet and your body, and whether you get to the space before he does.",
+ s:"No ball in this one. He is trying to get out of that gate in five seconds and you are trying to touch him before he does. Get between him and the gate first. When he is close, small steps, feet alive, do not lunge and do not cross your feet.",
+ c:"Where do you want to be before he even gets near you?", l:"Defender arriving at the gate first and shuffling rather than lunging."},
+onemove:{p:"Getting away from a marker is about timing, not tricks. One good change of pace at the right moment beats constant running about.",
+ s:"You have twenty seconds and you only get one move. So do not waste it. Jog, let him get comfortable, and then go once, hard, the way he is not looking. If you are moving the whole time you will never get away from him.",
+ c:"When is the best moment to make your move?", l:"A player who is patient for fifteen seconds and then goes once at full pace."},
+follow:{p:"How you arrive decides the duel. Sprint the first half of the distance, then slow down and get side on so you are balanced and already showing him one direction.",
+ s:"You pass it, you go with it. Sprint to that cone. Then slow right down, get low, turn side on and show him the way you want him to go. Arm's length away, eyes on the ball not on him, hold it three seconds, then touch him.",
+ c:"What happens if you arrive flat and square to him?", l:"Fast for the first five yards, then a visible slow-down into a low side-on shape at arm's length."},
 tri332:{p:"The midfield three is a triangle with the point at the back. The holder is the point — he is the cover, and he is the low pivot when we build.",
  s:"You three in the middle are a triangle. One of you is always behind the other two — that is the point, that is our holder. If I look at you and you are in a line, or the point has run ahead, I stop it and they get the ball. If the point wants to go forward, one of the other two drops into his spot first.",
  c:"What shape are the three of you, and who is the point?", l:"One player consistently sitting behind the other two, and someone dropping when he steps."},
@@ -1630,6 +1857,10 @@ throw:{p:"Restarts are free speed. Most youth teams give away all their tempo at
 };
 
 const KIT = {
+wallturn:{s:"One ball per group",b:"One ball per group of three, plus a couple of spares.",g:"Three cones per group, or a wall or rebounder if you only have two players"},
+gate:{s:"No ball",b:"None. This one is deliberately without a ball.",g:"Four cones for the square, two for the gate"},
+onemove:{s:"No ball",b:"None.",g:"Four cones for the square, bibs so pairs can see each other"},
+follow:{s:"One ball per pair",b:"One ball per pair, plus a couple of spares so nothing stops.",g:"Three cones per pair"},
 tri332:{s:"One ball",b:"One ball plus spares.",g:"Cones for a 45x35 box, bibs, whistle"},
 cover:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs"},
 shiftpress:{s:"One ball",b:"One ball in play plus a spare sitting at the far end of each wide channel — those spares are part of the drill.",g:"Two small goals or targets, cones for the wide channels, bibs"},
@@ -1680,6 +1911,10 @@ kickoff:{s:"One ball",b:"One ball on the centre spot, spares on the sideline for
 throw:{s:"Game ball",b:"Whatever ball the game you're already running is using. No extra equipment.",g:"None"}
 };
 const SETUP = {
+wallturn:"Three players, or two and a wall. Attacker stands in the middle with his back to the defender, a wall player ten yards in front of him, defender ten yards behind him. Attacker plays out to the wall, the wall returns it first time, and the defender goes the moment the ball leaves the attacker's foot. Rotate all three roles.",
+gate:"15x15 square with one gate about 3 yards wide cut into a corner. Two players start on opposite corners with no ball. On your call they both go: the attacker is trying to get out through the gate, the defender is trying to tag him first.",
+onemove:"20x20 square, pairs, no ball. Attacker and defender start together inside it. Attacker jogs about with his man on him and picks a moment to break out of the square.",
+follow:"Two players ten yards apart with a cone halfway between them and a ball at one end. The player with the ball passes it and immediately becomes the defender. Reset and swap roles every rep.",
 tri332:"45x35, 7v5 or 8v6 in favour of the team in possession, using the actual 3-3-2 shape for the possession team. You stand outside with a whistle and freeze play whenever the midfield three lose their triangle.",
 cover:"45x35 with a goal and keeper each end, 6v6. Play normally. You referee the three-second cover rule loudly for the first round.",
 shiftpress:"50x35 with cone lines marking a wide channel down each side and a spare ball resting at the far end of each channel. 6v6 with small goals. Attackers are encouraged to switch the ball frequently.",
@@ -1751,6 +1986,8 @@ function teachBlock(id){
    FIELD MODE — interval timer
    ============================================================ */
 const IV = {
+ wallturn:[18,8,25],
+ gate:[8,5,30], onemove:[6,20,40], follow:[24,10,20],
  brake:[6,20,40], react:[8,8,45], milly:[4,120,60], cprondo:[5,120,90], hunt:[4,150,90],
  bounce:[10,25,35], step:[6,30,45], war:[12,25,45], six:[4,240,120], wide:[3,300,120],
  cont32:[4,180,90], identity:[6,180,90], street:[1,480,0], line:[4,180,90], ignite:[10,30,60],
@@ -1782,7 +2019,7 @@ let T = null;
 function openStage(id){
   const d=byId(id), iv=IV[id]||[4,120,60];
   T = {d, sets:iv[0], on:iv[1], off:iv[2], set:1, phase:"ready", left:iv[1], running:false, tick:null};
-  drawStage(); $("#stage").classList.add("on"); keepAwake(true);
+  $("#stage").dataset.phase="ready"; drawStage(); $("#stage").classList.add("on"); keepAwake(true);
 }
 function closeStage(){
   if(T&&T.tick) clearInterval(T.tick);
@@ -1790,45 +2027,64 @@ function closeStage(){
 }
 function drawStage(){
   const d=T.d;
-  const cls = T.phase==="work"?"work":T.phase==="rest"?"rest":T.phase==="done"?"done":"";
-  const label = T.phase==="ready"?"Ready":T.phase==="work"?"Work":T.phase==="rest"?"Rest":"Done";
   $("#stage").innerHTML = `
-    <div class="stop">
-      <h2>${d.name}</h2>
-      <button class="xbtn" id="xstage" aria-label="Close timer">×</button>
+    <div class="sscroll">
+      <div class="stop">
+        <h2>${d.name}</h2>
+        <button class="xbtn" id="xstage" aria-label="Close timer">×</button>
+      </div>
+      <div class="clock">
+        <div class="phase" id="sphase">Ready</div>
+        <div class="big" id="sbig">${fmt(T.left)}</div>
+        <div class="setline" id="sset">Set 1 of ${T.sets}</div>
+      </div>
+      <div class="sdia">${svg(d.dia, d.space)}</div>
+      <div class="scon"><div class="k">The constraint</div><p>${d.constraint}</p></div>
+      ${d.cues.length?`<ul class="scue">${d.cues.map(c=>`<li>“${c}”</li>`).join("")}</ul>`:""}
+      <div class="stage-teach">${teachBlock(d.id)}</div>
+      <p class="ssetup">${d.space} · ${d.players[0]}–${d.players[1]} players · ${d.work}<br><br>${d.note}</p>
     </div>
-    <div class="clock">
-      <div class="phase">${label}</div>
-      <div class="big ${cls}">${T.phase==="done"?"✓":fmt(T.left)}</div>
-      <div class="setline">${T.phase==="done"?"Session block complete":`Set ${T.set} of ${T.sets}`}</div>
-    </div>
-    <div class="sctrl">
-      <button class="btn" id="tgo">${T.running?"Pause":T.phase==="done"?"Restart":"Start"}</button>
+    <div class="sbar">
       <button class="btn ghost" id="tskip">Skip</button>
+      <button class="btn go" id="tgo">Start</button>
       <button class="btn ghost" id="treset">Reset</button>
-    </div>
-    <div class="scon"><div class="k">The constraint</div><p>${d.constraint}</p></div>
-    <div class="stage-teach">${teachBlock(d.id)}</div>
-    ${d.cues.length?`<ul class="scue">${d.cues.map(c=>`<li>“${c}”</li>`).join("")}</ul>`:""}
-    <p class="ssetup">${d.space} · ${d.players[0]}–${d.players[1]} players · ${d.work}<br><br>${d.note}</p>`;
+    </div>`;
   $("#xstage").onclick=closeStage;
   $("#tgo").onclick=toggleRun;
-  $("#tskip").onclick=()=>{T.left=0;step();drawStage();};
-  $("#treset").onclick=()=>{T.set=1;T.phase="ready";T.left=T.on;stopRun();drawStage();};
+  $("#tskip").onclick=()=>{T.left=0;step();flash();paintClock();};
+  $("#treset").onclick=()=>{T.set=1;T.phase="ready";T.left=T.on;stopRun();paintClock();};
+  paintClock();
+}
+/* only the numbers change on a tick — the page below stays put */
+function paintClock(){
+  if(!T) return;
+  const st=$("#stage"); st.dataset.phase=T.phase;
+  const cls = T.phase==="work"?"work":T.phase==="rest"?"rest":T.phase==="done"?"done":"";
+  const big=$("#sbig"), ph=$("#sphase"), sl=$("#sset"), go=$("#tgo");
+  if(big){ big.className="big "+cls; big.textContent = T.phase==="done" ? "✓" : fmt(T.left); }
+  if(ph) ph.textContent = T.phase==="ready"?"Ready":T.phase==="work"?"Work":T.phase==="rest"?"Rest":"Done";
+  if(sl) sl.textContent = T.phase==="done" ? "Block complete" : `Set ${T.set} of ${T.sets}`;
+  if(go) go.textContent = T.running ? "Pause" : T.phase==="done" ? "Restart" : "Start";
+}
+/* the one expressive moment: a whistle-fast sweep on the phase flip */
+function flash(){
+  const st=$("#stage"); if(!st) return;
+  st.classList.remove("flip"); void st.offsetWidth; st.classList.add("flip");
+  if(navigator.vibrate) try{ navigator.vibrate(T.phase==="work"?[35,45,35]:25); }catch(e){}
 }
 function toggleRun(){
   if(T.phase==="done"){T.set=1;T.phase="ready";T.left=T.on;}
   if(T.running){stopRun();} else {
-    if(T.phase==="ready"){T.phase="work";T.left=T.on;beep(2);}
+    if(T.phase==="ready"){T.phase="work";T.left=T.on;beep(2);flash();}
     T.running=true;
     T.tick=setInterval(()=>{
       T.left--;
       if(T.left<=3&&T.left>0) beep(1);
-      if(T.left<=0) step();
-      drawStage();
+      if(T.left<=0){ step(); flash(); }
+      paintClock();
     },1000);
   }
-  drawStage();
+  paintClock();
 }
 function stopRun(){ if(T.tick)clearInterval(T.tick); T.tick=null; T.running=false; }
 function step(){
@@ -2018,429 +2274,37 @@ function renderMethod(){
 }
 
 /* ============================================================
-   TACTICS BOARD — 9v9 field mapping
-   Drag players, draw runs/passes/press, save named situations,
-   step or animate through frames. No dependencies.
+   DAYLIGHT BOOST — for reading the screen in direct sun
    ============================================================ */
-const BM = 20, BU = 9, BW = 50, BL = 76;          /* margin px, px/yard, pitch width & length in yards */
-const BVW = BW * BU + BM * 2, BVL = BL * BU + BM * 2;
-
-/* 9v9 shapes — [across, along], 0,0 = our left corner, y grows toward their goal */
-const FORMS = {
-  "3-3-2":  [[25,4],[10,20],[25,17],[40,20],[10,41],[25,33],[40,41],[18,58],[32,58]],
-  "3-2-3":  [[25,4],[10,20],[25,17],[40,20],[16,38],[34,38],[8,58],[25,61],[42,58]],
-  "2-3-3":  [[25,4],[16,18],[34,18],[10,38],[25,35],[40,38],[8,58],[25,61],[42,58]],
-  "3-1-3-1":[[25,4],[10,20],[25,17],[40,20],[25,31],[10,46],[25,43],[40,46],[25,61]],
-  /* 3-2-1-2 — back three, two holding mids, one at the tip, two up top.
-     5 and 6 screen; 7 is the free man between the lines. */
-  "3-2-1-2":[[25,4],[10,20],[25,17],[40,20],[17,32],[33,32],[25,45],[17,60],[33,60]]
-};
-
-const BPEN = {
-  run:  {stroke:"#5FBFA6", dash:"",      head:1, label:"Run"},
-  pass: {stroke:"#E9C46A", dash:"7 5",   head:1, label:"Pass"},
-  press:{stroke:"#D8283C", dash:"",      head:1, label:"Press"},
-  free: {stroke:"#8CA396", dash:"3 4",   head:0, label:"Line"}
-};
-
-let BOARD = null;
-let BTOOL = "move";
-let BPLAY = null;
-let BDRAG = null;
-
-function newBoard(shape, shapeThem){
-  const f = FORMS[shape] || FORMS["3-3-2"];
-  const g = FORMS[shapeThem] || f;          /* blank = they mirror our shape */
-  const roster = [];
-  const pos = {};
-  f.forEach((p,i)=>{ /* our shape, attacking up the page */
-    roster.push({id:"u"+i, side:"us", label:String(i+1)});
-    pos["u"+i] = {x:p[0], y:p[1]};
-  });
-  g.forEach((p,i)=>{
-    roster.push({id:"t"+i, side:"them", label:String(i+1)});
-    pos["t"+i] = {x:BW - p[0], y:BL - p[1]};
-  });
-  roster.push({id:"ball", side:"ball", label:""});
-  pos.ball = {x:25, y:38};
-  return {orient:"v", shape:shape||"3-3-2", shapeThem:shapeThem||"", roster,
-          frames:[{pos, draws:[]}], cur:0, name:null};
+function setDay(on){
+  document.body.classList.toggle("day", on);
+  $("#daytoggle").setAttribute("aria-pressed", String(on));
+  store.set("cpl:day", on ? "1" : "0");
 }
-
-function bFrame(){ return BOARD.frames[BOARD.cur]; }
-
-/* yards -> svg px, and back */
-function bxy(x,y){
-  return BOARD.orient === "v"
-    ? [BM + x*BU, BM + (BL - y)*BU]
-    : [BM + y*BU, BM + x*BU];
-}
-function binv(px,py){
-  return BOARD.orient === "v"
-    ? [(px - BM)/BU, BL - (py - BM)/BU]
-    : [(py - BM)/BU, (px - BM)/BU];
-}
-function bclamp(p){
-  p.x = Math.max(0.6, Math.min(BW - 0.6, p.x));
-  p.y = Math.max(0.6, Math.min(BL - 0.6, p.y));
-  return p;
-}
-
-function bLine(x1,y1,x2,y2,w){
-  const a = bxy(x1,y1), b = bxy(x2,y2);
-  return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#22362B" stroke-width="${w||2}"/>`;
-}
-function bRect(x1,y1,x2,y2){
-  const a = bxy(x1,y1), b = bxy(x2,y2);
-  const x = Math.min(a[0],b[0]), y = Math.min(a[1],b[1]);
-  return `<rect x="${x}" y="${y}" width="${Math.abs(b[0]-a[0])}" height="${Math.abs(b[1]-a[1])}" fill="none" stroke="#22362B" stroke-width="2"/>`;
-}
-
-function bPitch(){
-  const c = bxy(25,38);
-  const spotA = bxy(25,10), spotB = bxy(25,66);
-  let s = "";
-  s += `<rect x="0" y="0" width="${BOARD.orient==="v"?BVW:BVL}" height="${BOARD.orient==="v"?BVL:BVW}" fill="#0C1310"/>`;
-  s += bRect(0,0,50,76);
-  s += bLine(0,38,50,38);
-  s += `<circle cx="${c[0]}" cy="${c[1]}" r="${8*BU}" fill="none" stroke="#22362B" stroke-width="2"/>`;
-  s += `<circle cx="${c[0]}" cy="${c[1]}" r="3" fill="#22362B"/>`;
-  s += bRect(9,0,41,14) + bRect(9,76,41,62);
-  s += bRect(17,0,33,6) + bRect(17,76,33,70);
-  s += `<circle cx="${spotA[0]}" cy="${spotA[1]}" r="3" fill="#22362B"/>`;
-  s += `<circle cx="${spotB[0]}" cy="${spotB[1]}" r="3" fill="#22362B"/>`;
-  /* goals, drawn just outside each line */
-  const g1 = bxy(22,0), g2 = bxy(28,0), g3 = bxy(22,76), g4 = bxy(28,76);
-  if(BOARD.orient === "v"){
-    s += `<rect x="${g1[0]}" y="${g1[1]}" width="${g2[0]-g1[0]}" height="10" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
-    s += `<rect x="${g3[0]}" y="${g3[1]-10}" width="${g4[0]-g3[0]}" height="10" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
-  }else{
-    s += `<rect x="${g1[0]-10}" y="${g1[1]}" width="10" height="${g2[1]-g1[1]}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
-    s += `<rect x="${g3[0]}" y="${g3[1]}" width="10" height="${g4[1]-g3[1]}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
-  }
-  return s;
-}
-
-function bDraw(d){
-  const pts = d.pts.map(p=>bxy(p[0],p[1]));
-  const pen = BPEN[d.t] || BPEN.free;
-  const path = pts.map((p,i)=>(i?"L":"M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
-  return `<path d="${path}" fill="none" stroke="${pen.stroke}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"`
-    + (pen.dash ? ` stroke-dasharray="${pen.dash}"` : "")
-    + (pen.head ? ` marker-end="url(#bhead-${d.t})"` : "") + `/>`;
-}
-
-function bToken(t,p,r){
-  const a = bxy(p.x,p.y);
-  const rad = (r || 1.9) * BU;
-  const dp = ` data-x="${p.x.toFixed(2)}" data-y="${p.y.toFixed(2)}"`;
-
-  if(t.side === "ball")
-    return `<g class="btok" data-id="${t.id}"${dp}>`
-      + `<circle cx="${a[0]}" cy="${a[1]}" r="${0.95*BU}" fill="#E9EFE9" stroke="#0C1310" stroke-width="2"/></g>`;
-
-  /* us = filled triangle, apex pointing the way we attack.
-     them = outlined circle. Shape carries the team, not just colour,
-     so it still reads at arm's length in sunlight. */
-  if(t.side === "us"){
-    const R = 2.35 * BU;
-    const q = BOARD.orient === "v"
-      ? [[a[0], a[1]-R], [a[0]-R*0.866, a[1]+R*0.5], [a[0]+R*0.866, a[1]+R*0.5]]
-      : [[a[0]+R, a[1]], [a[0]-R*0.5, a[1]-R*0.866], [a[0]-R*0.5, a[1]+R*0.866]];
-    const d = q.map((c,i)=>(i?"L":"M")+c[0].toFixed(1)+" "+c[1].toFixed(1)).join(" ")+" Z";
-    const tx = BOARD.orient === "v" ? a[0] : a[0] - R*0.26;
-    const ty = BOARD.orient === "v" ? a[1] + R*0.30 : a[1] + 4.5;
-    return `<g class="btok" data-id="${t.id}"${dp}>`
-      + `<path d="${d}" fill="#D8283C" stroke="#0C1310" stroke-width="2.5" stroke-linejoin="round"/>`
-      + `<text x="${tx}" y="${ty}" text-anchor="middle" font-size="13" font-weight="700" fill="#E9EFE9" font-family="Archivo,sans-serif" pointer-events="none">${t.label}</text>`
-      + `</g>`;
-  }
-
-  return `<g class="btok" data-id="${t.id}"${dp}>`
-    + `<circle cx="${a[0]}" cy="${a[1]}" r="${rad}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`
-    + `<text x="${a[0]}" y="${a[1]+5}" text-anchor="middle" font-size="14" font-weight="700" fill="#E9EFE9" font-family="Archivo,sans-serif" pointer-events="none">${t.label}</text>`
-    + `</g>`;
-}
-
-function bDefs(){
-  return `<defs>` + Object.keys(BPEN).filter(k=>BPEN[k].head).map(k=>
-    `<marker id="bhead-${k}" markerWidth="4.4" markerHeight="4.4" refX="3.5" refY="2.2" orient="auto">`
-    + `<path d="M0,0 L4.4,2.2 L0,4.4 Z" fill="${BPEN[k].stroke}"/></marker>`).join("") + `</defs>`;
-}
-
-function bSvg(pos, draws){
-  const vb = BOARD.orient === "v" ? `0 0 ${BVW} ${BVL}` : `0 0 ${BVL} ${BVW}`;
-  let s = `<svg id="bsvg" class="bpitch${BOARD.orient==="h"?" wide":""}" viewBox="${vb}" role="img" aria-label="Tactics board">`;
-  s += bDefs() + bPitch();
-  (draws||[]).forEach(d=>{ s += bDraw(d); });
-  BOARD.roster.filter(t=>t.side!=="ball").forEach(t=>{ s += bToken(t, pos[t.id]); });
-  s += bToken(BOARD.roster.find(t=>t.side==="ball"), pos.ball);
-  return s + `</svg>`;
-}
-
-function renderBoard(){
-  if(!BOARD) BOARD = newBoard("3-3-2");
-  const f = bFrame();
-  $("#bstage").innerHTML = bSvg(f.pos, f.draws);
-  $("#bframes").innerHTML = BOARD.frames.map((x,i)=>
-    `<button class="bdot" data-i="${i}" data-on="${i===BOARD.cur?1:0}" aria-label="Frame ${i+1}">${i+1}</button>`).join("")
-    + `<button class="btool" id="baddframe">+ Frame</button>`
-    + (BOARD.frames.length>1 ? `<button class="btool" id="bdelframe">Delete frame</button>` : "");
-  Object.keys(BPEN).forEach(k=>{ const el=$("#btool-"+k); if(el) el.setAttribute("data-on", BTOOL===k?"1":"0"); });
-  $("#btool-move").setAttribute("data-on", BTOOL==="move"?"1":"0");
-  $("#btool-erase").setAttribute("data-on", BTOOL==="erase"?"1":"0");
-  $("#bplay").textContent = BOARD.frames.length>1 ? "Play" : "Play";
-  $("#bplay").disabled = BOARD.frames.length < 2;
-  $("#bname").textContent = BOARD.name ? BOARD.name : "Unsaved situation";
-  bBind();
-}
-
-/* ---------- pointer handling ---------- */
-function bPoint(e){
-  const svg = $("#bsvg");
-  const r = svg.getBoundingClientRect();
-  const vw = BOARD.orient === "v" ? BVW : BVL;
-  const vh = BOARD.orient === "v" ? BVL : BVW;
-  const px = (e.clientX - r.left) * (vw / r.width);
-  const py = (e.clientY - r.top) * (vh / r.height);
-  return binv(px, py);
-}
-
-/* nearest token to a tap, in yards — z-order independent so the ball
-   never steals a grab from a player standing on top of it */
-function bPick(at){
-  const f = bFrame();
-  let id = null, best = 3.4;
-  BOARD.roster.forEach(t=>{
-    const p = f.pos[t.id];
-    const d = Math.hypot(p.x - at[0], p.y - at[1]) - (t.side === "ball" ? 0.5 : 0);
-    if(d < best){ best = d; id = t.id; }
-  });
-  return id;
-}
-
-function bBind(){
-  const svg = $("#bsvg");
-  if(!svg) return;
-
-  svg.addEventListener("pointerdown", e=>{
-    if(BPLAY) return;
-    const at = bPoint(e);
-    if(BTOOL === "move"){
-      const id = bPick(at);
-      if(!id) return;
-      BDRAG = {id};
-      svg.setPointerCapture(e.pointerId);
-      e.preventDefault();
-      return;
-    }
-    if(BTOOL === "erase"){
-      const f = bFrame();
-      let best = -1, bd = 3.2;
-      f.draws.forEach((d,i)=>{
-        d.pts.forEach(p=>{
-          const dist = Math.hypot(p[0]-at[0], p[1]-at[1]);
-          if(dist < bd){ bd = dist; best = i; }
-        });
-      });
-      if(best >= 0){ f.draws.splice(best,1); renderBoard(); }
-      return;
-    }
-    BDRAG = {stroke:{t:BTOOL, pts:[[at[0],at[1]],[at[0],at[1]]]}};
-    bFrame().draws.push(BDRAG.stroke);
-    svg.setPointerCapture(e.pointerId);
-    e.preventDefault();
-  });
-
-  svg.addEventListener("pointermove", e=>{
-    if(!BDRAG) return;
-    const at = bPoint(e);
-    if(BDRAG.id){
-      bclamp(Object.assign(bFrame().pos[BDRAG.id], {x:at[0], y:at[1]}));
-    }else{
-      const s = BDRAG.stroke;
-      if(BTOOL === "free"){
-        const last = s.pts[s.pts.length-1];
-        if(Math.hypot(last[0]-at[0], last[1]-at[1]) > 1.2) s.pts.push([at[0],at[1]]);
-      }else{
-        s.pts[1] = [at[0], at[1]];
-      }
-    }
-    bRepaint();
-  });
-
-  const end = ()=>{
-    if(BDRAG && BDRAG.stroke){
-      const s = BDRAG.stroke;
-      const len = Math.hypot(s.pts[0][0]-s.pts[s.pts.length-1][0], s.pts[0][1]-s.pts[s.pts.length-1][1]);
-      if(len < 2) bFrame().draws.pop();
-    }
-    BDRAG = null;
-    renderBoard();
-  };
-  svg.addEventListener("pointerup", end);
-  svg.addEventListener("pointercancel", end);
-
-  $("#bframes").querySelectorAll(".bdot").forEach(b=>
-    b.addEventListener("click",()=>{ BOARD.cur = +b.dataset.i; renderBoard(); }));
-  const add = $("#baddframe");
-  if(add) add.addEventListener("click",()=>{
-    const src = bFrame();
-    const pos = {}; Object.keys(src.pos).forEach(k=>pos[k]={x:src.pos[k].x, y:src.pos[k].y});
-    BOARD.frames.splice(BOARD.cur+1, 0, {pos, draws:[]});
-    BOARD.cur++; renderBoard(); toast("Frame added");
-  });
-  const del = $("#bdelframe");
-  if(del) del.addEventListener("click",()=>{
-    BOARD.frames.splice(BOARD.cur,1);
-    BOARD.cur = Math.max(0, BOARD.cur-1); renderBoard(); toast("Frame deleted");
-  });
-}
-
-/* repaint without rebuilding listeners — keeps drags smooth */
-function bRepaint(){
-  const f = bFrame();
-  const svg = $("#bsvg");
-  if(!svg) return;
-  const vb = svg.getAttribute("viewBox");
-  svg.innerHTML = bDefs() + bPitch()
-    + f.draws.map(bDraw).join("")
-    + BOARD.roster.filter(t=>t.side!=="ball").map(t=>bToken(t, f.pos[t.id])).join("")
-    + bToken(BOARD.roster.find(t=>t.side==="ball"), f.pos.ball);
-  svg.setAttribute("viewBox", vb);
-}
-
-/* ---------- playback ---------- */
-function bStop(){
-  if(BPLAY){ cancelAnimationFrame(BPLAY.raf); BPLAY = null; }
-  $("#bplay").textContent = "Play";
-  renderBoard();
-}
-function bPlayAll(){
-  if(BPLAY){ bStop(); return; }
-  if(BOARD.frames.length < 2) return;
-  $("#bplay").textContent = "Stop";
-  const HOLD = 700, MOVE = 950;
-  let seg = 0, t0 = performance.now();
-  const svg = $("#bsvg");
-  BPLAY = {raf:0};
-  const tick = now=>{
-    const el = now - t0;
-    const from = BOARD.frames[seg], to = BOARD.frames[seg+1];
-    let pos, draws;
-    if(el < HOLD){
-      pos = from.pos; draws = from.draws;
-    }else if(el < HOLD + MOVE){
-      const k = (el - HOLD) / MOVE;
-      const e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k+2,2)/2;
-      pos = {};
-      Object.keys(from.pos).forEach(id=>{
-        pos[id] = {
-          x: from.pos[id].x + (to.pos[id].x - from.pos[id].x) * e,
-          y: from.pos[id].y + (to.pos[id].y - from.pos[id].y) * e
-        };
-      });
-      draws = from.draws;
-    }else{
-      seg++; t0 = now;
-      if(seg >= BOARD.frames.length - 1){ BOARD.cur = BOARD.frames.length-1; bStop(); return; }
-      BPLAY.raf = requestAnimationFrame(tick); return;
-    }
-    const vb = svg.getAttribute("viewBox");
-    svg.innerHTML = bDefs() + bPitch()
-      + draws.map(bDraw).join("")
-      + BOARD.roster.filter(t=>t.side!=="ball").map(t=>bToken(t, pos[t.id])).join("")
-      + bToken(BOARD.roster.find(t=>t.side==="ball"), pos.ball);
-    svg.setAttribute("viewBox", vb);
-    BPLAY.raf = requestAnimationFrame(tick);
-  };
-  BPLAY.raf = requestAnimationFrame(tick);
-}
-
-/* ---------- save / load ---------- */
-async function bSavedIndex(){
-  const raw = await store.get("cpl:bindex");
-  try{ return raw ? JSON.parse(raw) : []; }catch(e){ return []; }
-}
-
-async function bSave(){
-  const name = window.prompt("Name this situation:", BOARD.name || "High press trigger");
-  if(!name) return;
-  const ok = await store.set("cpl:b:"+name, JSON.stringify({
-    orient:BOARD.orient, shape:BOARD.shape, shapeThem:BOARD.shapeThem,
-    roster:BOARD.roster, frames:BOARD.frames
-  }));
-  if(!ok){ toast("Could not save"); return; }
-  const idx = await bSavedIndex();
-  if(!idx.includes(name)){ idx.push(name); await store.set("cpl:bindex", JSON.stringify(idx)); }
-  BOARD.name = name; renderBoard(); toast("Saved");
-}
-
-async function bLoad(){
-  const idx = await bSavedIndex();
-  if(!idx.length){ toast("Nothing saved yet"); return; }
-  const pick = window.prompt("Load which situation?\n\n" + idx.map((n,i)=>(i+1)+". "+n).join("\n") + "\n\nType a number, or - and a number to delete.", "1");
-  if(!pick) return;
-  const delMode = pick.trim().startsWith("-");
-  const n = parseInt(pick.replace("-",""),10);
-  if(!n || n < 1 || n > idx.length){ toast("No such entry"); return; }
-  const name = idx[n-1];
-  if(delMode){
-    await store.set("cpl:b:"+name, "");
-    idx.splice(n-1,1);
-    await store.set("cpl:bindex", JSON.stringify(idx));
-    toast("Deleted " + name); return;
-  }
-  const raw = await store.get("cpl:b:"+name);
-  if(!raw){ toast("Could not load"); return; }
+$("#daytoggle").addEventListener("click", ()=>{
+  const on = !document.body.classList.contains("day");
+  setDay(on); toast(on ? "Daylight on" : "Daylight off");
+});
+(async ()=>{
+  const saved = await store.get("cpl:day");
+  if(saved === "1"){ setDay(true); return; }
+  if(saved === "0") return;
+  // no preference stored — let the phone decide if it can
   try{
-    const o = JSON.parse(raw);
-    BOARD = {orient:o.orient||"v", shape:o.shape||"3-3-2", shapeThem:o.shapeThem||"",
-             roster:o.roster, frames:o.frames, cur:0, name};
-    $("#bshape").value = BOARD.shape;
-    $("#bshapethem").value = BOARD.shapeThem;
-    renderBoard(); toast("Loaded " + name);
-  }catch(e){ toast("Could not load"); }
-}
-
-/* ---------- toolbar wiring (bound once) ---------- */
-Object.keys(BPEN).concat(["move","erase"]).forEach(k=>{
-  const el = $("#btool-"+k);
-  if(el) el.addEventListener("click",()=>{ BTOOL = k; renderBoard(); });
-});
-function bReshape(){
-  BOARD = newBoard($("#bshape").value, $("#bshapethem").value);
-  renderBoard();
-  toast($("#bshapethem").value ? "Shapes reset" : "Shape reset — they mirror us");
-}
-$("#bshape").addEventListener("change", bReshape);
-$("#bshapethem").addEventListener("change", bReshape);
-$("#borient").addEventListener("click",()=>{
-  BOARD.orient = BOARD.orient === "v" ? "h" : "v";
-  renderBoard();
-});
-$("#bclear").addEventListener("click",()=>{
-  bFrame().draws = []; renderBoard(); toast("Arrows cleared");
-});
-$("#bnew").addEventListener("click",()=>{
-  BOARD = newBoard($("#bshape").value, $("#bshapethem").value);
-  renderBoard(); toast("New board");
-});
-$("#bfocus").addEventListener("click",()=>{
-  const on = document.body.classList.toggle("bfocus");
-  $("#bfocus").setAttribute("data-on", on?"1":"0");
-  window.scrollTo({top:0});
-});
-$("#bplay").addEventListener("click", bPlayAll);
-$("#bsave").addEventListener("click", bSave);
-$("#bload").addEventListener("click", bLoad);
+    if("AmbientLightSensor" in window){
+      const sensor = new AmbientLightSensor({frequency:0.2});
+      sensor.addEventListener("reading", ()=>{ if(sensor.illuminance > 3000) setDay(true); }, {once:true});
+      sensor.start();
+    }
+  }catch(e){}
+})();
 
 /* ============================================================
    VERSION + AUTO-REFRESH
    Bump BUILD on every push. The app checks the live file on
    launch and reloads itself if GitHub has a newer build.
    ============================================================ */
-const BUILD = "2026.08.31.2";
+const BUILD = "2026.09.02.1";
 
 async function checkForUpdate(){
   if(!/^https?:$/.test(location.protocol)) return;
@@ -2457,7 +2321,7 @@ async function checkForUpdate(){
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden) checkForUpdate(); });
 setTimeout(checkForUpdate, 1200);
 
-initFilters(); render(); renderSession(); renderLang(); renderMethod(); renderField(); renderBoard();
+initFilters(); render(); renderSession(); renderLang(); renderMethod(); renderField(); renderToday();
 </script>
 </body>
 </html>

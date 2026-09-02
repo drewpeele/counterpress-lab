@@ -331,19 +331,49 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
   .item .it,.btime{color:#000}
   .bnum{color:#000}
 }
+
+/* ---------- tactics board ---------- */
+.btoolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px}
+.btoolbar .sep{width:1px;height:20px;background:var(--line);margin:0 4px}
+.btool{background:var(--surface);border:1px solid var(--line);color:var(--muted);cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  font-size:12px;padding:7px 11px;border-radius:var(--r);flex-shrink:0}
+.btool:hover{color:var(--chalk)}
+.btool:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.btool[disabled]{opacity:.35;cursor:default}
+.btool[data-on="1"]{background:var(--red-dim);color:var(--chalk);border-color:var(--red)}
+.btool .sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+select.btool{-webkit-appearance:none;appearance:none;padding-right:22px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 13px) 12px,calc(100% - 8px) 12px;background-size:5px 5px;background-repeat:no-repeat}
+#bstage{border:1px solid var(--line);background:#12281E;padding:10px;margin-bottom:14px;border-radius:var(--r)}
+body.bfocus header{display:none}
+body.bfocus nav{margin:10px 0 14px}
+body.bfocus .bhint{display:none}
+body.bfocus #bstage{padding:4px}
+body.bfocus .bpitch{max-width:100%}
+.bpitch{width:100%;max-width:430px;margin:0 auto;display:block;touch-action:none;
+  user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.bpitch.wide{max-width:100%}
+.btok{cursor:grab}
+.bframes{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.bdot{width:30px;height:30px;border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;cursor:pointer;border-radius:var(--r);flex-shrink:0}
+.bdot[data-on="1"]{background:var(--cyan);color:var(--pitch);border-color:var(--cyan)}
+.bhint{color:var(--muted);font-size:13px;max-width:620px}
+.bhint b{color:var(--chalk);font-weight:600}
+#bname{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:12px;color:var(--muted);margin-left:auto}
 /* ============================================================
    DESIGN BRIEF PASS — Today, field mode, daylight, motion
    ============================================================ */
 :root{ --dur:170ms; --ease:cubic-bezier(.22,.61,.36,1); --measure:640px; }
-.card,.fbtn,.chip,.btn,.pr,.addbtn,.qatile,.runcard{
+.card,.fbtn,.chip,.btn,.pr,.addbtn,.qatile,.runcard,.btool{
   transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
-
-/* reading measure */
 .mbody{max-width:var(--measure);font-size:16px;line-height:1.62}
 .mbody p{margin-bottom:12px}
 .lintro{max-width:var(--measure);font-size:16px;line-height:1.6}
 
-/* daylight toggle button in the header */
 .daybtn{background:transparent;border:1px solid var(--line);color:var(--muted);cursor:pointer;
   font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   font-size:11px;padding:3px 9px;border-radius:var(--r)}
@@ -377,14 +407,14 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
 .rc-go:hover{filter:brightness(1.12)}
 .qa{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 .qatile{display:flex;flex-direction:column;justify-content:center;gap:5px;text-align:left;cursor:pointer;
-  border:1px solid var(--line);background:var(--surface);color:var(--chalk);padding:16px 16px;min-height:86px;border-radius:var(--r)}
+  border:1px solid var(--line);background:var(--surface);color:var(--chalk);padding:16px;min-height:86px;border-radius:var(--r)}
 .qatile:hover{border-color:#31503F}
 .qatile:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 .qk{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:-.02em}
 .qv{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   font-size:12px;color:var(--muted)}
 
-/* ---------- FIELD MODE (flagship) ---------- */
+/* ---------- FIELD MODE ---------- */
 #stage{padding:0;overflow:hidden;transition:background-color var(--dur) var(--ease)}
 #stage[data-phase="work"]{background:#170C0F;--sweepc:rgba(216,40,60,.30)}
 #stage[data-phase="rest"]{background:#0A1815;--sweepc:rgba(95,191,166,.26)}
@@ -406,11 +436,11 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:v
 .sdia svg{display:block;width:100%;height:auto}
 
 /* the working tabs give the screen back to the work */
-body[data-tab="today"] .thesis,body[data-tab="field"] .thesis{display:none}
-body[data-tab="today"] header,body[data-tab="field"] header{padding:22px 0 16px}
-body[data-tab="today"] h1,body[data-tab="field"] h1{font-size:clamp(26px,5vw,38px);margin:6px 0 10px}
-body[data-tab="today"] .meta,body[data-tab="field"] .meta{margin-top:12px}
-body[data-tab="today"] nav,body[data-tab="field"] nav{margin:16px 0 16px}
+body[data-tab="today"] .thesis,body[data-tab="field"] .thesis,body[data-tab="board"] .thesis{display:none}
+body[data-tab="today"] header,body[data-tab="field"] header,body[data-tab="board"] header{padding:22px 0 16px}
+body[data-tab="today"] h1,body[data-tab="field"] h1,body[data-tab="board"] h1{font-size:clamp(26px,5vw,38px);margin:6px 0 10px}
+body[data-tab="today"] .meta,body[data-tab="field"] .meta,body[data-tab="board"] .meta{margin-top:12px}
+body[data-tab="today"] nav,body[data-tab="field"] nav,body[data-tab="board"] nav{margin:16px 0 16px}
 
 /* ---------- DAYLIGHT BOOST ---------- */
 body.day{
@@ -426,7 +456,7 @@ body.day .cue,body.day .tscript,body.day .lsay li{color:#DFFAF1}
 body.day .tag,body.day .chip,body.day .qv,body.day .rc-eyebrow{color:#CFE3D6}
 body.day .big{font-weight:700}
 body.day .card,body.day .fbtn,body.day .qatile,body.day .runcard,body.day .block{border-width:1.5px}
-body.day .dia,body.day .sdia{background:#0E2318}
+body.day .dia,body.day .sdia,body.day #bstage{background:#0E2318}
 body.day #stage[data-phase="work"]{background:#100407}
 body.day #stage[data-phase="rest"]{background:#04110E}
 </style>
@@ -446,6 +476,7 @@ body.day #stage[data-phase="rest"]{background:#04110E}
   <button role="tab" id="tab-lib" aria-selected="false" aria-controls="view-lib">Drill library</button>
   <button role="tab" id="tab-ses" aria-selected="false" aria-controls="view-ses">Session builder</button>
   <button role="tab" id="tab-field" aria-selected="false" aria-controls="view-field">Field mode</button>
+  <button role="tab" id="tab-board" aria-selected="false" aria-controls="view-board">Board</button>
   <button role="tab" id="tab-method" aria-selected="false" aria-controls="view-method">Method</button>
   <button role="tab" id="tab-lang" aria-selected="false" aria-controls="view-lang">Sideline language</button>
 </nav>
@@ -513,6 +544,55 @@ body.day #stage[data-phase="rest"]{background:#04110E}
 </section>
 
 <!-- ============ METHOD ============ -->
+<!-- ============ TACTICS BOARD ============ -->
+<section id="view-board" role="tabpanel" aria-labelledby="tab-board" class="hide">
+  <div id="bstage"></div>
+
+  <div class="btoolbar">
+    <button class="btool" id="btool-move" data-on="1">Move</button>
+    <button class="btool" id="btool-run"><span class="sw" style="background:#5FBFA6"></span>Run</button>
+    <button class="btool" id="btool-pass"><span class="sw" style="background:#FFFFFF"></span>Pass</button>
+    <button class="btool" id="btool-press"><span class="sw" style="background:#D8283C"></span>Press</button>
+    <button class="btool" id="btool-free"><span class="sw" style="background:#8CA396"></span>Line</button>
+    <button class="btool" id="btool-erase">Erase</button>
+    <button class="btool" id="bclear">Clear arrows</button>
+  </div>
+
+  <div class="bframes" id="bframes"></div>
+
+  <div class="btoolbar">
+    <select class="btool" id="bshape" aria-label="Starting shape">
+      <option value="3-3-2">Shape: 3-3-2</option>
+      <option value="3-2-3">Shape: 3-2-3</option>
+      <option value="2-3-3">Shape: 2-3-3</option>
+      <option value="3-1-3-1">Shape: 3-1-3-1</option>
+      <option value="3-2-1-2">Shape: 3-2-1-2</option>
+    </select>
+    <select class="btool" id="bshapethem" aria-label="Opposition shape">
+      <option value="">Them: same</option>
+      <option value="3-3-2">Them: 3-3-2</option>
+      <option value="3-2-3">Them: 3-2-3</option>
+      <option value="2-3-3">Them: 2-3-3</option>
+      <option value="3-1-3-1">Them: 3-1-3-1</option>
+      <option value="3-2-1-2">Them: 3-2-1-2</option>
+    </select>
+    <button class="btool" id="bplay">Play</button>
+    <button class="btool" id="borient">Rotate</button>
+    <button class="btool" id="bfocus">Focus</button>
+    <span class="sep"></span>
+    <button class="btool" id="bsave">Save</button>
+    <button class="btool" id="bload">Load saved</button>
+    <button class="btool" id="bnew">Reset</button>
+    <span id="bname">Unsaved situation</span>
+  </div>
+
+  <p class="bhint"><b>Move</b> drags players and the ball. Pick <b>Run</b>, <b>Pass</b> or <b>Press</b> and
+  drag on the pitch to draw an arrow. <b>+ Frame</b> copies the current positions to a new frame — move them,
+  then <b>Play</b> animates the whole sequence. <b>Focus</b> hides the header so the pitch fills the phone.
+  Yellow triangles are us and they point the way we attack; outlined circles are them.
+  <b>Them</b> defaults to mirroring our shape — set it separately to model an opponent.</p>
+</section>
+
 <section id="view-method" role="tabpanel" aria-labelledby="tab-method" class="hide">
   <div id="methodout"></div>
 </section>
@@ -557,7 +637,7 @@ const PRINCIPLES = [
    zn = constraint zone (x,y,x2,y2)
    r = arrow (add dash:1 for a run, solid = a pass)
    ============================================================ */
-const BOARD="#1E4634", CHALK="#E9EFE9", CBIB="#E9C46A", CGREY="#8A938C", CINK="#0B0E0C", CRED="#D8283C";
+const CBOARD="#1E4634", CHALK="#E9EFE9", CBIB="#E9C46A", CGREY="#8A938C", CINK="#0B0E0C", CRED="#D8283C";
 
 function _ctx(x,y,t,size,anchor,fill,op){
   return `<text class="ct" x="${x}" y="${y}" font-family="Barlow Condensed,sans-serif" font-size="${size}" `
@@ -618,7 +698,7 @@ function svg(spec, dims){
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Setup diagram">`
         + `<defs><marker id="${MID}" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">`
         + `<path d="M0,0 L8,4 L0,8 Z" fill="${CHALK}" fill-opacity=".9"/></marker></defs>`
-        + `<rect class="bd" width="${W}" height="${H}" rx="6" fill="${BOARD}"/>`;
+        + `<rect class="bd" width="${W}" height="${H}" rx="6" fill="${CBOARD}"/>`;
 
   const lab = (dims||"").toString().replace(/\s+/g," ").trim().toUpperCase();
   if(lab) s += _ctx(12, 19, lab.length>44 ? lab.slice(0,42)+"…" : lab, 9.5, "start", CHALK, ".82");
@@ -631,7 +711,6 @@ function svg(spec, dims){
   } else {
     s += `<rect class="ch" x="${PX}" y="${PY}" width="${PW}" height="${PH}" fill="none" `
        + `stroke="${CHALK}" stroke-opacity=".9" stroke-width="1.4"/>`;
-    // a goal on a boundary edge gets a real box in front of it
     goals.forEach(e=>{
       if(e.x<=8 || e.x>=92){
         const bw=44, bh=76, gy=Y(e.y);
@@ -668,7 +747,7 @@ function svg(spec, dims){
       case 'n':
         s+=`<circle class="nu" cx="${x}" cy="${y}" r="6.5" fill="${CGREY}"/>`; break;
       case 'b':
-        s+=`<circle class="bl" cx="${x}" cy="${y}" r="3.6" fill="#FFFFFF"/><circle class="bi" cx="${x}" cy="${y}" r="1.2" fill="${BOARD}"/>`; break;
+        s+=`<circle class="bl" cx="${x}" cy="${y}" r="3.6" fill="#FFFFFF"/><circle class="bi" cx="${x}" cy="${y}" r="1.2" fill="${CBOARD}"/>`; break;
       case 'r': {
         const [ax,ay,bx,by]=_trim(x,y,X(e.x2),Y(e.y2),9,10);
         const dash = e.dash ? ` stroke-dasharray="5 4"` : "";
@@ -1136,7 +1215,6 @@ const D = [
  dia:[{k:'g',x:6,y:50},{k:'g',x:94,y:50},{k:'a',x:20,y:25},{k:'a',x:20,y:50},{k:'a',x:20,y:75},{k:'a',x:38,y:50},{k:'a',x:52,y:32},{k:'a',x:52,y:68},{k:'a',x:75,y:40},{k:'a',x:75,y:60},{k:'d',x:65,y:50},{k:'d',x:80,y:30}]}
 ,
 
-/* ---------- 1v1 TECHNIQUE (from video, added 2026.08) ---------- */
 {id:"gate",name:"Guard the Gate",cat:"duels",moment:"outposs",pr:[3,4],phys:"Agility / COD",
  mins:8,work:"8 x 5s, 30s between",space:"15 x 15 with one gate in a corner",players:[2,20],
  constraint:"Five seconds. Attacker gets out through the gate or the defender has won. Tagged at any point and the rep is over. No ball at all.",
@@ -1172,7 +1250,6 @@ const D = [
  reg:"Shorten the wall pass so the ball comes back quicker and the defender has less ground to cover.",
  note:"The back-to-goal version of Follow the Pass, and the more honest one. In a game the ball is played into a man facing away from you and the only time you get is however long the ball is in the air. Here the wall pass sets that clock instead of the coach. Two players and a wall works fine if you have not got a third.",
  dia:[{k:'c',x:31,y:22},{k:'c',x:31,y:70},{k:'n',x:90,y:46},{k:'a',x:50,y:46},{k:'b',x:56,y:46},{k:'d',x:12,y:46},{k:'r',x:58,y:46,x2:84,y2:46},{k:'r',x:84,y:60,x2:58,y2:60},{k:'r',x:16,y:53,x2:42,y2:50}]}
-
 ];
 
 const CAT = {activation:"Activation",counterpress:"Counter-press",duels:"Duels / 1v1",transition:"Attacking transition",buildout:"Building out",finishing:"Finishing",setpiece:"Set pieces",shape:"Shape & organisation",engine:"Match engine"};
@@ -1288,7 +1365,7 @@ $("#clearall").addEventListener("click",()=>{
 });
 
 /* ---------- tabs ---------- */
-const TABS=["today","lib","ses","field","method","lang"];
+const TABS=["today","lib","ses","field","board","method","lang"];
 TABS.forEach(v=>$("#tab-"+v).addEventListener("click",()=>swap(v)));
 function swap(v){
   TABS.forEach(k=>{
@@ -1298,6 +1375,8 @@ function swap(v){
   document.body.dataset.tab = v;
   if(v==="field") renderField();
   if(v==="today") renderToday();
+  if(v==="board") renderBoard();
+  if(v!=="board" && typeof bStop==="function" && BPLAY) bStop();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -1336,9 +1415,10 @@ function renderToday(){
     </div>`;
   }
   h += `<div class="qa">
+    <button class="qatile" data-go="board"><span class="qk">Tactics board</span><span class="qv">Show them the shape</span></button>
+    <button class="qatile" data-go="field"><span class="qk">Field mode</span><span class="qv">Timer · constraint · cues</span></button>
     <button class="qatile" data-go="lib"><span class="qk">Drill library</span><span class="qv">${D.length} drills · ${PRINCIPLES.length} principles</span></button>
     <button class="qatile" data-go="ses"><span class="qk">Session builder</span><span class="qv">Six blocks · 90 minutes</span></button>
-    <button class="qatile" data-go="field"><span class="qk">Field mode</span><span class="qv">Timer · constraint · cues</span></button>
   </div>`;
   $("#todayout").innerHTML = h;
   const run = $("#runnow");
@@ -1399,7 +1479,7 @@ function renderSession(){
     </div>`;
   }).join("");
   const over = total>90;
-  if($("#todayout") && !$("#view-today").classList.contains("hide")) renderToday();
+  if($("#view-today") && !$("#view-today").classList.contains("hide")) renderToday();
   $("#totals").className = "totals"+(over?" over":"");
   $("#totals").innerHTML = `Total <b>${total}′</b> / 90′`;
   document.querySelectorAll("[data-pick]").forEach(s=>s.addEventListener("change",e=>{
@@ -1696,18 +1776,6 @@ function renderLang(){
    TEACH IT — what you're actually teaching, and how to say it
    ============================================================ */
 const EX = {
-wallturn:{p:"The real picture. In a game the ball is played into a man with his back to you and all the time you get is however long the ball is travelling. Same accelerate then decelerate, except now the ball sets the clock instead of you.",
- s:"You go when the ball goes, not when it comes back. Sprint the first half of it, then slow down and get side on across his back. Arm's length, do not lean on him. If you are there before it lands he cannot turn. If you are late he is round you and gone.",
- c:"How long have you actually got to get there?", l:"Defender leaving on the wall pass rather than on the return, and arriving side on as the ball lands."},
-gate:{p:"1v1 defending with the ball taken away. All that is left is where you put your feet and your body, and whether you get to the space before he does.",
- s:"No ball in this one. He is trying to get out of that gate in five seconds and you are trying to touch him before he does. Get between him and the gate first. When he is close, small steps, feet alive, do not lunge and do not cross your feet.",
- c:"Where do you want to be before he even gets near you?", l:"Defender arriving at the gate first and shuffling rather than lunging."},
-onemove:{p:"Getting away from a marker is about timing, not tricks. One good change of pace at the right moment beats constant running about.",
- s:"You have twenty seconds and you only get one move. So do not waste it. Jog, let him get comfortable, and then go once, hard, the way he is not looking. If you are moving the whole time you will never get away from him.",
- c:"When is the best moment to make your move?", l:"A player who is patient for fifteen seconds and then goes once at full pace."},
-follow:{p:"How you arrive decides the duel. Sprint the first half of the distance, then slow down and get side on so you are balanced and already showing him one direction.",
- s:"You pass it, you go with it. Sprint to that cone. Then slow right down, get low, turn side on and show him the way you want him to go. Arm's length away, eyes on the ball not on him, hold it three seconds, then touch him.",
- c:"What happens if you arrive flat and square to him?", l:"Fast for the first five yards, then a visible slow-down into a low side-on shape at arm's length."},
 tri332:{p:"The midfield three is a triangle with the point at the back. The holder is the point — he is the cover, and he is the low pivot when we build.",
  s:"You three in the middle are a triangle. One of you is always behind the other two — that is the point, that is our holder. If I look at you and you are in a line, or the point has run ahead, I stop it and they get the ball. If the point wants to go forward, one of the other two drops into his spot first.",
  c:"What shape are the three of you, and who is the point?", l:"One player consistently sitting behind the other two, and someone dropping when he steps."},
@@ -1853,14 +1921,22 @@ kickoff:{p:"The first thirty seconds sets the tone for the whole game. Free inte
  c:"When do you start running?", l:"Three players going at once, not one brave kid alone."},
 throw:{p:"Restarts are free speed. Most youth teams give away all their tempo at throw-ins.",
  s:"Every throw-in, four seconds. Nearest player takes it — not whoever wants it. Late throw and the other team gets the ball.",
- c:"Who takes the throw?", l:"Two players already moving before the ball is thrown."}
+ c:"Who takes the throw?", l:"Two players already moving before the ball is thrown."},
+gate:{p:"1v1 defending with the ball taken away. All that is left is where you put your feet and your body, and whether you get to the space before he does.",
+ s:"No ball in this one. He is trying to get out of that gate in five seconds and you are trying to touch him before he does. Get between him and the gate first. When he is close, small steps, feet alive, do not lunge and do not cross your feet.",
+ c:"Where do you want to be before he even gets near you?", l:"Defender arriving at the gate first and shuffling rather than lunging."},
+onemove:{p:"Getting away from a marker is about timing, not tricks. One good change of pace at the right moment beats constant running about.",
+ s:"You have twenty seconds and you only get one move. So do not waste it. Jog, let him get comfortable, and then go once, hard, the way he is not looking. If you are moving the whole time you will never get away from him.",
+ c:"When is the best moment to make your move?", l:"A player who is patient for fifteen seconds and then goes once at full pace."},
+follow:{p:"How you arrive decides the duel. Sprint the first half of the distance, then slow down and get side on so you are balanced and already showing him one direction.",
+ s:"You pass it, you go with it. Sprint to that cone. Then slow right down, get low, turn side on and show him the way you want him to go. Arm's length away, eyes on the ball not on him, hold it three seconds, then touch him.",
+ c:"What happens if you arrive flat and square to him?", l:"Fast for the first five yards, then a visible slow-down into a low side-on shape at arm's length."},
+wallturn:{p:"The real picture. In a game the ball is played into a man with his back to you and all the time you get is however long the ball is travelling. Same accelerate then decelerate, except now the ball sets the clock instead of you.",
+ s:"You go when the ball goes, not when it comes back. Sprint the first half of it, then slow down and get side on across his back. Arm's length, do not lean on him. If you are there before it lands he cannot turn. If you are late he is round you and gone.",
+ c:"How long have you actually got to get there?", l:"Defender leaving on the wall pass rather than on the return, and arriving side on as the ball lands."}
 };
 
 const KIT = {
-wallturn:{s:"One ball per group",b:"One ball per group of three, plus a couple of spares.",g:"Three cones per group, or a wall or rebounder if you only have two players"},
-gate:{s:"No ball",b:"None. This one is deliberately without a ball.",g:"Four cones for the square, two for the gate"},
-onemove:{s:"No ball",b:"None.",g:"Four cones for the square, bibs so pairs can see each other"},
-follow:{s:"One ball per pair",b:"One ball per pair, plus a couple of spares so nothing stops.",g:"Three cones per pair"},
 tri332:{s:"One ball",b:"One ball plus spares.",g:"Cones for a 45x35 box, bibs, whistle"},
 cover:{s:"One ball",b:"One ball plus spares in both goals.",g:"Two goals, keepers, bibs"},
 shiftpress:{s:"One ball",b:"One ball in play plus a spare sitting at the far end of each wide channel — those spares are part of the drill.",g:"Two small goals or targets, cones for the wide channels, bibs"},
@@ -1908,13 +1984,13 @@ c42:{s:"One ball",b:"One ball plus spares — restart fast so the counter stays 
 firstshot:{s:"One ball",b:"One ball plus spares in the goal.",g:"Full goal, keeper, cones for the entry line, bibs"},
 corner:{s:"You serve",b:"Bag of balls at the corner flag so you can serve corner after corner without stopping.",g:"Full goal, keeper, bibs"},
 kickoff:{s:"One ball",b:"One ball on the centre spot, spares on the sideline for quick resets.",g:"Full or three-quarter pitch, bibs, goals"},
-throw:{s:"Game ball",b:"Whatever ball the game you're already running is using. No extra equipment.",g:"None"}
+throw:{s:"Game ball",b:"Whatever ball the game you're already running is using. No extra equipment.",g:"None"},
+gate:{s:"No ball",b:"None. This one is deliberately without a ball.",g:"Four cones for the square, two for the gate"},
+onemove:{s:"No ball",b:"None.",g:"Four cones for the square, bibs so pairs can see each other"},
+follow:{s:"One ball per pair",b:"One ball per pair, plus a couple of spares so nothing stops.",g:"Three cones per pair"},
+wallturn:{s:"One ball per group",b:"One ball per group of three, plus a couple of spares.",g:"Three cones per group, or a wall or rebounder if you only have two players"}
 };
 const SETUP = {
-wallturn:"Three players, or two and a wall. Attacker stands in the middle with his back to the defender, a wall player ten yards in front of him, defender ten yards behind him. Attacker plays out to the wall, the wall returns it first time, and the defender goes the moment the ball leaves the attacker's foot. Rotate all three roles.",
-gate:"15x15 square with one gate about 3 yards wide cut into a corner. Two players start on opposite corners with no ball. On your call they both go: the attacker is trying to get out through the gate, the defender is trying to tag him first.",
-onemove:"20x20 square, pairs, no ball. Attacker and defender start together inside it. Attacker jogs about with his man on him and picks a moment to break out of the square.",
-follow:"Two players ten yards apart with a cone halfway between them and a ball at one end. The player with the ball passes it and immediately becomes the defender. Reset and swap roles every rep.",
 tri332:"45x35, 7v5 or 8v6 in favour of the team in possession, using the actual 3-3-2 shape for the possession team. You stand outside with a whistle and freeze play whenever the midfield three lose their triangle.",
 cover:"45x35 with a goal and keeper each end, 6v6. Play normally. You referee the three-second cover rule loudly for the first round.",
 shiftpress:"50x35 with cone lines marking a wide channel down each side and a spare ball resting at the far end of each channel. 6v6 with small goals. Attackers are encouraged to switch the ball frequently.",
@@ -1963,7 +2039,11 @@ c42:"Half pitch split into middle and defensive thirds. Four attackers keep the 
 firstshot:"Attacking third, full goal and keeper. Two teams of four or five. Mark an entry line with cones about 25 yards out — the three-touch count starts when the ball crosses it.",
 corner:"Attacking third, full goal and keeper. Six attackers in and around the box against five defenders, plus two attackers who stay outside the box as rest defenders. Serve corners from both sides.",
 kickoff:"Full or three-quarter pitch in your actual game shape against a full opposition team. Ball on the centre spot, and you restart it every rep exactly as you would on Saturday.",
-throw:"Not a standalone drill — a rule you layer onto any small-sided game you're already running. Just start counting."
+throw:"Not a standalone drill — a rule you layer onto any small-sided game you're already running. Just start counting.",
+gate:"15x15 square with one gate about 3 yards wide cut into a corner. Two players start on opposite corners with no ball. On your call they both go: the attacker is trying to get out through the gate, the defender is trying to tag him first.",
+onemove:"20x20 square, pairs, no ball. Attacker and defender start together inside it. Attacker jogs about with his man on him and picks a moment to break out of the square.",
+follow:"Two players ten yards apart with a cone halfway between them and a ball at one end. The player with the ball passes it and immediately becomes the defender. Reset and swap roles every rep.",
+wallturn:"Three players, or two and a wall. Attacker stands in the middle with his back to the defender, a wall player ten yards in front of him, defender ten yards behind him. Attacker plays out to the wall, the wall returns it first time, and the defender goes the moment the ball leaves the attacker's foot. Rotate all three roles."
 };
 
 function teachBlock(id){
@@ -1986,8 +2066,7 @@ function teachBlock(id){
    FIELD MODE — interval timer
    ============================================================ */
 const IV = {
- wallturn:[18,8,25],
- gate:[8,5,30], onemove:[6,20,40], follow:[24,10,20],
+ gate:[8,5,30], onemove:[6,20,40], follow:[24,10,20], wallturn:[18,8,25],
  brake:[6,20,40], react:[8,8,45], milly:[4,120,60], cprondo:[5,120,90], hunt:[4,150,90],
  bounce:[10,25,35], step:[6,30,45], war:[12,25,45], six:[4,240,120], wide:[3,300,120],
  cont32:[4,180,90], identity:[6,180,90], street:[1,480,0], line:[4,180,90], ignite:[10,30,60],
@@ -2274,6 +2353,424 @@ function renderMethod(){
 }
 
 /* ============================================================
+   TACTICS BOARD — 9v9 field mapping
+   Drag players, draw runs/passes/press, save named situations,
+   step or animate through frames. No dependencies.
+   ============================================================ */
+const BM = 20, BU = 9, BW = 50, BL = 76;          /* margin px, px/yard, pitch width & length in yards */
+const BVW = BW * BU + BM * 2, BVL = BL * BU + BM * 2;
+
+/* 9v9 shapes — [across, along], 0,0 = our left corner, y grows toward their goal */
+const FORMS = {
+  "3-3-2":  [[25,4],[10,20],[25,17],[40,20],[10,41],[25,33],[40,41],[18,58],[32,58]],
+  "3-2-3":  [[25,4],[10,20],[25,17],[40,20],[16,38],[34,38],[8,58],[25,61],[42,58]],
+  "2-3-3":  [[25,4],[16,18],[34,18],[10,38],[25,35],[40,38],[8,58],[25,61],[42,58]],
+  "3-1-3-1":[[25,4],[10,20],[25,17],[40,20],[25,31],[10,46],[25,43],[40,46],[25,61]],
+  /* 3-2-1-2 — back three, two holding mids, one at the tip, two up top.
+     5 and 6 screen; 7 is the free man between the lines. */
+  "3-2-1-2":[[25,4],[10,20],[25,17],[40,20],[17,32],[33,32],[25,45],[17,60],[33,60]]
+};
+
+const BPEN = {
+  run:  {stroke:"#5FBFA6", dash:"",      head:1, label:"Run"},
+  pass: {stroke:"#FFFFFF", dash:"7 5",   head:1, label:"Pass"},
+  press:{stroke:"#D8283C", dash:"",      head:1, label:"Press"},
+  free: {stroke:"#8CA396", dash:"3 4",   head:0, label:"Line"}
+};
+
+let BOARD = null;
+let BTOOL = "move";
+let BPLAY = null;
+let BDRAG = null;
+
+function newBoard(shape, shapeThem){
+  const f = FORMS[shape] || FORMS["3-3-2"];
+  const g = FORMS[shapeThem] || f;          /* blank = they mirror our shape */
+  const roster = [];
+  const pos = {};
+  f.forEach((p,i)=>{ /* our shape, attacking up the page */
+    roster.push({id:"u"+i, side:"us", label:String(i+1)});
+    pos["u"+i] = {x:p[0], y:p[1]};
+  });
+  g.forEach((p,i)=>{
+    roster.push({id:"t"+i, side:"them", label:String(i+1)});
+    pos["t"+i] = {x:BW - p[0], y:BL - p[1]};
+  });
+  roster.push({id:"ball", side:"ball", label:""});
+  pos.ball = {x:25, y:38};
+  return {orient:"v", shape:shape||"3-3-2", shapeThem:shapeThem||"", roster,
+          frames:[{pos, draws:[]}], cur:0, name:null};
+}
+
+function bFrame(){ return BOARD.frames[BOARD.cur]; }
+
+/* yards -> svg px, and back */
+function bxy(x,y){
+  return BOARD.orient === "v"
+    ? [BM + x*BU, BM + (BL - y)*BU]
+    : [BM + y*BU, BM + x*BU];
+}
+function binv(px,py){
+  return BOARD.orient === "v"
+    ? [(px - BM)/BU, BL - (py - BM)/BU]
+    : [(py - BM)/BU, (px - BM)/BU];
+}
+function bclamp(p){
+  p.x = Math.max(0.6, Math.min(BW - 0.6, p.x));
+  p.y = Math.max(0.6, Math.min(BL - 0.6, p.y));
+  return p;
+}
+
+function bLine(x1,y1,x2,y2,w){
+  const a = bxy(x1,y1), b = bxy(x2,y2);
+  return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#E9EFE9" stroke-opacity=".85" stroke-width="${w||1.8}"/>`;
+}
+function bRect(x1,y1,x2,y2){
+  const a = bxy(x1,y1), b = bxy(x2,y2);
+  const x = Math.min(a[0],b[0]), y = Math.min(a[1],b[1]);
+  return `<rect x="${x}" y="${y}" width="${Math.abs(b[0]-a[0])}" height="${Math.abs(b[1]-a[1])}" fill="none" stroke="#E9EFE9" stroke-opacity=".85" stroke-width="1.8"/>`;
+}
+
+function bPitch(){
+  const c = bxy(25,38);
+  const spotA = bxy(25,10), spotB = bxy(25,66);
+  let s = "";
+  s += `<rect x="0" y="0" width="${BOARD.orient==="v"?BVW:BVL}" height="${BOARD.orient==="v"?BVL:BVW}" rx="6" fill="#1E4634"/>`;
+  s += bRect(0,0,50,76);
+  s += bLine(0,38,50,38);
+  s += `<circle cx="${c[0]}" cy="${c[1]}" r="${8*BU}" fill="none" stroke="#E9EFE9" stroke-opacity=".85" stroke-width="1.8"/>`;
+  s += `<circle cx="${c[0]}" cy="${c[1]}" r="3" fill="#E9EFE9" fill-opacity=".85"/>`;
+  s += bRect(9,0,41,14) + bRect(9,76,41,62);
+  s += bRect(17,0,33,6) + bRect(17,76,33,70);
+  s += `<circle cx="${spotA[0]}" cy="${spotA[1]}" r="3" fill="#E9EFE9" fill-opacity=".85"/>`;
+  s += `<circle cx="${spotB[0]}" cy="${spotB[1]}" r="3" fill="#E9EFE9" fill-opacity=".85"/>`;
+  /* goals, drawn just outside each line */
+  const g1 = bxy(22,0), g2 = bxy(28,0), g3 = bxy(22,76), g4 = bxy(28,76);
+  if(BOARD.orient === "v"){
+    s += `<rect x="${g1[0]}" y="${g1[1]}" width="${g2[0]-g1[0]}" height="10" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
+    s += `<rect x="${g3[0]}" y="${g3[1]-10}" width="${g4[0]-g3[0]}" height="10" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
+  }else{
+    s += `<rect x="${g1[0]-10}" y="${g1[1]}" width="10" height="${g2[1]-g1[1]}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
+    s += `<rect x="${g3[0]}" y="${g3[1]}" width="10" height="${g4[1]-g3[1]}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`;
+  }
+  return s;
+}
+
+function bDraw(d){
+  const pts = d.pts.map(p=>bxy(p[0],p[1]));
+  const pen = BPEN[d.t] || BPEN.free;
+  const path = pts.map((p,i)=>(i?"L":"M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  return `<path d="${path}" fill="none" stroke="${pen.stroke}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"`
+    + (pen.dash ? ` stroke-dasharray="${pen.dash}"` : "")
+    + (pen.head ? ` marker-end="url(#bhead-${d.t})"` : "") + `/>`;
+}
+
+function bToken(t,p,r){
+  const a = bxy(p.x,p.y);
+  const rad = (r || 1.9) * BU;
+  const dp = ` data-x="${p.x.toFixed(2)}" data-y="${p.y.toFixed(2)}"`;
+
+  if(t.side === "ball")
+    return `<g class="btok" data-id="${t.id}"${dp}>`
+      + `<circle cx="${a[0]}" cy="${a[1]}" r="${0.95*BU}" fill="#E9EFE9" stroke="#1E4634" stroke-width="1.6"/></g>`;
+
+  /* us = filled triangle, apex pointing the way we attack.
+     them = outlined circle. Shape carries the team, not just colour,
+     so it still reads at arm's length in sunlight. */
+  if(t.side === "us"){
+    const R = 2.35 * BU;
+    const q = BOARD.orient === "v"
+      ? [[a[0], a[1]-R], [a[0]-R*0.866, a[1]+R*0.5], [a[0]+R*0.866, a[1]+R*0.5]]
+      : [[a[0]+R, a[1]], [a[0]-R*0.5, a[1]-R*0.866], [a[0]-R*0.5, a[1]+R*0.866]];
+    const d = q.map((c,i)=>(i?"L":"M")+c[0].toFixed(1)+" "+c[1].toFixed(1)).join(" ")+" Z";
+    const tx = BOARD.orient === "v" ? a[0] : a[0] - R*0.26;
+    const ty = BOARD.orient === "v" ? a[1] + R*0.30 : a[1] + 4.5;
+    return `<g class="btok" data-id="${t.id}"${dp}>`
+      + `<path d="${d}" fill="#E9C46A" stroke="#1E4634" stroke-width="2" stroke-linejoin="round"/>`
+      + `<text x="${tx}" y="${ty}" text-anchor="middle" font-size="13" font-weight="700" fill="#0B0E0C" font-family="Archivo,sans-serif" pointer-events="none">${t.label}</text>`
+      + `</g>`;
+  }
+
+  return `<g class="btok" data-id="${t.id}"${dp}>`
+    + `<circle cx="${a[0]}" cy="${a[1]}" r="${rad}" fill="none" stroke="#E9EFE9" stroke-width="2.5"/>`
+    + `<text x="${a[0]}" y="${a[1]+5}" text-anchor="middle" font-size="14" font-weight="700" fill="#E9EFE9" font-family="Archivo,sans-serif" pointer-events="none">${t.label}</text>`
+    + `</g>`;
+}
+
+function bDefs(){
+  return `<defs>` + Object.keys(BPEN).filter(k=>BPEN[k].head).map(k=>
+    `<marker id="bhead-${k}" markerWidth="4.4" markerHeight="4.4" refX="3.5" refY="2.2" orient="auto">`
+    + `<path d="M0,0 L4.4,2.2 L0,4.4 Z" fill="${BPEN[k].stroke}"/></marker>`).join("") + `</defs>`;
+}
+
+function bSvg(pos, draws){
+  const vb = BOARD.orient === "v" ? `0 0 ${BVW} ${BVL}` : `0 0 ${BVL} ${BVW}`;
+  let s = `<svg id="bsvg" class="bpitch${BOARD.orient==="h"?" wide":""}" viewBox="${vb}" role="img" aria-label="Tactics board">`;
+  s += bDefs() + bPitch();
+  (draws||[]).forEach(d=>{ s += bDraw(d); });
+  BOARD.roster.filter(t=>t.side!=="ball").forEach(t=>{ s += bToken(t, pos[t.id]); });
+  s += bToken(BOARD.roster.find(t=>t.side==="ball"), pos.ball);
+  return s + `</svg>`;
+}
+
+function renderBoard(){
+  if(!BOARD) BOARD = newBoard("3-3-2");
+  const f = bFrame();
+  $("#bstage").innerHTML = bSvg(f.pos, f.draws);
+  $("#bframes").innerHTML = BOARD.frames.map((x,i)=>
+    `<button class="bdot" data-i="${i}" data-on="${i===BOARD.cur?1:0}" aria-label="Frame ${i+1}">${i+1}</button>`).join("")
+    + `<button class="btool" id="baddframe">+ Frame</button>`
+    + (BOARD.frames.length>1 ? `<button class="btool" id="bdelframe">Delete frame</button>` : "");
+  Object.keys(BPEN).forEach(k=>{ const el=$("#btool-"+k); if(el) el.setAttribute("data-on", BTOOL===k?"1":"0"); });
+  $("#btool-move").setAttribute("data-on", BTOOL==="move"?"1":"0");
+  $("#btool-erase").setAttribute("data-on", BTOOL==="erase"?"1":"0");
+  $("#bplay").textContent = BOARD.frames.length>1 ? "Play" : "Play";
+  $("#bplay").disabled = BOARD.frames.length < 2;
+  $("#bname").textContent = BOARD.name ? BOARD.name : "Unsaved situation";
+  bBind();
+}
+
+/* ---------- pointer handling ---------- */
+function bPoint(e){
+  const svg = $("#bsvg");
+  const r = svg.getBoundingClientRect();
+  const vw = BOARD.orient === "v" ? BVW : BVL;
+  const vh = BOARD.orient === "v" ? BVL : BVW;
+  const px = (e.clientX - r.left) * (vw / r.width);
+  const py = (e.clientY - r.top) * (vh / r.height);
+  return binv(px, py);
+}
+
+/* nearest token to a tap, in yards — z-order independent so the ball
+   never steals a grab from a player standing on top of it */
+function bPick(at){
+  const f = bFrame();
+  let id = null, best = 3.4;
+  BOARD.roster.forEach(t=>{
+    const p = f.pos[t.id];
+    const d = Math.hypot(p.x - at[0], p.y - at[1]) - (t.side === "ball" ? 0.5 : 0);
+    if(d < best){ best = d; id = t.id; }
+  });
+  return id;
+}
+
+function bBind(){
+  const svg = $("#bsvg");
+  if(!svg) return;
+
+  svg.addEventListener("pointerdown", e=>{
+    if(BPLAY) return;
+    const at = bPoint(e);
+    if(BTOOL === "move"){
+      const id = bPick(at);
+      if(!id) return;
+      BDRAG = {id};
+      svg.setPointerCapture(e.pointerId);
+      e.preventDefault();
+      return;
+    }
+    if(BTOOL === "erase"){
+      const f = bFrame();
+      let best = -1, bd = 3.2;
+      f.draws.forEach((d,i)=>{
+        d.pts.forEach(p=>{
+          const dist = Math.hypot(p[0]-at[0], p[1]-at[1]);
+          if(dist < bd){ bd = dist; best = i; }
+        });
+      });
+      if(best >= 0){ f.draws.splice(best,1); renderBoard(); }
+      return;
+    }
+    BDRAG = {stroke:{t:BTOOL, pts:[[at[0],at[1]],[at[0],at[1]]]}};
+    bFrame().draws.push(BDRAG.stroke);
+    svg.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+
+  svg.addEventListener("pointermove", e=>{
+    if(!BDRAG) return;
+    const at = bPoint(e);
+    if(BDRAG.id){
+      bclamp(Object.assign(bFrame().pos[BDRAG.id], {x:at[0], y:at[1]}));
+    }else{
+      const s = BDRAG.stroke;
+      if(BTOOL === "free"){
+        const last = s.pts[s.pts.length-1];
+        if(Math.hypot(last[0]-at[0], last[1]-at[1]) > 1.2) s.pts.push([at[0],at[1]]);
+      }else{
+        s.pts[1] = [at[0], at[1]];
+      }
+    }
+    bRepaint();
+  });
+
+  const end = ()=>{
+    if(BDRAG && BDRAG.stroke){
+      const s = BDRAG.stroke;
+      const len = Math.hypot(s.pts[0][0]-s.pts[s.pts.length-1][0], s.pts[0][1]-s.pts[s.pts.length-1][1]);
+      if(len < 2) bFrame().draws.pop();
+    }
+    BDRAG = null;
+    renderBoard();
+  };
+  svg.addEventListener("pointerup", end);
+  svg.addEventListener("pointercancel", end);
+
+  $("#bframes").querySelectorAll(".bdot").forEach(b=>
+    b.addEventListener("click",()=>{ BOARD.cur = +b.dataset.i; renderBoard(); }));
+  const add = $("#baddframe");
+  if(add) add.addEventListener("click",()=>{
+    const src = bFrame();
+    const pos = {}; Object.keys(src.pos).forEach(k=>pos[k]={x:src.pos[k].x, y:src.pos[k].y});
+    BOARD.frames.splice(BOARD.cur+1, 0, {pos, draws:[]});
+    BOARD.cur++; renderBoard(); toast("Frame added");
+  });
+  const del = $("#bdelframe");
+  if(del) del.addEventListener("click",()=>{
+    BOARD.frames.splice(BOARD.cur,1);
+    BOARD.cur = Math.max(0, BOARD.cur-1); renderBoard(); toast("Frame deleted");
+  });
+}
+
+/* repaint without rebuilding listeners — keeps drags smooth */
+function bRepaint(){
+  const f = bFrame();
+  const svg = $("#bsvg");
+  if(!svg) return;
+  const vb = svg.getAttribute("viewBox");
+  svg.innerHTML = bDefs() + bPitch()
+    + f.draws.map(bDraw).join("")
+    + BOARD.roster.filter(t=>t.side!=="ball").map(t=>bToken(t, f.pos[t.id])).join("")
+    + bToken(BOARD.roster.find(t=>t.side==="ball"), f.pos.ball);
+  svg.setAttribute("viewBox", vb);
+}
+
+/* ---------- playback ---------- */
+function bStop(){
+  if(BPLAY){ cancelAnimationFrame(BPLAY.raf); BPLAY = null; }
+  $("#bplay").textContent = "Play";
+  renderBoard();
+}
+function bPlayAll(){
+  if(BPLAY){ bStop(); return; }
+  if(BOARD.frames.length < 2) return;
+  $("#bplay").textContent = "Stop";
+  const HOLD = 700, MOVE = 950;
+  let seg = 0, t0 = performance.now();
+  const svg = $("#bsvg");
+  BPLAY = {raf:0};
+  const tick = now=>{
+    const el = now - t0;
+    const from = BOARD.frames[seg], to = BOARD.frames[seg+1];
+    let pos, draws;
+    if(el < HOLD){
+      pos = from.pos; draws = from.draws;
+    }else if(el < HOLD + MOVE){
+      const k = (el - HOLD) / MOVE;
+      const e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k+2,2)/2;
+      pos = {};
+      Object.keys(from.pos).forEach(id=>{
+        pos[id] = {
+          x: from.pos[id].x + (to.pos[id].x - from.pos[id].x) * e,
+          y: from.pos[id].y + (to.pos[id].y - from.pos[id].y) * e
+        };
+      });
+      draws = from.draws;
+    }else{
+      seg++; t0 = now;
+      if(seg >= BOARD.frames.length - 1){ BOARD.cur = BOARD.frames.length-1; bStop(); return; }
+      BPLAY.raf = requestAnimationFrame(tick); return;
+    }
+    const vb = svg.getAttribute("viewBox");
+    svg.innerHTML = bDefs() + bPitch()
+      + draws.map(bDraw).join("")
+      + BOARD.roster.filter(t=>t.side!=="ball").map(t=>bToken(t, pos[t.id])).join("")
+      + bToken(BOARD.roster.find(t=>t.side==="ball"), pos.ball);
+    svg.setAttribute("viewBox", vb);
+    BPLAY.raf = requestAnimationFrame(tick);
+  };
+  BPLAY.raf = requestAnimationFrame(tick);
+}
+
+/* ---------- save / load ---------- */
+async function bSavedIndex(){
+  const raw = await store.get("cpl:bindex");
+  try{ return raw ? JSON.parse(raw) : []; }catch(e){ return []; }
+}
+
+async function bSave(){
+  const name = window.prompt("Name this situation:", BOARD.name || "High press trigger");
+  if(!name) return;
+  const ok = await store.set("cpl:b:"+name, JSON.stringify({
+    orient:BOARD.orient, shape:BOARD.shape, shapeThem:BOARD.shapeThem,
+    roster:BOARD.roster, frames:BOARD.frames
+  }));
+  if(!ok){ toast("Could not save"); return; }
+  const idx = await bSavedIndex();
+  if(!idx.includes(name)){ idx.push(name); await store.set("cpl:bindex", JSON.stringify(idx)); }
+  BOARD.name = name; renderBoard(); toast("Saved");
+}
+
+async function bLoad(){
+  const idx = await bSavedIndex();
+  if(!idx.length){ toast("Nothing saved yet"); return; }
+  const pick = window.prompt("Load which situation?\n\n" + idx.map((n,i)=>(i+1)+". "+n).join("\n") + "\n\nType a number, or - and a number to delete.", "1");
+  if(!pick) return;
+  const delMode = pick.trim().startsWith("-");
+  const n = parseInt(pick.replace("-",""),10);
+  if(!n || n < 1 || n > idx.length){ toast("No such entry"); return; }
+  const name = idx[n-1];
+  if(delMode){
+    await store.set("cpl:b:"+name, "");
+    idx.splice(n-1,1);
+    await store.set("cpl:bindex", JSON.stringify(idx));
+    toast("Deleted " + name); return;
+  }
+  const raw = await store.get("cpl:b:"+name);
+  if(!raw){ toast("Could not load"); return; }
+  try{
+    const o = JSON.parse(raw);
+    BOARD = {orient:o.orient||"v", shape:o.shape||"3-3-2", shapeThem:o.shapeThem||"",
+             roster:o.roster, frames:o.frames, cur:0, name};
+    $("#bshape").value = BOARD.shape;
+    $("#bshapethem").value = BOARD.shapeThem;
+    renderBoard(); toast("Loaded " + name);
+  }catch(e){ toast("Could not load"); }
+}
+
+/* ---------- toolbar wiring (bound once) ---------- */
+Object.keys(BPEN).concat(["move","erase"]).forEach(k=>{
+  const el = $("#btool-"+k);
+  if(el) el.addEventListener("click",()=>{ BTOOL = k; renderBoard(); });
+});
+function bReshape(){
+  BOARD = newBoard($("#bshape").value, $("#bshapethem").value);
+  renderBoard();
+  toast($("#bshapethem").value ? "Shapes reset" : "Shape reset — they mirror us");
+}
+$("#bshape").addEventListener("change", bReshape);
+$("#bshapethem").addEventListener("change", bReshape);
+$("#borient").addEventListener("click",()=>{
+  BOARD.orient = BOARD.orient === "v" ? "h" : "v";
+  renderBoard();
+});
+$("#bclear").addEventListener("click",()=>{
+  bFrame().draws = []; renderBoard(); toast("Arrows cleared");
+});
+$("#bnew").addEventListener("click",()=>{
+  BOARD = newBoard($("#bshape").value, $("#bshapethem").value);
+  renderBoard(); toast("New board");
+});
+$("#bfocus").addEventListener("click",()=>{
+  const on = document.body.classList.toggle("bfocus");
+  $("#bfocus").setAttribute("data-on", on?"1":"0");
+  window.scrollTo({top:0});
+});
+$("#bplay").addEventListener("click", bPlayAll);
+$("#bsave").addEventListener("click", bSave);
+$("#bload").addEventListener("click", bLoad);
+
+/* ============================================================
    DAYLIGHT BOOST — for reading the screen in direct sun
    ============================================================ */
 function setDay(on){
@@ -2289,7 +2786,6 @@ $("#daytoggle").addEventListener("click", ()=>{
   const saved = await store.get("cpl:day");
   if(saved === "1"){ setDay(true); return; }
   if(saved === "0") return;
-  // no preference stored — let the phone decide if it can
   try{
     if("AmbientLightSensor" in window){
       const sensor = new AmbientLightSensor({frequency:0.2});
@@ -2321,7 +2817,7 @@ async function checkForUpdate(){
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden) checkForUpdate(); });
 setTimeout(checkForUpdate, 1200);
 
-initFilters(); render(); renderSession(); renderLang(); renderMethod(); renderField(); renderToday();
+initFilters(); render(); renderSession(); renderLang(); renderMethod(); renderField(); renderBoard(); renderToday();
 </script>
 </body>
 </html>

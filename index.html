@@ -442,6 +442,51 @@ body[data-tab="today"] h1,body[data-tab="field"] h1,body[data-tab="board"] h1{fo
 body[data-tab="today"] .meta,body[data-tab="field"] .meta,body[data-tab="board"] .meta{margin-top:12px}
 body[data-tab="today"] nav,body[data-tab="field"] nav,body[data-tab="board"] nav{margin:16px 0 16px}
 
+/* ============================================================
+   BOARD — full screen. Open the tab and the pitch owns the phone.
+   ============================================================ */
+.bexit{display:none}
+body.bfull{overflow:hidden}
+body.bfull #view-board{
+  position:fixed;inset:0;z-index:70;background:var(--pitch);
+  display:flex;flex-direction:column;padding:0;margin:0}
+body.bfull #view-board > .fmintro{display:none}
+body.bfull #bstage{
+  flex:1;min-height:0;margin:0;border:0;border-radius:0;
+  padding:8px calc(8px + env(safe-area-inset-left)) 8px calc(8px + env(safe-area-inset-right));
+  display:flex;align-items:center;justify-content:center;background:var(--pitch)}
+body.bfull #bstage .bpitch{
+  width:100%;height:100%;max-width:100%;max-height:100%;margin:0}
+body.bfull .bctrls{
+  flex-shrink:0;max-height:31vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  border-top:1px solid var(--line);background:var(--surface);
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+body.bfull .btoolbar{margin-bottom:6px;gap:6px}
+body.bfull .btoolbar:last-of-type{margin-bottom:0}
+body.bfull .bframes{margin-bottom:6px;gap:5px}
+body.bfull .bhint{display:none}
+body.bfull .btool{min-height:44px;padding:8px 11px;font-size:12px}
+body.bfull .bdot{width:28px;height:28px}
+body.bfull #bname{font-size:11px}
+body.bfull .bexit{
+  display:flex;align-items:center;justify-content:center;
+  position:absolute;top:calc(8px + env(safe-area-inset-top));right:12px;z-index:2;
+  width:42px;height:42px;border:1px solid var(--line);border-radius:var(--r);
+  background:rgba(12,19,16,.72);color:var(--chalk);font-size:24px;line-height:1;cursor:pointer}
+body.bfull .bexit:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+#toast{z-index:90}
+/* phone held sideways: controls go to a side rail so the pitch keeps the height */
+@media (orientation:landscape) and (max-height:560px){
+  body.bfull #view-board{flex-direction:row}
+  body.bfull .bctrls{
+    width:224px;flex-shrink:0;max-height:100%;height:100%;
+    border-top:0;border-left:1px solid var(--line);
+    padding:10px 10px calc(10px + env(safe-area-inset-bottom))}
+  body.bfull .btoolbar{gap:5px}
+  body.bfull .btool{min-height:40px;padding:7px 9px;font-size:11.5px}
+  body.bfull .bexit{display:none}
+}
+
 /* ---------- DAYLIGHT BOOST ---------- */
 body.day{
   --pitch:#050A07; --surface:#0D1712; --surface-2:#122019; --line:#48705C;
@@ -546,8 +591,10 @@ body.day #stage[data-phase="rest"]{background:#04110E}
 <!-- ============ METHOD ============ -->
 <!-- ============ TACTICS BOARD ============ -->
 <section id="view-board" role="tabpanel" aria-labelledby="tab-board" class="hide">
+  <button class="bexit" id="bexit" aria-label="Leave full screen">×</button>
   <div id="bstage"></div>
 
+  <div class="bctrls">
   <div class="btoolbar">
     <button class="btool" id="btool-move" data-on="1">Move</button>
     <button class="btool" id="btool-run"><span class="sw" style="background:#5FBFA6"></span>Run</button>
@@ -578,7 +625,7 @@ body.day #stage[data-phase="rest"]{background:#04110E}
     </select>
     <button class="btool" id="bplay">Play</button>
     <button class="btool" id="borient">Rotate</button>
-    <button class="btool" id="bfocus">Focus</button>
+    <button class="btool" id="bfocus">Exit full screen</button>
     <span class="sep"></span>
     <button class="btool" id="bsave">Save</button>
     <button class="btool" id="bload">Load saved</button>
@@ -588,9 +635,10 @@ body.day #stage[data-phase="rest"]{background:#04110E}
 
   <p class="bhint"><b>Move</b> drags players and the ball. Pick <b>Run</b>, <b>Pass</b> or <b>Press</b> and
   drag on the pitch to draw an arrow. <b>+ Frame</b> copies the current positions to a new frame — move them,
-  then <b>Play</b> animates the whole sequence. <b>Focus</b> hides the header so the pitch fills the phone.
+  then <b>Play</b> animates the whole sequence. <b>Full screen</b> is automatic when you open this tab — the pitch turns to match how you are holding the phone, and <b>Rotate</b> overrides it.
   Yellow triangles are us and they point the way we attack; outlined circles are them.
   <b>Them</b> defaults to mirroring our shape — set it separately to model an opponent.</p>
+  </div>
 </section>
 
 <section id="view-method" role="tabpanel" aria-labelledby="tab-method" class="hide">
@@ -1375,6 +1423,7 @@ function swap(v){
   document.body.dataset.tab = v;
   if(v==="field") renderField();
   if(v==="today") renderToday();
+  boardFull(v==="board");
   if(v==="board") renderBoard();
   if(v!=="board" && typeof bStop==="function" && BPLAY) bStop();
   window.scrollTo({top:0,behavior:"smooth"});
@@ -2198,7 +2247,11 @@ document.addEventListener("click",e=>{
   const r=e.target.closest("[data-run]");
   if(r) openStage(r.dataset.run);
 });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&T) closeStage(); });
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Escape") return;
+  if(T){ closeStage(); return; }
+  if(document.body.classList.contains("bfull")) boardFull(false);
+});
 $("#ffull").addEventListener("click",()=>{fieldView="all";renderField();});
 $("#fsess").addEventListener("click",()=>{fieldView="session";renderField();});
 
@@ -2532,13 +2585,19 @@ function renderBoard(){
 
 /* ---------- pointer handling ---------- */
 function bPoint(e){
-  const svg = $("#bsvg");
+  /* Full screen letterboxes the pitch inside its box, so map through the
+     SVG's own matrix rather than assuming the element matches the viewBox. */
+  const svg = $("#bsvg"), m = svg.getScreenCTM();
+  if(m){
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    const p = pt.matrixTransform(m.inverse());
+    return binv(p.x, p.y);
+  }
   const r = svg.getBoundingClientRect();
   const vw = BOARD.orient === "v" ? BVW : BVL;
   const vh = BOARD.orient === "v" ? BVL : BVW;
-  const px = (e.clientX - r.left) * (vw / r.width);
-  const py = (e.clientY - r.top) * (vh / r.height);
-  return binv(px, py);
+  return binv((e.clientX - r.left) * (vw / r.width), (e.clientY - r.top) * (vh / r.height));
 }
 
 /* nearest token to a tap, in yards — z-order independent so the ball
@@ -2761,11 +2820,31 @@ $("#bnew").addEventListener("click",()=>{
   BOARD = newBoard($("#bshape").value, $("#bshapethem").value);
   renderBoard(); toast("New board");
 });
-$("#bfocus").addEventListener("click",()=>{
-  const on = document.body.classList.toggle("bfocus");
-  $("#bfocus").setAttribute("data-on", on?"1":"0");
-  window.scrollTo({top:0});
-});
+/* a landscape pitch on a portrait phone wastes half the screen —
+   match the pitch to the screen on the way in, and when the phone turns. */
+function bAutoOrient(){
+  if(!BOARD || !document.body.classList.contains("bfull")) return;
+  const want = window.innerWidth >= window.innerHeight ? "h" : "v";
+  if(BOARD.orient !== want){ BOARD.orient = want; renderBoard(); }
+}
+window.addEventListener("resize", bAutoOrient);
+window.addEventListener("orientationchange", ()=>setTimeout(bAutoOrient,150));
+
+function boardFull(on){
+  document.body.classList.toggle("bfull", on);
+  $("#bfocus").textContent = on ? "Exit full screen" : "Full screen";
+  $("#bfocus").setAttribute("data-on", on ? "1" : "0");
+  try{
+    if(on && document.documentElement.requestFullscreen && !document.fullscreenElement)
+      document.documentElement.requestFullscreen().catch(()=>{});
+    if(!on && document.fullscreenElement && document.exitFullscreen)
+      document.exitFullscreen().catch(()=>{});
+  }catch(e){}
+  if(on) bAutoOrient();
+  if(BOARD) renderBoard();
+}
+$("#bfocus").addEventListener("click",()=>boardFull(!document.body.classList.contains("bfull")));
+$("#bexit").addEventListener("click",()=>boardFull(false));
 $("#bplay").addEventListener("click", bPlayAll);
 $("#bsave").addEventListener("click", bSave);
 $("#bload").addEventListener("click", bLoad);
@@ -2800,7 +2879,7 @@ $("#daytoggle").addEventListener("click", ()=>{
    Bump BUILD on every push. The app checks the live file on
    launch and reloads itself if GitHub has a newer build.
    ============================================================ */
-const BUILD = "2026.09.02.1";
+const BUILD = "2026.09.02.2";
 
 async function checkForUpdate(){
   if(!/^https?:$/.test(location.protocol)) return;
